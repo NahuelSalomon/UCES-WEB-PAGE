@@ -7,7 +7,7 @@ import { Career } from '../models/career';
 })
 export class CareerService {
 
-  private urlAPI = "http://localhost:8080/api/career/statistics/";
+  private urlAPI = "http://localhost:8080/api/careers/";
 
   constructor(private http : HttpClient) { }
 
@@ -26,11 +26,11 @@ export class CareerService {
   }
 
   getById(id: number) : Promise<any> {
-    return this.http.get(this.urlAPI + "/" +id).toPromise();
+    return this.http.get(this.urlAPI +id).toPromise();
   }
 
   delete(id: number) : Promise<any> {
-    return this.http.delete(this.urlAPI + "/" + id).toPromise();
+    return this.http.delete(this.urlAPI + id).toPromise();
    }
 
    update(id : number, career : Career) : Promise<any> {
@@ -40,6 +40,6 @@ export class CareerService {
         'Content-Type' : 'application/json'
       })
     };
-    return this.http.put(this.urlAPI + "/" + id, career, httpOptions).toPromise(); 
+    return this.http.put(this.urlAPI + id, career, httpOptions).toPromise(); 
     }
 }

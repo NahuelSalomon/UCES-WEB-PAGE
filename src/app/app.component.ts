@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Career } from './models/career';
+import { CareerService } from './services/career.service';
 import { ForumService } from './services/forum.service';
 import { UserService } from './services/user.service';
 
@@ -9,23 +11,22 @@ import { UserService } from './services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   title = 'UCES-WEB-PAGE';
-  hello = "";
+  careerList: Array<Career>;
+
+  constructor(private careerService : CareerService) {}
 
 
-  constructor(private userService: UserService, private forumService: ForumService) {}
 
   ngOnInit(): void {
-    /*this.userService.sayHello()
-      .then(response=> {
-        console.log(response)
-        this.hello = this.hello+response;
-      }) 
-      .catch(error=> console.log(error));*/
-
-    this.forumService.getAll()
-    .then(response=> console.log(response))
-    .catch(err => console.log(err));
+    
+    this.careerService.getAll()
+    .then(response => {
+      this.careerList = response;
+    })
+    .catch(err=> console.log(err));
+    
   }
   
 }

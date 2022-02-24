@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { LoginCredentials } from 'src/app/models/login-credentials';
 
 @Component({
@@ -9,7 +11,7 @@ import { LoginCredentials } from 'src/app/models/login-credentials';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   loginForm = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email ]),
@@ -24,24 +26,29 @@ export class LoginComponent implements OnInit {
     userCredentials.email = this.email;
     userCredentials.password = this.password;
 
-    /*this.authService.login(userCredentials)
-      .subscribe(response => {
+    console.log(userCredentials);
+    
+    this.authService.login(userCredentials)
+      .then(response => {
         if(this.authService.token) {
           let linkTypeUser = "";
 
-          if(this.authService.userDetails['userTypeId'] == 1) {
+          let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
+
+          this.router.navigateByUrl(redirect);
+
+          /*  if(this.authService.userDetails['userTypeId'] == 1) {
             linkTypeUser = "/student";
  
           }else if(this.authService.userDetails['userTypeId'] == 2) {
             linkTypeUser = "/administrator";
           }
 
-          let redirect = this.authService.redirecUrl ? this.router.parseUrl(this.authService.redirecUrl) : linkTypeUser;
-          this.router.navigateByUrl(redirect);  
+          this.router.navigateByUrl(redirect);   */
         }
        
 
-      }, error=>console.log(error));*/
+      }, error=>console.log(error));
   }
   
   ngOnInit(): void {

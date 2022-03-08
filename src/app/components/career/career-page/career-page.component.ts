@@ -26,4 +26,21 @@ export class CareerPageComponent implements OnInit {
     })
   
   }
+
+  changeTypeForum(typeForum : string) {
+
+    var element = document.getElementsByName("active-form-type")[0];
+    element.classList.remove("active","active-form-type");
+    element.style.backgroundColor = "white";
+    element.style.color = "black";
+    element.setAttribute("name",""); 
+    
+    var elementToActive  = document.getElementById(typeForum);
+    elementToActive.classList.add("active");
+    elementToActive.style.backgroundColor = "#A989B0";
+    elementToActive.style.color = "white";
+    elementToActive.setAttribute("name","active-form-type"); 
+    
+  }
+
 }

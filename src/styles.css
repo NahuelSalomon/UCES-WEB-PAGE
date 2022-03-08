@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.bg-violet{
+    background-color: #A989B0;
+}
+
+.text-violet{
+    color: #A989B0;
+    
+}

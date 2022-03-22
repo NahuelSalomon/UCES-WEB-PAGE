@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { CareerPageComponent } from './components/career/career-page/career-page.component';
 import { LoginComponent } from './components/login/login.component';
+import { BoardPageComponent } from './components/board-page/board-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CareerPageComponent,
     LoginComponent,
+    BoardPageComponent,
   ],
   imports: [
     CommonModule,

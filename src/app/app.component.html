@@ -15,11 +15,15 @@
             </li>
           </ul>
         </li>
+        <li class="nav-item"> <a class="nav-link" [routerLink]="['users/list']" *ngIf="userType=='ADMINISTRATOR'">Usuarios </a> </li>
       </ul>
     </div>
-
+    
     <div class="text-end">
-      <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" [routerLink]="['login']">Login</button>
+      <ul class="navbar-nav">
+        <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" *ngIf="userType=='ANONYMOUS'" [routerLink]="['login']">Login</button>
+        <li class="nav-item"> <a class="nav-link" href="#" *ngIf="userType!='ANONYMOUS'">Logout </a> </li>
+      </ul>
     </div>
     <!-- navbar-collapse.// -->
     </div>

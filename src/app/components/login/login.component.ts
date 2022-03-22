@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(userCredentials)
       .then(response => {
         if(this.authService.token) {
-          let linkTypeUser = "";
 
           let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
 

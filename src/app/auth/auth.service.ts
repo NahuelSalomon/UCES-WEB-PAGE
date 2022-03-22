@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { LoginCredentials } from '../models/login-credentials';
 
 @Injectable({
@@ -7,8 +9,9 @@ import { LoginCredentials } from '../models/login-credentials';
 })
 export class AuthService {
   
-  token: string = undefined;
-  typeUser: any = undefined;
+  token : string;
+  typeUserListener = new Subject<string>();
+  typeUser: string;
   loginUrl = "http://localhost:8080/api/login/";
   userDetailsUrl = "http://localhost:8080/api/login/userDetails";
   redirectUrl: string;
@@ -40,6 +43,7 @@ export class AuthService {
         .then(resp => {
 
           let userDetails: any = resp;
+          this.typeUserListener.next(userDetails['typeUser']);
           this.typeUser = userDetails['typeUser'];
           sessionStorage.setItem('typeUser', userDetails['typeUser']);
         })
@@ -48,7 +52,6 @@ export class AuthService {
         sessionStorage.setItem('token', this.token);
       })
       .catch(error => console.log(error));
-    
     return promise;
   }
 
@@ -56,6 +59,11 @@ export class AuthService {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('typeUser');
     this.token = undefined;
+    this.typeUserListener.next("ANONYMOUS");
     this.typeUser = undefined;
+  }
+
+  getAuthStatuesListener() {
+    return this.typeUserListener.asObservable();
   }
 }

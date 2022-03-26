@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from './auth/auth.service';
 import { Career } from './models/career';
 import { CareerService } from './services/career.service';
 import { ForumService } from './services/forum.service';
@@ -14,8 +17,10 @@ export class AppComponent {
   
   title = 'UCES-WEB-PAGE';
   careerList: Array<Career>;
+  private authListenerSubs: Subscription;
+  userType = "ANONYMOUS";
 
-  constructor(private careerService : CareerService) {}
+  constructor(private route : ActivatedRoute, private careerService : CareerService, private authService : AuthService) {}
 
 
 
@@ -25,8 +30,16 @@ export class AppComponent {
     .then(response => {
       this.careerList = response;
     })
-    .catch(err=> console.log(err));
-    
+    .catch(err=> console.log(err))
+
+    this.authListenerSubs = this.authService
+      .getAuthStatuesListener().subscribe(actualType =>{
+        this.userType = actualType;
+      });
+  }
+
+  ngOnDestroy(){
+    this.authListenerSubs.unsubscribe();
   }
   
 }

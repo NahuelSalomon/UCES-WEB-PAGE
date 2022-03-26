@@ -1,4 +1,5 @@
 import { ResponseQuery } from "./response-query";
+import { TypeForum } from "./type-forum";
 import { User } from "./user";
 
 export class Forum {
@@ -7,6 +8,7 @@ export class Forum {
     user: User;
     upVotes: number;
     downVotes: number;
+    forumType: TypeForum;
     responses: Array<ResponseQuery>;
 
     constructor(id: number, body: string, user: User, upVotes: number, downVotes:number) {

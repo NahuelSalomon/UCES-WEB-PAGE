@@ -1,1 +1,40 @@
-<p *ngIf="board">{{ board.name }}</p>
+<div class="card">
+  <div class="card-body">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" name="active-form-type" style="background-color: #A989B0; color: white;" id="query"
+          aria-current="page" (click)="changeTypeForum('query')">Opiniones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="recommendation" style="background-color: white; color: black;"
+          (click)="changeTypeForum('recommendation')">Recomendaciones</a>
+      </li>
+    </ul>
+
+    <div *ngIf="board">
+      <div *ngFor="let forum of board.forumList">
+        <div *ngIf="forum.forumType == typeForum">
+          <br>
+          <div class="card">
+
+            <div class="card-body">
+              <h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5>
+              <p class="card-text">{{ forum.body }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <div *ngIf="userType == 'STUDENT' ">
+      <div class="mb-3">
+        <label for="forumBody" class="form-label">Escriba aqui lo que desea agregar al foro</label>
+        <textarea class="form-control" id="forumBody" rows="2"></textarea>
+      </div>
+      <button class="btn btn-success" (click)="addForum()">Agregar</button>
+    </div>
+
+  </div>
+</div>

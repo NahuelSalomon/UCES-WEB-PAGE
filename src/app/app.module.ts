@@ -10,6 +10,9 @@ import { CommonModule } from '@angular/common';
 import { CareerPageComponent } from './components/career/career-page/career-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { BoardPageComponent } from './components/board-page/board-page.component';
+import { UsersListComponent } from './components/users/users-list/users-list.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FilterUsersPipe } from './pipe/filter-users.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { BoardPageComponent } from './components/board-page/board-page.component
     CareerPageComponent,
     LoginComponent,
     BoardPageComponent,
+    UsersListComponent,
+    FilterUsersPipe
+
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,8 @@ import { BoardPageComponent } from './components/board-page/board-page.component
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,9 @@ import { iif, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Board } from 'src/app/models/board';
 import { Career } from 'src/app/models/career';
+import { Forum } from 'src/app/models/forum';
 import { Subject } from 'src/app/models/subject';
+import { TypeForum } from 'src/app/models/type-forum';
 import { CareerService } from 'src/app/services/career.service';
 import { SubjectService } from 'src/app/services/subject.service';
 
@@ -19,10 +21,12 @@ export class CareerPageComponent implements OnInit {
 
   career: Career;
   subject: Subject;
-  board : Board; 
+  board : Board;
+  typeForum: TypeForum;
 
   ngOnInit(): void {      
     
+    this.typeForum = TypeForum.QUERY;
     this.route.params.subscribe(params => {
 
       this.careerService.getById(params.id)
@@ -32,21 +36,7 @@ export class CareerPageComponent implements OnInit {
   
   }
 
-  changeTypeForum(typeForum : string) {
 
-    /** Se cambia de un tipo de foro a otro tipo de foro */
-    var element = document.getElementsByName("active-form-type")[0];
-    element.classList.remove("active","active-form-type");
-    element.style.backgroundColor = "white";
-    element.style.color = "black";
-    element.setAttribute("name",""); 
-    
-    var elementToActive  = document.getElementById(typeForum);
-    elementToActive.classList.add("active");
-    elementToActive.style.backgroundColor = "#A989B0";
-    elementToActive.style.color = "white";
-    elementToActive.setAttribute("name","active-form-type"); 
-  }
 
   subjectChange(value: string){
     var idSubject = Number.parseInt(value);
@@ -55,7 +45,6 @@ export class CareerPageComponent implements OnInit {
     this.subjectService.getById(idSubject).then((response) =>{
       this.subject = response;
       this.board = this.subject.board;
-      console.log(this.board);
       
     })
     .catch((error) =>{

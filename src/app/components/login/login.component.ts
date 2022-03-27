@@ -25,8 +25,6 @@ export class LoginComponent implements OnInit {
     let userCredentials = new LoginCredentials();
     userCredentials.email = this.email;
     userCredentials.password = this.password;
-
-    console.log(userCredentials);
     
     this.authService.login(userCredentials)
       .then(response => {

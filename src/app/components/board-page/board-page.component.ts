@@ -4,8 +4,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Board } from 'src/app/models/board';
 import { Forum } from 'src/app/models/forum';
 import { Recommendation } from 'src/app/models/recommendation';
+import { Query } from 'src/app/models/query';
 import { TypeForum } from 'src/app/models/type-forum';
 import { ForumService } from 'src/app/services/forum.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'board-page',
@@ -20,7 +22,7 @@ export class BoardPageComponent implements OnInit {
   private authListenerSubs: Subscription;
   userType = "ANONYMOUS";
 
-  constructor(private authService : AuthService, private forumService: ForumService) { }
+  constructor(private authService : AuthService, private forumService: ForumService, private userService : UserService) { }
 
   ngOnInit(): void {
 
@@ -53,15 +55,40 @@ export class BoardPageComponent implements OnInit {
 
   addForum(){
 
-    var bodyElement = document.getElementById("forumBody");
-    var body = bodyElement.innerHTML;
-    var user = this.authService.userDetailsUrl;
 
-    if(this.typeForum == TypeForum.RECOMMENDATION) {
-      //recommendation: Recommendation = new Recommendation(0, body, user, 0, 0);
-    } else if (this.typeForum == TypeForum.QUERY) {
-      
-    }
+    
+    this.userService.getById(this.authService.idUser)
+      .then(response => {
+        var user = response;
+        var body = ( <HTMLInputElement> document.getElementById("forumBody")).value;
+        var forum: Forum;
+            
+        if(this.typeForum == TypeForum.RECOMMENDATION) {
+          forum = new Recommendation(0, body, user, 0, 0);
+        } else if (this.typeForum == TypeForum.QUERY) {
+          forum = new Query(0, body, user, 0, 0);
+        }
+
+
+
+        if(forum != null){
+          this.forumService.add(forum)
+          .then(response => {
+            window.alert("Se ha agregado la "+ forum.forumType.toLowerCase() +" correctamente");
+          })
+          .catch(error => {
+            console.log(forum);
+            window.alert("Se ha producido un error");
+          })
+
+        }
+
+      })
+      .catch(error=>{
+        console.log(error);
+        
+      })
+
   }
 
 }

@@ -16,7 +16,7 @@ export class AuthService {
   loginUrl = "http://localhost:8080/api/login/";
   userDetailsUrl = "http://localhost:8080/api/login/userDetails";
   redirectUrl: string;
-  user: User;
+  idUser: number;
 
   constructor(private http: HttpClient) { }
 
@@ -34,7 +34,6 @@ export class AuthService {
       .then(resp => {
         let obj : {[index: string]:any};
         obj = resp;
-        console.log(obj);
         
         this.token = obj['token'];
 
@@ -49,6 +48,7 @@ export class AuthService {
           let userDetails: any = resp;
           this.typeUserListener.next(userDetails['typeUser']);
           this.typeUser = userDetails['typeUser'];
+          this.idUser = userDetails['id'];
           sessionStorage.setItem('typeUser', userDetails['typeUser']);
         })
         .catch(err => console.log(err));

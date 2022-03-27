@@ -1,5 +1,6 @@
 import { Forum } from "./forum";
 import { ResponseQuery } from "./response-query";
+import { TypeForum } from "./type-forum";
 import { User } from "./user";
 
 export class Query extends Forum{

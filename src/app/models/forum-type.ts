@@ -1,4 +1,4 @@
-export enum TypeForum {
+export enum ForumType {
     RECOMMENDATION = "RECOMMENDATION",
     QUERY = "QUERY"
 }

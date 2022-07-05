@@ -13,8 +13,8 @@ export class AuthService {
   token : string;
   typeUserListener = new Subject<string>();
   typeUser: string;
-  loginUrl = "http://localhost:8080/api/login/";
-  userDetailsUrl = "http://localhost:8080/api/login/userDetails";
+  loginUrl = "http://localhost:8080/api/auth/login";
+  userDetailsUrl = "http://localhost:8080/api/auth/userDetails";
   redirectUrl: string;
   idUser: number;
 
@@ -47,21 +47,21 @@ export class AuthService {
             
           let userDetails: any = resp;
           this.typeUserListener.next(userDetails['typeUser']);
-          this.typeUser = userDetails['typeUser'];
+          this.typeUser = userDetails['userType'];
           this.idUser = userDetails['id'];
-          sessionStorage.setItem('typeUser', userDetails['typeUser']);
+          sessionStorage.setItem('userType', userDetails['userType']);
         })
         .catch(err => console.log(err));
 
-        sessionStorage.setItem('token', this.token);
+        localStorage.setItem('token', this.token);
       })
       .catch(error => console.log(error));
     return promise;
   }
 
   logout(): void{
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('typeUser');
+    localStorage.removeItem('token');
+    localStorage.removeItem('typeUser');
     this.token = undefined;
     this.typeUserListener.next("ANONYMOUS");
     this.typeUser = undefined;

@@ -5,7 +5,7 @@ import { Board } from 'src/app/models/board';
 import { Forum } from 'src/app/models/forum';
 import { Recommendation } from 'src/app/models/recommendation';
 import { Query } from 'src/app/models/query';
-import { TypeForum } from 'src/app/models/type-forum';
+import { ForumType } from 'src/app/models/forum-type';
 import { ForumService } from 'src/app/services/forum.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -17,7 +17,7 @@ import { UserService } from 'src/app/services/user.service';
 export class BoardPageComponent implements OnInit {
 
   @Input() board : Board;
-  @Input() typeForum : TypeForum;
+  @Input() typeForum : ForumType;
   @Input() forumList: Array<Forum>;
   private authListenerSubs: Subscription;
   userType = "ANONYMOUS";
@@ -46,27 +46,24 @@ export class BoardPageComponent implements OnInit {
     elementToActive.setAttribute("name","active-form-type"); 
 
     if(typeForum == 'recommendation') {
-      this.typeForum = TypeForum.RECOMMENDATION;
+      this.typeForum = ForumType.RECOMMENDATION;
     } else if (typeForum == 'query') {
-      this.typeForum = TypeForum.QUERY;
+      this.typeForum = ForumType.QUERY;
     }
 
   }
 
-  addForum(){
-
-
-    
+  addForum(){    
     this.userService.getById(this.authService.idUser)
       .then(response => {
         var user = response;
         var body = ( <HTMLInputElement> document.getElementById("forumBody")).value;
         var forum: Forum;
             
-        if(this.typeForum == TypeForum.RECOMMENDATION) {
-          forum = new Recommendation(0, body, user, 0, 0);
-        } else if (this.typeForum == TypeForum.QUERY) {
-          forum = new Query(0, body, user, 0, 0);
+        if(this.typeForum == ForumType.RECOMMENDATION) {
+          forum = new Recommendation(0, body, user, 0, 0, this.board);
+        } else if (this.typeForum == ForumType.QUERY) {
+          forum = new Query(0, body, user, 0, 0, this.board);
         }
 
 

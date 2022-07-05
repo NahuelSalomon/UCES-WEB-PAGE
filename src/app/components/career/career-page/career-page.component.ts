@@ -6,7 +6,7 @@ import { Board } from 'src/app/models/board';
 import { Career } from 'src/app/models/career';
 import { Forum } from 'src/app/models/forum';
 import { Subject } from 'src/app/models/subject';
-import { TypeForum } from 'src/app/models/type-forum';
+import { ForumType } from 'src/app/models/forum-type';
 import { CareerService } from 'src/app/services/career.service';
 import { SubjectService } from 'src/app/services/subject.service';
 
@@ -22,11 +22,11 @@ export class CareerPageComponent implements OnInit {
   career: Career;
   subject: Subject;
   board : Board;
-  typeForum: TypeForum;
+  typeForum: ForumType;
 
   ngOnInit(): void {      
     
-    this.typeForum = TypeForum.QUERY;
+    this.typeForum = ForumType.QUERY;
     this.route.params.subscribe(params => {
 
       this.careerService.getById(params.id)

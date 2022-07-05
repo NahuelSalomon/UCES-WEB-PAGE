@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseQuery } from '../models/response-query';
+import { QueryResponse } from '../models/query-response';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class ResponseQueryService {
 
   constructor(private http : HttpClient) { }
 
-  add (resp : ResponseQuery) : Promise<any> {
+  add (resp : QueryResponse) : Promise<any> {
     const httpOptions = {
       headers : new HttpHeaders({
         'Content-Type' : 'application/json'

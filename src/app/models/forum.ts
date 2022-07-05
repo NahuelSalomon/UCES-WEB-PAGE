@@ -1,5 +1,6 @@
-import { ResponseQuery } from "./response-query";
-import { TypeForum } from "./type-forum";
+import { Board } from "./board";
+import { QueryResponse } from "./query-response";
+import { ForumType } from "./forum-type";
 import { User } from "./user";
 
 export class Forum {
@@ -8,15 +9,16 @@ export class Forum {
     user: User;
     upVotes: number;
     downVotes: number;
-    forumType: TypeForum;
-    responses: Array<ResponseQuery>;
+    board: Board;
+    forumType: ForumType;
 
-    constructor(id: number, body: string, user: User, upVotes: number, downVotes:number) {
+    constructor(id: number, body: string, user: User, upVotes: number, downVotes:number, board: Board) {
         this.id  = id;
         this.body = body;
         this.user = user;
         this.upVotes = upVotes;
         this.downVotes = downVotes;
+        this.board = board;
     }
 
 }

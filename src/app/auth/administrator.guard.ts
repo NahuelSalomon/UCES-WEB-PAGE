@@ -16,12 +16,12 @@ export class AdministratorGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let url: string = state.url;
-      let typeUser = this.authService.typeUser;
+      let userType = this.authService.userType;
 
-      if(typeUser == "ADMINISTRATOR"){
+      if(userType == "ROLE_ADMINISTRATOR"){
         return true;
       }
-      if(typeUser == undefined){
+      if(userType == undefined){
         this.authService.redirectUrl = url;
         this.router.navigate(['/login']);
       }

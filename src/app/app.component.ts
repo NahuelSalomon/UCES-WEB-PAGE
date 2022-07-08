@@ -18,7 +18,7 @@ export class AppComponent {
   title = 'UCES-WEB-PAGE';
   careerList: Array<Career>;
   private authListenerSubs: Subscription;
-  userType = "ANONYMOUS";
+  userType = "ROLE_ANONYMOUS";
 
   constructor(private route : ActivatedRoute, private careerService : CareerService, private authService : AuthService) {}
 

@@ -26,7 +26,7 @@ export class BoardPageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userType = this.authService.typeUser; 
+    this.userType = this.authService.userType; 
 
   }
 

@@ -7,7 +7,7 @@ import { Subject } from '../models/subject';
 })
 export class SubjectService {
 
-  private urlAPI = "http://localhost:8080/api/subject/";
+  private urlAPI = "http://localhost:8080/api/subjects/";
 
   constructor(private http : HttpClient) { }
 
@@ -27,6 +27,10 @@ export class SubjectService {
 
   getById(id: number) : Promise<any> {
     return this.http.get(this.urlAPI + id).toPromise();
+  }
+
+  getByCareer(idCareer: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}careers/${idCareer}`).toPromise();
   }
 
   delete(id: number) : Promise<any> {

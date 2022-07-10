@@ -1,5 +1,6 @@
 <div class="card">
   <div class="card-body">
+
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" name="active-form-type" style="background-color: #A989B0; color: white;" id="query"
@@ -28,12 +29,13 @@
 
     <br>
     <br>
-    <div *ngIf="userType == 'STUDENT' ">
+    <div *ngIf="userType == 'ROLE_STUDENT' ">
       <div class="mb-3">
         <label for="forumBody" class="form-label">Escriba aqui lo que desea agregar al foro</label>
         <textarea class="form-control" id="forumBody" rows="2"></textarea>
       </div>
-      <button class="btn btn-success" (click)="addForum()">Agregar</button>
+      <div class="text-end"><button class="btn btn-success" (click)="addForum()">Agregar</button></div>
+      
     </div>
 
   </div>

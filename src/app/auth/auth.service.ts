@@ -11,8 +11,8 @@ import { User } from '../models/user';
 export class AuthService {
   
   token : string;
-  typeUserListener = new Subject<string>();
-  typeUser: string;
+  userTypeListener = new Subject<string>();
+  userType: string;
   loginUrl = "http://localhost:8080/api/auth/login";
   userDetailsUrl = "http://localhost:8080/api/auth/userDetails";
   redirectUrl: string;
@@ -35,6 +35,7 @@ export class AuthService {
         let obj : {[index: string]:any};
         obj = resp;
         
+        console.log(resp);
         this.token = obj['token'];
 
         const headerAuth = {
@@ -44,16 +45,17 @@ export class AuthService {
         };
         this.http.get(this.userDetailsUrl, headerAuth).toPromise()
         .then(resp => {
-            
+          
+          console.log(resp);
           let userDetails: any = resp;
-          this.typeUserListener.next(userDetails['typeUser']);
-          this.typeUser = userDetails['userType'];
+          this.userTypeListener.next(userDetails['userType']);
+          this.userType = userDetails['userType'];
           this.idUser = userDetails['id'];
           sessionStorage.setItem('userType', userDetails['userType']);
         })
         .catch(err => console.log(err));
 
-        localStorage.setItem('token', this.token);
+        sessionStorage.setItem('token', this.token);
       })
       .catch(error => console.log(error));
     return promise;
@@ -61,13 +63,13 @@ export class AuthService {
 
   logout(): void{
     localStorage.removeItem('token');
-    localStorage.removeItem('typeUser');
+    localStorage.removeItem('userType');
     this.token = undefined;
-    this.typeUserListener.next("ANONYMOUS");
-    this.typeUser = undefined;
+    this.userTypeListener.next("ANONYMOUS");
+    this.userType = undefined;
   }
 
   getAuthStatuesListener() {
-    return this.typeUserListener.asObservable();
+    return this.userTypeListener.asObservable();
   }
 }

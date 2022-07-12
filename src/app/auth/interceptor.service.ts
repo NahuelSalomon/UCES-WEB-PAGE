@@ -17,7 +17,7 @@ export class InterceptorService implements HttpInterceptor{
   constructor(private route : Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     let request = req;
 

@@ -15,14 +15,14 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item"> <a class="nav-link" [routerLink]="['users/list']" *ngIf="userType=='ADMINISTRATOR'">Usuarios </a> </li>
+        <li class="nav-item"> <a class="nav-link" [routerLink]="['users/list']" *ngIf="userType=='ROLE_ADMINISTRATOR'">Usuarios </a> </li>
       </ul>
     </div>
     
     <div class="text-end">
       <ul class="navbar-nav">
-        <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" *ngIf="userType=='ANONYMOUS'" [routerLink]="['login']">Login</button>
-        <li class="nav-item"> <a class="nav-link" href="#" *ngIf="userType!='ANONYMOUS'">Logout </a> </li>
+        <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" *ngIf="userType=='ROLE_ANONYMOUS'" [routerLink]="['login']">Login</button>
+        <li class="nav-item"> <a class="nav-link" *ngIf="userType!='ROLE_ANONYMOUS'">Logout </a> </li>
       </ul>
     </div>
     <!-- navbar-collapse.// -->

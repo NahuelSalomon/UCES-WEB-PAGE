@@ -25,8 +25,10 @@ export class BoardPageComponent implements OnInit {
   constructor(private authService : AuthService, private forumService: ForumService, private userService : UserService) { }
 
   ngOnInit(): void {
+
     this.typeForum = ForumType.QUERY;
-    this.userType = this.authService.typeUser; 
+    this.userType = this.authService.userType; 
+
 
   }
 

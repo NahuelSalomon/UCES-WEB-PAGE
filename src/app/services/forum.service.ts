@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Forum } from '../models/forum';
+import { Query } from '../models/query';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,16 @@ export class ForumService {
      })
    };
    return this.http.post(this.urlAPI, forum, httpOptions).toPromise(); 
+  }
+
+  addQuery(query : Query) : Promise<any> {
+  
+    const httpOptions = {
+     headers : new HttpHeaders({
+       'Content-Type' : 'application/json'
+     })
+   };
+   return this.http.post(`${this.urlAPI}/queries/`, query, httpOptions).toPromise(); 
   }
 
   getAll() : Promise<any> {

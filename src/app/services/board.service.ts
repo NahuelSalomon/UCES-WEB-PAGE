@@ -8,7 +8,7 @@ import { Board } from '../models/board';
 export class BoardService {
 
   
-  private urlAPI = "http://localhost:8080/api/board";
+  private urlAPI = "http://localhost:8080/api/boards";
 
   constructor(private http : HttpClient) { }
 
@@ -28,6 +28,10 @@ export class BoardService {
 
   getById(id: number) : Promise<any> {
     return this.http.get(this.urlAPI + "/" +id).toPromise();
+  }
+
+  getBySubject(idSubject: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/subjects/${idSubject}`).toPromise();
   }
 
   delete(id: number) : Promise<any> {

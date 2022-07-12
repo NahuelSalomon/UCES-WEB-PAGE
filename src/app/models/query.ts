@@ -6,11 +6,10 @@ import { User } from "./user";
 
 export class Query extends Forum{
 
-    responses: Array<QueryResponse>;
+
 
     constructor(id: number, body: string, user: User, upVotes: number, downVotes:number, board: Board) {
         super(id, body, user, upVotes, downVotes, board);
-        this.responses = new Array<QueryResponse>();
     }
 
 }

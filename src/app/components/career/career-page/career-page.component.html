@@ -13,7 +13,7 @@
 
       <select *ngIf="career" class="form-select form-select-sm mb-3" (change)="subjectChange($any($event.target).value)">
         <option selected disabled default>Seleccionar materia</option>
-        <option [value]="subject.id" *ngFor="let subject of career.subjects"> {{ subject.name }} </option>
+        <option [value]="subject.id" *ngFor="let subject of subjectList"> {{ subject.name }} </option>
       </select>
 
     </form>

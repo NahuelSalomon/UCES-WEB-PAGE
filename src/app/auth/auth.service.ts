@@ -62,10 +62,10 @@ export class AuthService {
   }
 
   logout(): void{
-    localStorage.removeItem('token');
-    localStorage.removeItem('userType');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userType');
     this.token = undefined;
-    this.userTypeListener.next("ANONYMOUS");
+    this.userTypeListener.next(null);
     this.userType = undefined;
   }
 

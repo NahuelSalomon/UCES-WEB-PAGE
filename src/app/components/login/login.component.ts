@@ -34,8 +34,6 @@ export class LoginComponent implements OnInit {
 
           this.router.navigateByUrl(redirect);
 
-          console.log(response.status);
-
           /*  if(this.authService.userDetails['userTypeId'] == 1) {
             linkTypeUser = "/student";
  

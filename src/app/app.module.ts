@@ -14,6 +14,8 @@ import { UsersListComponent } from './components/users/users-list/users-list.com
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterUsersPipe } from './pipe/filter-users.pipe';
 import { InterceptorService } from './auth/interceptor.service';
+import { CareerListComponent } from './components/career/career-list/career-list.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { InterceptorService } from './auth/interceptor.service';
     LoginComponent,
     BoardPageComponent,
     UsersListComponent,
-    FilterUsersPipe
+    FilterUsersPipe,
+    CareerListComponent,
+    NavBarComponent
 
   ],
   imports: [

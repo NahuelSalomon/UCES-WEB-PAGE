@@ -27,11 +27,6 @@ export class InterceptorService implements HttpInterceptor{
           authorization: `Bearer ${ token }`
         }
       })
-      console.log("Hay token")
-      console.log(token)
-      console.log(sessionStorage.getItem('userType'))
-    }else{
-      console.log("NO TOKEEN")
     }
 
     return next.handle(request).pipe(

@@ -25,11 +25,8 @@ export class BoardPageComponent implements OnInit {
   constructor(private authService : AuthService, private forumService: ForumService, private userService : UserService) { }
 
   ngOnInit(): void {
-
     this.typeForum = ForumType.QUERY;
     this.userType = this.authService.userType; 
-
-
   }
 
   changeTypeForum(typeForum : string) {
@@ -52,55 +49,42 @@ export class BoardPageComponent implements OnInit {
     } else if (typeForum == 'query') {
       this.typeForum = ForumType.QUERY;
     }
-
   }
 
   addForum(){    
+
     this.userService.getById(this.authService.idUser)
       .then(response => {
         
              
         var user = response;
         var body = ( <HTMLInputElement> document.getElementById("forumBody")).value;
-        var forum: Forum;
+       
         
-              
-        if(this.typeForum == ForumType.RECOMMENDATION) {
+        var forum: Forum;
+     
+        if(this.typeForum == ForumType.RECOMMENDATION) {          
           forum = new Recommendation(0, body, user, 0, 0, this.board);
         } else if (this.typeForum == ForumType.QUERY) {
           forum = new Query(0, body, user, 0, 0, this.board);
         }
 
-        //console.log(this.board.subject);
-        
-
-        
-       
         if(forum != null){
-          console.dir(forum);
-          
-          if(this.typeForum == ForumType.QUERY) 
-          {
-            var query : Query = new Query(0, body, user, 0, 0, this.board);
-            this.forumService.addQuery(query)
-            .then(response => {
-              window.alert("Se ha agregado la "+ forum.forumType.toLowerCase() +" correctamente");
-            })
-            .catch(error => {
-              window.alert("Se ha producido un error");
-            })
 
-          }
-          
-          /* this.forumService.add(forum)
+      
+          this.forumService.add(forum)
           .then(response => {
+            this.forumList.push(forum);
             window.alert("Se ha agregado la "+ forum.forumType.toLowerCase() +" correctamente");
           })
           .catch(error => {
             window.alert("Se ha producido un error");
           })
- */
         }
+
+        
+
+        ( <HTMLInputElement> document.getElementById("forumBody")).value = "";
 
       })
       .catch(error=>{

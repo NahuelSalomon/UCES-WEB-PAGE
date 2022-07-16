@@ -36,6 +36,10 @@ export class ForumService {
     return this.http.get(this.urlAPI).toPromise();
   }
 
+  getAllByBoard(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/boards/${idBoard}`).toPromise();
+  }
+
   getById(id: number) : Promise<any> {
     return this.http.get(this.urlAPI + "/" +id).toPromise();
   }

@@ -29,15 +29,12 @@ export class NavBarComponent implements OnInit {
 
     this.userType = sessionStorage.getItem('userType');
 
-    console.log(this.userType)
-
     this.authListenerSubs = this.authService
       .getAuthStatuesListener().subscribe(actualType =>{
         this.userType = actualType;
         console.log(actualType)
       });
 
-    console.log(this.userType)
   }
   
   ngOnDestroy(){

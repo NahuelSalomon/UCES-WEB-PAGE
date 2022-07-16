@@ -35,7 +35,6 @@ export class AuthService {
         let obj : {[index: string]:any};
         obj = resp;
         
-        console.log(resp);
         this.token = obj['token'];
 
         const headerAuth = {
@@ -45,8 +44,6 @@ export class AuthService {
         };
         this.http.get(this.userDetailsUrl, headerAuth).toPromise()
         .then(resp => {
-          
-          console.log(resp);
           let userDetails: any = resp;
           this.userTypeListener.next(userDetails['userType']);
           this.userType = userDetails['userType'];

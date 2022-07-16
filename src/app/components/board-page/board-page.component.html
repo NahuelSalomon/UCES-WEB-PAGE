@@ -12,12 +12,11 @@
       </li>
     </ul>
 
-    <div *ngIf="board">
-      <div *ngFor="let forum of board.forumList">
+
+      <div *ngFor="let forum of forumList">
         <div *ngIf="forum.forumType == typeForum">
           <br>
           <div class="card">
-
             <div class="card-body">
               <h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5>
               <p class="card-text">{{ forum.body }}</p>
@@ -25,7 +24,7 @@
           </div>
         </div>
       </div>
-    </div>
+
 
     <br>
     <br>

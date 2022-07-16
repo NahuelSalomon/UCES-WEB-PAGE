@@ -10,6 +10,7 @@ import { ForumType } from 'src/app/models/forum-type';
 import { CareerService } from 'src/app/services/career.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { BoardService } from 'src/app/services/board.service';
+import { ForumService } from 'src/app/services/forum.service';
 
 @Component({
   selector: 'app-career-page',
@@ -18,11 +19,12 @@ import { BoardService } from 'src/app/services/board.service';
 })
 export class CareerPageComponent implements OnInit {
 
-  constructor(private route :ActivatedRoute, private careerService: CareerService, private subjectService: SubjectService, private boardSevice : BoardService) { }
+  constructor(private route :ActivatedRoute, private careerService: CareerService, private subjectService: SubjectService, private boardSevice : BoardService, private forumService: ForumService) { }
 
   career: Career;
-  subject: Subject;
+  subjectSelected: Subject;
   subjectList: Array<Subject>;
+  forumList: Array<Forum>;
   board : Board;
   typeForum: ForumType;
 
@@ -38,7 +40,29 @@ export class CareerPageComponent implements OnInit {
           this.career = response;
           this.subjectService.getByCareer(this.career.id)    
             .then(responseSubjectList => {
+              
               this.subjectList = responseSubjectList;
+              
+              this.subjectSelected = this.subjectList[0];
+
+              this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
+               
+               
+                this.board = responseBoard;
+
+                
+                this.forumService.getAllByBoard(this.board.id)
+               
+                .then(responseForumList => {
+                  this.forumList = responseForumList;
+
+                  
+                })
+                .catch(error => {});
+              });   
+              
+
+
             })
             .catch(err => console.log(err));
         
@@ -54,11 +78,20 @@ export class CareerPageComponent implements OnInit {
     
     
     this.subjectService.getById(idSubject).then((response) =>{
-      this.subject = response;
+      this.subjectSelected = response;
       
-      this.boardSevice.getBySubject(this.subject.id).then((responseBoard)=>{
-        
+      this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
         this.board = responseBoard;
+
+        this.forumService.getAllByBoard(this.board.id)
+               
+        .then(responseForumList => {
+          this.forumList = responseForumList;
+
+          
+        })
+        .catch(error => {});
+
       });      
     })
     .catch((error) =>{

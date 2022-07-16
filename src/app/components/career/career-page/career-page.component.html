@@ -12,13 +12,13 @@
     <form class="col-3 col-lg-2">
 
       <select *ngIf="career" class="form-select form-select-sm mb-3" (change)="subjectChange($any($event.target).value)">
-        <option selected disabled default>Seleccionar materia</option>
+        <!-- <option selected disabled default>Seleccionar materia</option> -->
         <option [value]="subject.id" *ngFor="let subject of subjectList"> {{ subject.name }} </option>
       </select>
 
     </form>
 
-    <board-page [board]="board"></board-page>
+    <board-page [board]="board" [forumList]="forumList"></board-page>
 
   </div>
 </main>

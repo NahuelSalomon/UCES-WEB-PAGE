@@ -28,6 +28,9 @@ export class CareerPageComponent implements OnInit {
   board : Board;
   typeForum: ForumType;
 
+  
+
+
   ngOnInit(): void {      
     
     this.typeForum = ForumType.QUERY;

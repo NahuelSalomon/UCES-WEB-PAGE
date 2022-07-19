@@ -38,4 +38,14 @@
     </div>
 
   </div>
+
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <ngb-toast class="text-white bg-success" style="font-size:14px;" *ngIf="showToastSuccess" [delay]="1500" [autohide]="true" (hidden)="showToastSuccess=false" >
+      <b style="font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Se ha agregado el foro correctamente</b> 
+    </ngb-toast>
+    <ngb-toast *ngIf="showToastError" [autohide]="true" [delay]="1500" (hide)="showToastError=false" class="text-white bg-danger" style="font-size:14px;" >
+      <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> Se ha producido un error</b> 
+    </ngb-toast>
+  </div>
+
 </div>

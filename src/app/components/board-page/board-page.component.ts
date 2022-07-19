@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Board } from 'src/app/models/board';
@@ -8,6 +8,9 @@ import { Query } from 'src/app/models/query';
 import { ForumType } from 'src/app/models/forum-type';
 import { ForumService } from 'src/app/services/forum.service';
 import { UserService } from 'src/app/services/user.service';
+
+
+
 
 @Component({
   selector: 'board-page',
@@ -21,6 +24,8 @@ export class BoardPageComponent implements OnInit {
   @Input() forumList: Array<Forum>;
   private authListenerSubs: Subscription;
   userType = "ANONYMOUS";
+  showToastSuccess : boolean = false;
+  showToastError: boolean = false;
 
   constructor(private authService : AuthService, private forumService: ForumService, private userService : UserService) { }
 
@@ -28,6 +33,8 @@ export class BoardPageComponent implements OnInit {
     this.typeForum = ForumType.QUERY;
     this.userType = this.authService.userType; 
   }
+
+  
 
   changeTypeForum(typeForum : string) {
 
@@ -75,10 +82,14 @@ export class BoardPageComponent implements OnInit {
           this.forumService.add(forum)
           .then(response => {
             this.forumList.push(forum);
-            window.alert("Se ha agregado la "+ forum.forumType.toLowerCase() +" correctamente");
+            console.log(this.showToastSuccess);
+            
+            this.showToastSuccess = true;
+            //window.alert("Se ha agregado la "+ forum.forumType.toLowerCase() +" correctamente");
           })
           .catch(error => {
-            window.alert("Se ha producido un error");
+            this.showToastError = true;
+            //window.alert("Se ha producido un error");
           })
         }
 

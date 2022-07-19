@@ -16,6 +16,8 @@ import { FilterUsersPipe } from './pipe/filter-users.pipe';
 import { InterceptorService } from './auth/interceptor.service';
 import { CareerListComponent } from './components/career/career-list/career-list.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }

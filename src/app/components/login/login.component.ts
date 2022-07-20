@@ -30,8 +30,10 @@ export class LoginComponent implements OnInit {
       .then(response => {
         if(this.authService.token) {
 
-          let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/';
-
+          /*Esta hardeada la pagina, debe cambiarse hacia algo mas funcional*/
+          let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/career/page/1';
+          console.log(redirect);
+          
           this.router.navigateByUrl(redirect);
 
           /*  if(this.authService.userDetails['userTypeId'] == 1) {

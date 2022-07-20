@@ -6,7 +6,7 @@
     </button>
     <div class="collapse navbar-collapse" id="main_nav">
       <ul class="navbar-nav ">
-        <li class="nav-item"> <a class="nav-link" href="#">Home </a> </li>
+        <li class="nav-item"> <a class="nav-link">Home </a> </li>
         <li class="nav-item dropdown" id="careers-dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">  Carreras  </a>
           <ul class="dropdown-menu">
@@ -29,7 +29,7 @@
     
     <div class="text-end">
       <ul class="navbar-nav">
-        <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" *ngIf="userType === undefined || userType === null" [routerLink]="['login']">Login</button>
+        <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" *ngIf="userType === undefined || userType === null" [routerLink]="['/login']">Login</button>
         <li class="nav-item"> <a class="nav-link" *ngIf="userType !== undefined && userType !== null" (click)="logout()">Logout </a> </li>
       </ul>
     </div>

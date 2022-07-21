@@ -21,6 +21,15 @@ export class LoginComponent implements OnInit {
   get email() { return this.loginForm.get('email').value }
   get password() { return this.loginForm.get('password').value }
 
+  redirectToRegister()
+  {
+    let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/register';
+    console.log("lleuge");
+    
+    this.router.navigateByUrl(redirect);
+
+  }
+
   onSubmit(){ 
     let userCredentials = new LoginCredentials();
     userCredentials.email = this.email;

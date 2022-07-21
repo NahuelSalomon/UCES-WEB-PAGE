@@ -3,7 +3,32 @@
     background-color: #A989B0;
 }
 
+.bg-blue-utn
+{
+    background-color: #405967;
+
+}
+
+.text-blue-utn
+{
+    color: #405967;
+}
+
 .text-violet{
     color: #A989B0;
     
 }
+
+.mb-20 {
+    margin-bottom: 25px;
+  }
+
+  .fs-20{
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .fs-18{
+    font-size: 18px;
+    font-weight: 600;
+  }

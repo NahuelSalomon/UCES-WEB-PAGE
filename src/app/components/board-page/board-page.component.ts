@@ -47,7 +47,7 @@ export class BoardPageComponent implements OnInit {
     
     var elementToActive  = document.getElementById(typeForum);
     elementToActive.classList.add("active");
-    elementToActive.style.backgroundColor = "#A989B0";
+    elementToActive.style.backgroundColor = "#405967";
     elementToActive.style.color = "white";
     elementToActive.setAttribute("name","active-form-type"); 
 

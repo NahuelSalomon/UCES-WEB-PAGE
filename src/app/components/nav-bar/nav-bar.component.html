@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-violet">
+<nav class="navbar navbar-expand-sm navbar-dark bg-blue-utn">
     <div class="container-fluid">
     <a class="navbar-brand" href="#">UCES</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"  aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
     
     <div class="text-end">
       <ul class="navbar-nav">
-        <button type="button" class="btn btn-light me-2" style="color: #A989B0; font-weight: bold;" *ngIf="userType === undefined || userType === null" [routerLink]="['/login']">Login</button>
+        <button type="button" class="btn btn-light me-2 text-blue-utn " style="font-weight: bold;" *ngIf="userType === undefined || userType === null" [routerLink]="['/login']">Login</button>
         <li class="nav-item"> <a class="nav-link" *ngIf="userType !== undefined && userType !== null" (click)="logout()">Logout </a> </li>
       </ul>
     </div>

@@ -17,6 +17,7 @@ import { InterceptorService } from './auth/interceptor.service';
 import { CareerListComponent } from './components/career/career-list/career-list.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UsersListComponent,
     FilterUsersPipe,
     CareerListComponent,
-    NavBarComponent
+    NavBarComponent,
+    RegisterComponent
 
   ],
   imports: [

@@ -1,38 +1,65 @@
-<div id="login">
-    <div class="text-center" style="margin-top: 80px;">
-        <img src="../../../assets/images/logo-uces.png" alt="">
-    </div>
-    <div class="container">
-        <div id="login-row" class="row justify-content-center align-items-center">
-            <div id="login-column" class="col-md-4" style="margin-bottom: 100px;">
-                <div id="login-box" class="col-md-12 br-5" >
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="login-form" class="form" action="" method="post">
+<main>
+    <div id="login" class="row" style="background-color: #FFF2E8; width: 70%; margin:auto; margin-top:150px; border-radius: 15px; box-shadow:0px 0px 5px #405967;">
 
-                        <div class="form-group mb-20">
-                            <input type="text" name="username" id="username" placeholder="Mail" formControlName="email" class="form-control">
-                        </div>
-                        <div class="form-group mb-20">
-                            <input type="password" placeholder="Contraseña" name="password" id="password" formControlName="password" class="form-control">
-                        </div>
-
-                        <div class="form-group mb-20">
-                            <input type="submit" name="submit" class="btn btn-light btn-lg fs-20" value="Iniciar sesión" style="width: 100%;border: none; background-color: #A989B0; color: white;">
-                        </div>
-                        <div class="form-group mb-20 text-center">
-                            <a href="#" style="text-decoration: none;">¿Has olvidado la contraseña?</a>
-                        </div>
-                        <div class="form-group mb-20 text-center">
-                            <hr style="margin-left: 5px;margin-right: 5px;">
-                        </div>
-                        <div class="form-group text-center">
-                            <input type="submit" name="submit" class="btn btn-light btn-lg fs-18" value="Crear cuenta nueva" style="background-color: #B593BD; border: none;color: white;">
-                        </div>
-                    </form>
-                </div>
-                <div class="form-group mb-20 text-center" style="margin-top: 20px;">
-                    <a [routerLink]="['/career/page/1']" style="text-decoration: none; font-weight: bold; color: #A989B0;">Continuar como invitado</a>
+        <div class="text-center">
+            <img src="../../../assets/images/logo-uces.png" alt="">
+        </div>
+        <div class="container">
+            <div id="login-row">
+                <div id="login-column">
+                    <div id="login-box" class="login-box">
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="login-form" class="form" action=""
+                            method="post">
+    
+                            <div class="form-group mb-20">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="fa-solid fa-envelope"></i></span>
+                                    <input type="text" name="username" id="username" placeholder="Mail"
+                                        formControlName="email" class="form-control">
+                                </div>
+                            </div>
+    
+                            <div class="form-group mb-20">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            style="margin-right: 1px;margin-left: 1px;" class="fa-solid fa-lock"></i></span>
+                                    <input type="password" placeholder="Contraseña" name="password" id="password"
+                                        formControlName="password" class="form-control">
+                                </div>
+                            </div>
+    
+                            <div class="form-group mb-20">
+                                <input type="submit" name="submit" class="btn btn-light btn-lg fs-20" value="Iniciar sesión"
+                                    style="width: 100%;border: none; background-color: #405967; color: white;">
+                            </div>
+    
+                            <div class="form-group mb-20 text-center">
+                                <a href="#" style="text-decoration: none;">¿Has olvidado la contraseña?</a>
+                            </div>
+    
+                            <div class="form-group mb-20 text-center">
+                                <hr style="margin-left: 5px;margin-right: 5px;">
+                            </div>
+    
+                            <div class="form-group text-center">
+                                <input type="button" class="btn btn-light btn-lg fs-18" (click)="redirectToRegister()"
+                                    value="Crear cuenta nueva" id="btnRedirecRegister" 
+                                    style="background-color: #60b7ff; border: none;color: white;" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group mb-20 text-center" style="margin-top: 20px;">
+                        <a [routerLink]="['/career/page/1']"
+                            style="text-decoration: none; font-weight: bold; color: #405967;">Continuar como invitado</a>
+                    </div>
                 </div>
             </div>
+    
         </div>
+    
+    
+    
     </div>
-</div>
+
+</main>

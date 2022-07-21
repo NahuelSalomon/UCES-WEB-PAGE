@@ -14,6 +14,7 @@ export class AuthService {
   userTypeListener = new Subject<string>();
   userType: string;
   loginUrl = "http://localhost:8080/api/auth/login";
+  registerUrl = "http://localhost:8080/api/auth/register";
   userDetailsUrl = "http://localhost:8080/api/auth/userDetails";
   redirectUrl: string;
   idUser: number;
@@ -56,6 +57,16 @@ export class AuthService {
       })
       .catch(error => console.log(error));
     return promise;
+  }
+
+  register(user: User): Promise<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post(this.registerUrl, user, httpOptions).toPromise();
   }
 
   logout(): void{

@@ -1,4 +1,4 @@
-import { AbstractControl, AsyncValidatorFn, ValidatorFn } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, FormControl, ValidatorFn } from "@angular/forms";
 import { UserService } from "../services/user.service";
 
 export class CustomValidator {
@@ -22,6 +22,18 @@ export class CustomValidator {
             return !lettersOnly ? { 'lettersOnly': {value: control.value}} : null;
         };
 
+    }
+
+    static password1Upper1Lower1NumberMin8()
+    {
+        let regExp: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+
+        return(control: AbstractControl): {[key:string]: any} | null => {
+            const password1Upper1Lower1NumberMin8 = regExp.test(control.value);
+            console.log(password1Upper1Lower1NumberMin8);
+            
+            return !password1Upper1Lower1NumberMin8 ? { 'password1Upper1Lower1NumberMin8': {value: control.value}} : null;
+        };
     }
 
     static positiveNumbersOnly(): ValidatorFn {
@@ -54,6 +66,13 @@ export class CustomValidator {
           }                  
         };
       }
+
+      static passwordMatchValidator(passwordControl: FormControl): ValidatorFn {
+        return(passwordRepeatControl: AbstractControl): {[key:string]: any} | null => {
+            return (passwordControl.value != null) && (passwordControl.value != passwordRepeatControl.value) ? { 'passwordMatchValidator': {value: passwordRepeatControl.value}} : null;
+        };
+        
+     }
 
 
 }

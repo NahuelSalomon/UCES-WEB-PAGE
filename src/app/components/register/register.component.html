@@ -28,7 +28,7 @@
                             <div class="form-group mb-25 row">
                                 <div class="col-6"><input type="password" formControlName="password" name="password"
                                         id="password" placeholder="Contraseña" class="form-control"></div>
-                                <div class="col-6"><input type="password" name="confirmPassword" id="confirmPassword"
+                                <div class="col-6"><input type="password" formControlName="passwordRepeat" name="confirmPassword" id="confirmPassword"
                                         placeholder="Confirmar contraseña" class="form-control">
                                 </div>
                             </div>
@@ -81,6 +81,13 @@
             </div>
 
 
+            <div style="max-width: 600px; margin: auto;" *ngIf="(!password.valid && (password.dirty || password.touched))">
+
+                <div class="alert alert-danger" role="alert" style="padding: 7px;" *ngIf="password.errors?.password1Upper1Lower1NumberMin8">
+                    <i class="fa-solid fa-circle-xmark"></i> La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula, un numero, y un caracter especial
+                </div>
+            </div>
+            
         </div>
 
 

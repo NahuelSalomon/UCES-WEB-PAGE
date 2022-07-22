@@ -18,6 +18,8 @@ import { CareerListComponent } from './components/career/career-list/career-list
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RegisterComponent } from './components/register/register.component';
+import { DeleteCareerModalComponent } from './components/career/career-modals/delete-career-modal/delete-career-modal.component';
+import { AddCareerComponent } from './components/career/add-career/add-career.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { RegisterComponent } from './components/register/register.component';
     FilterUsersPipe,
     CareerListComponent,
     NavBarComponent,
-    RegisterComponent
+    RegisterComponent,
+    DeleteCareerModalComponent,
+    AddCareerComponent
 
   ],
   imports: [

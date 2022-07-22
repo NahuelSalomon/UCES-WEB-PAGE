@@ -1,0 +1,20 @@
+<main>
+    <!-- Main page content-->
+    <div class="container-xl px-4 mt-n10">
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Añadir carrera</h4>
+                <br>
+                <form class="row g-3" [formGroup]="careerForm" (ngSubmit)="onSubmit()">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Nombre de la carrera" formControlName="name" aria-label="career-name" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="submit" [disabled]="!careerForm.valid" id="button-addon2">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div> 
+    </div>
+
+
+</main>

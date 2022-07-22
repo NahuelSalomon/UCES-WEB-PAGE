@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Career } from 'src/app/models/career';
 import { CareerService } from 'src/app/services/career.service';
+import { DeleteCareerModalComponent } from '../career-modals/delete-career-modal/delete-career-modal.component';
 
 @Component({
   selector: 'app-career-list',
@@ -11,7 +13,7 @@ export class CareerListComponent implements OnInit {
 
   careersList: Array<Career>
 
-  constructor(private careerService: CareerService) { }
+  constructor(private careerService: CareerService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
 
@@ -20,6 +22,11 @@ export class CareerListComponent implements OnInit {
       this.careersList = response;
     })
     .catch(err=>console.log(err));
+  }
+
+  openDeleteModal(carrer: Career) {
+    const modalRef = this.modalService.open(DeleteCareerModalComponent);
+    modalRef.componentInstance.career = carrer;
   }
 
 }

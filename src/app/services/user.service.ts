@@ -34,6 +34,10 @@ export class UserService {
     return this.http.get(this.urlAPI + "/" +id).toPromise();
   }
 
+  getByEmail(email: string) : Promise<any> {
+    return this.http.get(this.urlAPI + "/email/" +email).toPromise();
+  }
+
  delete(id: number) : Promise<any> {
    return this.http.delete(this.urlAPI + "/" + id).toPromise();
  }

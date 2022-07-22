@@ -11,12 +11,17 @@ import { LoginCredentials } from 'src/app/models/login-credentials';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { 
+    this.accessDenied = false;
+  }
+
+  accessDenied : boolean;
 
   loginForm = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email ]),
     password: new FormControl('', [Validators.required])
   });
+
 
   get email() { return this.loginForm.get('email').value }
   get password() { return this.loginForm.get('password').value }
@@ -24,8 +29,6 @@ export class LoginComponent implements OnInit {
   redirectToRegister()
   {
     let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/register';
-    console.log("lleuge");
-    
     this.router.navigateByUrl(redirect);
 
   }
@@ -37,11 +40,15 @@ export class LoginComponent implements OnInit {
     
     this.authService.login(userCredentials)
       .then(response => {
+        console.log(response.statusCode);
+        
         if(this.authService.token) {
 
+          
+          
           /*Esta hardeada la pagina, debe cambiarse hacia algo mas funcional*/
           let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/career/page/1';
-          console.log(redirect);
+     
           
           this.router.navigateByUrl(redirect);
 
@@ -56,7 +63,11 @@ export class LoginComponent implements OnInit {
         }
        
 
-      }, error=>console.log(error));
+      }, error=>{
+        
+        this.accessDenied = true;
+   
+      });
   }
   
   ngOnInit(): void {

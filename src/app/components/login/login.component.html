@@ -4,6 +4,14 @@
         <div class="text-center">
             <img src="../../../assets/images/logo-uces.png" alt="">
         </div>
+        <div *ngIf="accessDenied" style="max-width: 470px; margin: auto;">
+            <div class="alert alert-danger" role="alert" style="padding: 10px;">
+                <i class="fa-solid fa-circle-xmark"></i> Usuario y/o contraseñas incorrectos
+            </div>
+        </div>
+        <div *ngIf="!accessDenied" style="max-width: 470px; margin: auto; height: 20px;">
+
+        </div>
         <div class="container">
             <div id="login-row">
                 <div id="login-column">
@@ -15,7 +23,7 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon1"><i
                                             class="fa-solid fa-envelope"></i></span>
-                                    <input type="text" name="username" id="username" placeholder="Mail"
+                                    <input type="email" name="email" id="email" placeholder="Mail"
                                         formControlName="email" class="form-control">
                                 </div>
                             </div>

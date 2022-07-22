@@ -31,8 +31,13 @@ export class AuthService {
     const promise = this.http.post(this.loginUrl, loginCredentials, httpOptions)
     .toPromise();
 
+
     promise
       .then(resp => {
+
+
+        
+        
         let obj : {[index: string]:any};
         obj = resp;
         
@@ -43,6 +48,7 @@ export class AuthService {
             'authorization': `Bearer ${this.token}`
           })
         };
+
         this.http.get(this.userDetailsUrl, headerAuth).toPromise()
         .then(resp => {
           let userDetails: any = resp;
@@ -51,13 +57,17 @@ export class AuthService {
           this.idUser = userDetails['id'];
           sessionStorage.setItem('userType', userDetails['userType']);
         })
-        .catch(err => console.log(err));
+        .catch(err => {/*console.log(err)*/});
 
         sessionStorage.setItem('token', this.token);
-      })
-      .catch(error => console.log(error));
+      }) 
+      .catch(error => {
+        
+      });
     return promise;
   }
+
+  
 
   register(user: User): Promise<any>{
     const httpOptions = {

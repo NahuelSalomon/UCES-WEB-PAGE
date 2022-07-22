@@ -12,8 +12,9 @@ const routes: Routes = [
   {path:"career/page/:id", component:CareerPageComponent},
   {path:"career/list", component:CareerListComponent},
   {path:"users/list", component:UsersListComponent},
-  {path:'login', component:LoginComponent},
-  {path:'register', component:RegisterComponent}
+  {path:'login', component:LoginComponent, },
+  {path:'register', component:RegisterComponent},
+  {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 
 @NgModule({

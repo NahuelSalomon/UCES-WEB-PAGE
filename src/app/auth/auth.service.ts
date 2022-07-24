@@ -2,8 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HiddenData } from '../models/hidden-data';
 import { LoginCredentials } from '../models/login-credentials';
 import { User } from '../models/user';
+import { HiddenDataService } from '../services/hidden-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +21,11 @@ export class AuthService {
   redirectUrl: string;
   idUser: number;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private hiddenDataService: HiddenDataService) { }
 
   login(loginCredentials: LoginCredentials): Promise<any>{
+   
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -33,36 +37,49 @@ export class AuthService {
 
 
     promise
-      .then(resp => {
-
-
-        
-        
+      .then(resp => {      
         let obj : {[index: string]:any};
         obj = resp;
         
-        this.token = obj['token'];
+        
 
         const headerAuth = {
           headers: new HttpHeaders({
-            'authorization': `Bearer ${this.token}`
+            'authorization': `Bearer ${obj['token']}`
           })
         };
 
         this.http.get(this.userDetailsUrl, headerAuth).toPromise()
         .then(resp => {
+        
+
           let userDetails: any = resp;
-          this.userTypeListener.next(userDetails['userType']);
-          this.userType = userDetails['userType'];
-          this.idUser = userDetails['id'];
-          sessionStorage.setItem('userType', userDetails['userType']);
+          
+          if(userDetails['active'])
+          {
+            this.userTypeListener.next(userDetails['userType']);
+            this.userType = userDetails['userType'];
+            this.idUser = userDetails['id'];
+            this.token = obj['token'];
+            sessionStorage.setItem('userType', userDetails['userType']);
+            sessionStorage.setItem('token', this.token);
+          }else
+          {
+            this.hiddenDataService.receiveData(new HiddenData(
+                                                new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active']),
+                                                obj['token']                                                
+                                                ));                                                
+          }
+
+
         })
         .catch(err => {/*console.log(err)*/});
 
-        sessionStorage.setItem('token', this.token);
+
+        
       }) 
       .catch(error => {
-        
+ 
       });
     return promise;
   }

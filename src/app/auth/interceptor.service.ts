@@ -33,10 +33,12 @@ export class InterceptorService implements HttpInterceptor{
       catchError((err: HttpErrorResponse) => {
 
         if(err.status === 401){
-          this.router.navigateByUrl('/login');
+
+          
+          this.router.navigateByUrl('login');
         }
         else if (err.status === 403){
-          this.router.navigateByUrl("/login");
+          this.router.navigateByUrl("login");
         }
 
         return throwError(err);

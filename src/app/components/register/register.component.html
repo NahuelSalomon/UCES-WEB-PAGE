@@ -1,16 +1,13 @@
 <main>
-    <div id="register" class="row"
-        style="background-color: #FFF2E8; width: 70%; margin:auto; margin-top:150px; border-radius: 15px; box-shadow:0px 0px 5px #405967;">
-
+    <div id="register" class="row box-form">
         <div class="text-center">
             <img src="../../../assets/images/logo-uces.png" alt="">
         </div>
         <div class="container">
             <div id="register-row">
-
                 <div id="register-column">
                     <div id="register-box" class="register-box">
-                        <h4 style="color: #405967;font-weight: bolder; font-size: 28px; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">Nueva cuenta</h4>
+                        <h4 class="box-title">Nueva cuenta</h4>
                         <hr>
                         <form id="register-form" [formGroup]="registerForm" (ngSubmit)="createAccount()" class="form"
                             method="post">
@@ -116,52 +113,7 @@
 
                 </div>
             </div>
-
-            <!-- ERRORS -->
-
-            <!-- <div style="max-width: 600px; margin: auto;" *ngIf="(!firstname.valid && (firstname.dirty || firstname.touched))">
-                <div class="alert alert-danger sm" role="alert" style="padding: 7px;" *ngIf="firstname.errors.required">
-                    <i class="fa-solid fa-circle-xmark"></i> El nombre es requerido
-                </div>
-                <div class="alert alert-danger sm" role="alert" style="padding: 7px;" *ngIf="firstname.errors.lettersOnly">
-                    <i class="fa-solid fa-circle-xmark"></i> El nombre solo puede contener letras
-                </div>
-              </div> -->
-
-             <!--  <div style="max-width: 600px; margin: auto;" *ngIf="(!lastname.valid && (lastname.dirty || lastname.touched))">
-                <div class="alert alert-danger sm" role="alert" style="padding: 7px;" *ngIf="lastname.errors.required">
-                    <i class="fa-solid fa-circle-xmark"></i> El apellido es requerido
-                </div>
-                <div class="alert alert-danger sm" role="alert" style="padding: 7px;" *ngIf="lastname.errors.lettersOnly">
-                    <i class="fa-solid fa-circle-xmark"></i> El apellido solo puede contener letras
-                </div>
-              </div> -->
-
-
-            <!-- <div style="max-width: 600px; margin: auto;" *ngIf="(!email.valid && (email.dirty || email.touched))">
-                <div class="alert alert-danger sm" role="alert" style="padding: 7px;" *ngIf="email.errors?.email">
-                    <i class="fa-solid fa-circle-xmark"></i> El mail debe tener un formato de mail valido
-                </div>
-
-                <div class="alert alert-danger" role="alert" style="padding: 7px;" *ngIf="email.errors?.emailExists">
-                    <i class="fa-solid fa-circle-xmark"></i> Ya existe una cuenta con este mail
-                </div>
-            </div> -->
-
-
-   <!--          <div style="max-width: 600px; margin: auto;" *ngIf="(!password.valid && (password.dirty || password.touched))">
-
-                <div class="alert alert-danger" role="alert" style="padding: 7px;" *ngIf="password.errors?.password1Upper1Lower1NumberMin8">
-                    <i class="fa-solid fa-circle-xmark"></i> La contraseña debe tener al menos 8 caracteres, con una mayúscula, una minúscula, un numero, y un caracter especial
-                </div>
-            </div> -->
-            
-            <!-- s -->
-
         </div>
-
-
-
     </div>
 
 </main>

@@ -14,21 +14,29 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router, private userService : UserService) { }
 
-  get firstname() { return this.registerForm.get('firstname') }
-  get lastname() { return this.registerForm.get('lastname') }
-  get email() { return this.registerForm.get('email') }
-  get password() { return this.registerForm.get('password') }
-  get passwordRepeat() { return this.registerForm.get('passwordRepeat') }
+
+
+
 
   registerForm = new FormGroup({
     firstname: new FormControl('', [ Validators.required, CustomValidator.lettersOnly()]),
     lastname: new FormControl('', [ Validators.required, CustomValidator.lettersOnly()]),
     email: new FormControl('', [ Validators.required, Validators.email ], [CustomValidator.emailExists(this.userService)] ),
     password: new FormControl('', [Validators.required, CustomValidator.password1Upper1Lower1NumberMin8()]),
-    passwordRepeat: new FormControl('', [CustomValidator.passwordMatchValidator(this.password.value)])
-  });
+    passwordRepeat: new FormControl('', [Validators.required])
+
+  }, CustomValidator.mustMatch('password', 'passwordRepeat'));
+
+  get firstname() { return this.registerForm.get('firstname') }
+  get lastname() { return this.registerForm.get('lastname') }
+  get email() { return this.registerForm.get('email') }
+  get password() { return this.registerForm?.get('password')}
+  get passwordRepeat() { return this.registerForm.get('passwordRepeat')}
+  
+
+  constructor(private authService: AuthService, private router: Router, private userService : UserService) { 
+  }
 
   ngOnInit(): void {
   }

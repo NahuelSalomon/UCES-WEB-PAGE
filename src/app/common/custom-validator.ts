@@ -1,4 +1,4 @@
-import { AbstractControl, AsyncValidatorFn, FormControl, ValidatorFn } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from "@angular/forms";
 import { UserService } from "../services/user.service";
 
 export class CustomValidator {
@@ -30,7 +30,7 @@ export class CustomValidator {
 
         return(control: AbstractControl): {[key:string]: any} | null => {
             const password1Upper1Lower1NumberMin8 = regExp.test(control.value);
-            console.log(password1Upper1Lower1NumberMin8);
+            console.log("Contra "+control.value);
             
             return !password1Upper1Lower1NumberMin8 ? { 'password1Upper1Lower1NumberMin8': {value: control.value}} : null;
         };
@@ -67,12 +67,34 @@ export class CustomValidator {
         };
       }
 
-      static passwordMatchValidator(passwordControl: FormControl): ValidatorFn {
-        return(passwordRepeatControl: AbstractControl): {[key:string]: any} | null => {
-            return (passwordControl.value != null) && (passwordControl.value != passwordRepeatControl.value) ? { 'passwordMatchValidator': {value: passwordRepeatControl.value}} : null;
+      static mustMatch(controlName: string, matchingControlName: string):ValidatorFn {
+        return (formGroup: AbstractControl):{ [key: string]: any } | null => {
+          const control = formGroup.get(controlName);
+          const matchingControl = formGroup.get(matchingControlName);
+          
+          if (!control || !matchingControl) {
+            return null;
+          }
+    
+          if (
+            matchingControl.errors &&
+            !matchingControl.errors.passwordMismatch
+          ) {
+            return null;
+          }
+    
+          if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
+            return { passwordMismatch: true }
+          } else {
+            matchingControl.setErrors(null);
+            return null;
+          }
         };
-        
-     }
+
+
+}
+      
 
 
 }

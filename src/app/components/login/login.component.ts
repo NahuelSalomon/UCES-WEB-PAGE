@@ -34,91 +34,73 @@ export class LoginComponent implements OnInit {
 
   }
 
-  async onSubmit(){ 
+  //  onSubmit(){ 
+  //   let userCredentials = new LoginCredentials();
+  //   userCredentials.email = this.email;
+  //   userCredentials.password = this.password;
+    
+  //   try{
+  //     this.authService.login(userCredentials).then(response=>{
+  //     var redirect;      
+
+  //         if(this.authService.token) {
+
+          
+  //           /*Esta hardeada la pagina, debe cambiarse hacia algo mas funcional*/
+  //           redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'career/page/1';
+  //           /*  if(this.authService.userDetails['userTypeId'] == 1) {
+  //             linkTypeUser = "/student";
+    
+  //           }else if(this.authService.userDetails['userTypeId'] == 2) {
+  //             linkTypeUser = "/administrator";
+  //           }
+  //           this.router.navigateByUrl(redirect);   */
+
+  //         } else
+  //         {  
+  //           redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'confirm-email';
+  //         }
+  
+  //         this.router.navigateByUrl(redirect);
+        
+        
+  //     })
+  //     .catch(err=>{
+  //       this.accessDenied = true;
+  //     });
+
+  //   }
+  //   catch(error)
+  //   {
+
+  //     this.accessDenied = true;
+  //   }
+  
+  // }
+
+  onSubmit(){ 
     let userCredentials = new LoginCredentials();
     userCredentials.email = this.email;
     userCredentials.password = this.password;
-    
-    try{
-      var response = await this.authService.login(userCredentials);
-      var redirect;
-      console.log(response.statusCode);
-      
-        if(response.statusCode == 200)
+  
+    this.authService.login(userCredentials)
+    .then(loginResponse=>{
+      this.authService.getUserDetails(loginResponse)
+      .then(getUserDetailsResponse=>{
+        this.authService.setUserDetails(getUserDetailsResponse,loginResponse['token']);
+        var redirect;
+        if(this.authService.token)
         {
-          if(this.authService.token) {
-
-          
-            /*Esta hardeada la pagina, debe cambiarse hacia algo mas funcional*/
-            redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'career/page/1';
-        
-  
-            /*  if(this.authService.userDetails['userTypeId'] == 1) {
-              linkTypeUser = "/student";
-    
-            }else if(this.authService.userDetails['userTypeId'] == 2) {
-              linkTypeUser = "/administrator";
-            }
-  
-            this.router.navigateByUrl(redirect);   */
-          } else
-          {  
-    
-            console.log("llegue 1");
-            
-            redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'confirm-email';
-          }
-  
-          this.router.navigateByUrl(redirect);
+          redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'career/page/1';
+        } else
+        {
+          redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'confirm-email';
         }
-        
-    }
-    catch(error)
-    {
-
-      this.accessDenied = true;
-    }
-   
-
-
-
-    
-
-    // this.authService.login(userCredentials)
-    //   .then(response => {
-        
-  
-    //     var redirect;
-        
-    //     if(this.authService.token) {
-
-          
-    //       /*Esta hardeada la pagina, debe cambiarse hacia algo mas funcional*/
-    //       redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'career/page/1';
-     
-
-    //       /*  if(this.authService.userDetails['userTypeId'] == 1) {
-    //         linkTypeUser = "/student";
- 
-    //       }else if(this.authService.userDetails['userTypeId'] == 2) {
-    //         linkTypeUser = "/administrator";
-    //       }
-
-    //       this.router.navigateByUrl(redirect);   */
-    //     } else
-    //     {  
-  
-          
-    //       redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'confirm-email';
-    //     }
-
-    //     this.router.navigateByUrl(redirect);
-
-    //   }, error=>{
-        
-    //     this.accessDenied = true;
-   
-    //   });
+        this.router.navigateByUrl(redirect);
+      })
+      .catch(getUserDetailsError=>{});
+    })
+    .catch(loginError=>{this.accessDenied = true;});
   }
   
   ngOnInit(): void {

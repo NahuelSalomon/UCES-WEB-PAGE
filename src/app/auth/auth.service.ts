@@ -12,7 +12,7 @@ import { HiddenDataService } from '../services/hidden-data.service';
 })
 export class AuthService {
   
-  token : string;
+  token = undefined;
   userTypeListener = new Subject<string>();
   userType: string;
   loginUrl = "http://localhost:8080/api/auth/login";
@@ -23,6 +23,8 @@ export class AuthService {
 
   constructor(private http: HttpClient, private hiddenDataService: HiddenDataService) { }
 
+
+  /*
   login(loginCredentials: LoginCredentials): Promise<any>{
    
 
@@ -40,8 +42,6 @@ export class AuthService {
       .then(resp => {      
         let obj : {[index: string]:any};
         obj = resp;
-        
-        
 
         const headerAuth = {
           headers: new HttpHeaders({
@@ -61,6 +61,7 @@ export class AuthService {
             this.userType = userDetails['userType'];
             this.idUser = userDetails['id'];
             this.token = obj['token'];
+            console.log("llegue 0");  
             sessionStorage.setItem('userType', userDetails['userType']);
             sessionStorage.setItem('token', this.token);
           }else
@@ -68,23 +69,70 @@ export class AuthService {
             this.hiddenDataService.receiveData(new HiddenData(
                                                 new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active']),
                                                 obj['token']                                                
-                                                ));                                                
+                                                ));             
+                                                console.log("llegue 1");                                   
           }
 
 
         })
-        .catch(err => {/*console.log(err)*/});
+        .catch(err => {/*console.log(err)});
+        }) 
 
-
+      .catch(error => { 
         
-      }) 
-      .catch(error => {
- 
       });
-    return promise;
+
+     
+      return promise;
+  }*/
+
+  login(loginCredentials: LoginCredentials): Promise<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post(this.loginUrl, loginCredentials, httpOptions).toPromise();
+  }
+  
+  getUserDetails(tokenResponseLogin): Promise<any>
+  {
+    let obj : {[index: string]:any};
+    obj = tokenResponseLogin;
+
+    const headerAuth = {
+      headers: new HttpHeaders({
+        'authorization': `Bearer ${obj['token']}`
+      })
+    };
+
+    return this.http.get(this.userDetailsUrl, headerAuth).toPromise();
   }
 
+  setUserDetails(userDetails : any, token: string)
+  {     
+
+      if(userDetails['active'])
+      {
+        this.userTypeListener.next(userDetails['userType']);
+        this.userType = userDetails['userType'];
+        this.idUser = userDetails['id'];
+        this.token = token;
+        sessionStorage.setItem('userType', userDetails['userType']);
+        sessionStorage.setItem('token', this.token);
+      } else
+      {
+        this.hiddenDataService.receiveData(new HiddenData(
+                                            new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active']),
+                                            token                                                
+                                            ));             
+                                                       
+      }
+  } 
   
+
+
 
   register(user: User): Promise<any>{
     const httpOptions = {

@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CustomValidator } from 'src/app/common/custom-validator';
 import { HiddenData } from 'src/app/models/hidden-data';
+import { SendEmailConfirmEmailRequest } from 'src/app/models/send-email-confirm-email-request';
 import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/user-type';
+import { EmailSenderService } from 'src/app/services/email-sender.service';
 import { HiddenDataService } from 'src/app/services/hidden-data.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -32,7 +34,7 @@ export class RegisterComponent implements OnInit {
   get passwordRepeat() { return this.registerForm.get('passwordRepeat')}
   
 
-  constructor(private authService: AuthService, private router: Router, private userService : UserService, private hiddenDataService: HiddenDataService) { 
+  constructor(private authService: AuthService, private router: Router, private userService : UserService, private hiddenDataService: HiddenDataService,private emailSenderService : EmailSenderService) { 
   }
 
   ngOnInit(): void {
@@ -50,14 +52,14 @@ export class RegisterComponent implements OnInit {
     
     this.authService.register(user)
     .then(tokenResponse=>{
-        
-        this.hiddenDataService.receiveData(new HiddenData(user, tokenResponse));
-        let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/confirm-email';    
-        this.router.navigateByUrl(redirect);
-      
+        this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(user.email,"http://localhost:4200/confirmed-email")).then(response=>{
+          this.hiddenDataService.receiveData(new HiddenData(user, tokenResponse));
+          let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/confirm-email';    
+          this.router.navigateByUrl(redirect);
+        }).catch(error=>{});
     })
     .catch(response=>{
-      window.alert('Ha ocurrido un error. Se ha registrado correctamente');
+      window.alert('Ha ocurrido un error');
     });
     
   }

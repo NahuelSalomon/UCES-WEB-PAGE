@@ -20,7 +20,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RegisterComponent } from './components/register/register.component';
 import { DeleteCareerModalComponent } from './components/career/career-modals/delete-career-modal/delete-career-modal.component';
 import { AddCareerComponent } from './components/career/add-career/add-career.component';
-import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ConfirmEmailComponent } from './components/confirmation-email/confirm-email/confirm-email.component';
+import { EmailConfirmedComponent } from './components/confirmation-email/email-confirmed/email-confirmed.component';
 
 
 
@@ -37,7 +38,8 @@ import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.
     RegisterComponent,
     DeleteCareerModalComponent,
     AddCareerComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    EmailConfirmedComponent
   ],
   imports: [
     CommonModule,

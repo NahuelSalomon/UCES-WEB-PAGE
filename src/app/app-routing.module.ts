@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdministratorGuard } from './auth/administrator.guard';
 import { CareerListComponent } from './components/career/career-list/career-list.component';
 import { CareerPageComponent } from './components/career/career-page/career-page.component';
-import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
+import { ConfirmEmailComponent } from './components/confirmation-email/confirm-email/confirm-email.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';

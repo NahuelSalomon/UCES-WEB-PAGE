@@ -39,7 +39,8 @@ import { EmailConfirmedComponent } from './components/confirmation-email/email-c
     DeleteCareerModalComponent,
     AddCareerComponent,
     ConfirmEmailComponent,
-    EmailConfirmedComponent
+    EmailConfirmedComponent,
+
   ],
   imports: [
     CommonModule,

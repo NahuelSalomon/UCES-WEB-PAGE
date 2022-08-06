@@ -85,9 +85,12 @@ export class LoginComponent implements OnInit {
   
     this.authService.login(userCredentials)
     .then(loginResponse=>{
-      this.authService.getUserDetails(loginResponse)
+      let obj : {[index: string]:any};
+      obj = loginResponse;
+      var token = obj['token'];
+      this.authService.getUserDetails(token)
       .then(getUserDetailsResponse=>{
-        this.authService.setUserDetails(getUserDetailsResponse,loginResponse['token']);
+        this.authService.setUserDetails(getUserDetailsResponse,token);
         var redirect;
         if(this.authService.token)
         {

@@ -11,10 +11,6 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
 
-  sayHello() : Promise<any> {
-    return this.http.get(`${this.urlAPI}/user/sayHello`, {responseType: 'text'}).toPromise();
-  }
-
   add(user : User) : Promise<any> {
   
     const httpOptions = {
@@ -38,8 +34,19 @@ export class UserService {
     return this.http.get(this.urlAPI + "/email/" +email).toPromise();
   }
 
- delete(id: number) : Promise<any> {
-   return this.http.delete(this.urlAPI + "/" + id).toPromise();
- }
+  confirmMail(id: number, token: string)
+  {
+    const headerAuth = {
+      headers: new HttpHeaders({
+        'authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.put(this.urlAPI + "/"+ id + "/confirmEmail",null,headerAuth).toPromise();
+  }
+
+  delete(id: number) : Promise<any> {
+    return this.http.delete(this.urlAPI + "/" + id).toPromise();
+  }
 
 }

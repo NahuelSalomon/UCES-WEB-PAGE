@@ -9,6 +9,7 @@ export class User {
     password: string;
     userType: UserType;
     active: boolean;
+    confirmedEmail: boolean;
 
     constructor(id: number, firstname: string, lastname: string, email: string, password: string, userType: UserType, active: boolean) {
         this.id = id;

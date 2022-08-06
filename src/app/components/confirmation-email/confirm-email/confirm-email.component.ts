@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { HiddenData } from 'src/app/models/hidden-data';
+import { SendEmailConfirmEmailRequest } from 'src/app/models/send-email-confirm-email-request';
 import { User } from 'src/app/models/user';
+import { EmailSenderService } from 'src/app/services/email-sender.service';
 import { HiddenDataService } from 'src/app/services/hidden-data.service';
 
 @Component({
@@ -12,9 +14,12 @@ import { HiddenDataService } from 'src/app/services/hidden-data.service';
 })
 export class ConfirmEmailComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router,private hiddenDataService: HiddenDataService) { }
+  constructor(private authService: AuthService, private router: Router,private hiddenDataService: HiddenDataService, private emailSenderService: EmailSenderService) { }
 
   hiddenData : HiddenData;
+  showToastSuccess : boolean = false;
+  showToastError: boolean = false;
+  sendingEmail = false;
 
 
   ngOnInit(): void {    
@@ -36,6 +41,21 @@ export class ConfirmEmailComponent implements OnInit {
   {
     let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'login';    
     this.router.navigateByUrl(redirect);
+  }
+
+  sendEmailAgain()
+  {
+    this.sendingEmail = true;
+    console.log(this.hiddenData.token);
+    
+    this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed?token=`+this.hiddenData.token)).then(response=>{
+      this.showToastSuccess = true;
+      this.sendingEmail = false;
+    }).catch(error=>{
+      this.showToastError = true;
+      this.sendingEmail = false;
+    });
+    
   }
 
 }

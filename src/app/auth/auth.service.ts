@@ -96,14 +96,11 @@ export class AuthService {
     return this.http.post(this.loginUrl, loginCredentials, httpOptions).toPromise();
   }
   
-  getUserDetails(tokenResponseLogin): Promise<any>
+  getUserDetails(token): Promise<any>
   {
-    let obj : {[index: string]:any};
-    obj = tokenResponseLogin;
-
     const headerAuth = {
       headers: new HttpHeaders({
-        'authorization': `Bearer ${obj['token']}`
+        'authorization': `Bearer ${token}`
       })
     };
 
@@ -112,8 +109,9 @@ export class AuthService {
 
   setUserDetails(userDetails : any, token: string)
   {     
-
-      if(userDetails['active'])
+      console.log(userDetails);
+      
+      if(userDetails['active'] && userDetails['confirmedEmail'])
       {
         this.userTypeListener.next(userDetails['userType']);
         this.userType = userDetails['userType'];

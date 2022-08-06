@@ -34,10 +34,15 @@ export class RegisterComponent implements OnInit {
   get passwordRepeat() { return this.registerForm.get('passwordRepeat')}
   
 
-  constructor(private authService: AuthService, private router: Router, private userService : UserService, private hiddenDataService: HiddenDataService,private emailSenderService : EmailSenderService) { 
+  constructor(private authService: AuthService, private router: Router, private userService : UserService, 
+              private hiddenDataService: HiddenDataService,private emailSenderService : EmailSenderService) { 
   }
 
   ngOnInit(): void {
+
+
+    
+
   }
 
   redirectToLogin()
@@ -48,11 +53,11 @@ export class RegisterComponent implements OnInit {
 
   createAccount()
   {
-    var user: User = new User(0,this.firstname.value,this.lastname.value,this.email.value,this.password.value,UserType.ROLE_STUDENT, false);
+    var user: User = new User(0,this.firstname.value,this.lastname.value,this.email.value,this.password.value,UserType.ROLE_STUDENT,true);
     
     this.authService.register(user)
     .then(tokenResponse=>{
-        this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(user.email,"http://localhost:4200/confirmed-email")).then(response=>{
+        this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(user.email,`http://localhost:4200/email-confirmed?token=`+tokenResponse["token"])).then(response=>{
           this.hiddenDataService.receiveData(new HiddenData(user, tokenResponse));
           let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/confirm-email';    
           this.router.navigateByUrl(redirect);

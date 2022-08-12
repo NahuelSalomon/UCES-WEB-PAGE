@@ -21,8 +21,8 @@ export class SubjectService {
    return this.http.post(this.urlAPI, subject, httpOptions).toPromise(); 
   }
 
-  getAll() : Promise<any> {
-    return this.http.get(this.urlAPI).toPromise();
+  getAll(size = 10, page= 0) : Promise<any> {
+    return this.http.get(`${this.urlAPI}?size=${size}&page=${page}`).toPromise();
   }
 
   getById(id: number) : Promise<any> {
@@ -35,6 +35,10 @@ export class SubjectService {
 
   delete(id: number) : Promise<any> {
    return this.http.delete(this.urlAPI + id).toPromise();
+  }
+
+  getCorrelativesById(id: number): Promise<any> {
+    return this.http.get(`${this.urlAPI}${id}/correlatives`).toPromise();
   }
 
 }

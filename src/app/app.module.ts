@@ -22,6 +22,8 @@ import { DeleteCareerModalComponent } from './components/career/career-modals/de
 import { AddCareerComponent } from './components/career/add-career/add-career.component';
 import { ConfirmEmailComponent } from './components/confirmation-email/confirm-email/confirm-email.component';
 import { EmailConfirmedComponent } from './components/confirmation-email/email-confirmed/email-confirmed.component';
+import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
+import { DeleteSubjectModalComponent } from './components/subjects/subject-modals/delete-subject-modal/delete-subject-modal.component';
 
 
 
@@ -40,6 +42,8 @@ import { EmailConfirmedComponent } from './components/confirmation-email/email-c
     AddCareerComponent,
     ConfirmEmailComponent,
     EmailConfirmedComponent,
+    SubjectListComponent,
+    DeleteSubjectModalComponent,
 
   ],
   imports: [

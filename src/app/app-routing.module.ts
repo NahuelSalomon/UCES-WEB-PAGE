@@ -7,10 +7,12 @@ import { ConfirmEmailComponent } from './components/confirmation-email/confirm-e
 import { EmailConfirmedComponent } from './components/confirmation-email/email-confirmed/email-confirmed.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 
 
 const routes: Routes = [
+  {path:"subject/list", component:SubjectListComponent},
   {path:"career/page/:id", component:CareerPageComponent},
   {path:"career/list", component:CareerListComponent},
   {path:"users/list", component:UsersListComponent},

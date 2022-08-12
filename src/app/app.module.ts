@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +27,8 @@ import { DeleteSubjectModalComponent } from './components/subjects/subject-modal
 
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,9 +43,10 @@ import { DeleteSubjectModalComponent } from './components/subjects/subject-modal
     DeleteCareerModalComponent,
     AddCareerComponent,
     ConfirmEmailComponent,
-    EmailConfirmedComponent,
     SubjectListComponent,
     DeleteSubjectModalComponent,
+    EmailConfirmedComponent
+
 
   ],
   imports: [

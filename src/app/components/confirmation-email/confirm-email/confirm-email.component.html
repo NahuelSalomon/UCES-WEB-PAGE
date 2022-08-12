@@ -20,7 +20,9 @@
     
                     <input type="button"class="btn btn-lg fs-16 bg-blue-utn"
                         value="Actualizar información de contacto"
-                        style="border: none;color: white; margin:5px;" />
+                        style="border: none;color: white; margin:5px;" 
+                        (click)="open(changeMailModal)"
+                       />
                 </div>
             </div>    
         </div>
@@ -33,4 +35,38 @@
           <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> Se ha producido un error</b> 
         </ngb-toast>
       </div>
+
+      <ng-template #changeMailModal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Actualizar información de contacto</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="updateEmailForm">
+            <div class="mb-3">
+              <label for="dateOfBirth">{{hiddenData.user.email}}</label>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i
+                        class="fa-solid fa-envelope" style="margin-right: 1px;margin-left: 1px;"></i></span>
+                        <input type="mail" placeholder="Mail" formControlName="email" name="mail" id="mail"
+                        class="form-control" 
+                [ngClass]="{'is-invalid': (!email.valid && (email.dirty || email.touched)), 'is-valid' : (email.valid && (email.dirty || email.touched)) }">
+
+                <div class="invalid-feedback" *ngIf="(!email.valid && (email.dirty || email.touched))" >
+                    <div *ngIf="email.errors?.required">Por favor ingrese su email.</div>
+                    <div *ngIf="email.errors?.email">El mail debe tener un formato de mail valido.</div>
+                    <div *ngIf="email.errors?.emailExists">Ya existe una cuenta con este mail.</div>                                   
+                </div>
+
+                </div>
+            
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('')">Save</button>
+        </div>
+      </ng-template>
+
 </main>

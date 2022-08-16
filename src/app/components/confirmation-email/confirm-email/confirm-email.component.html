@@ -21,20 +21,21 @@
                     <input type="button"class="btn btn-lg fs-16 bg-blue-utn"
                         value="Actualizar información de contacto"
                         style="border: none;color: white; margin:5px;" 
-                        (click)="open(changeMailModal)"
+                        (click)="open(changeMailModal)" [disabled]="sendingEmail"
                        />
                 </div>
             </div>    
         </div>
     </div>
+    
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <ngb-toast class="text-white bg-success" style="font-size:14px;" *ngIf="showToastSuccess" [delay]="1500" [autohide]="true" (hidden)="showToastSuccess=false" >
+        <ngb-toast class="text-white bg-success" style="font-size:14px;" *ngIf="showToastSuccessSendEmailAgain" [delay]="1500" [autohide]="true" (hidden)="showToastSuccessSendEmailAgain=false" >
           <b style="font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Se ha enviado el correo correctamente</b> 
         </ngb-toast>
-        <ngb-toast *ngIf="showToastError" [autohide]="true" [delay]="1500" (hide)="showToastError=false" class="text-white bg-danger" style="font-size:14px;" >
+        <ngb-toast *ngIf="showToastErrorSendEmailAgain" [autohide]="true" [delay]="1500" (hide)="showToastErrorSendEmailAgain=false" class="text-white bg-danger" style="font-size:14px;" >
           <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> Se ha producido un error</b> 
         </ngb-toast>
-      </div>
+    </div>
 
       <ng-template #changeMailModal let-modal>
         <div class="modal-header">
@@ -44,16 +45,14 @@
         <div class="modal-body">
           <form [formGroup]="updateEmailForm">
             <div class="mb-3">
-              <label for="dateOfBirth">{{hiddenData.user.email}}</label>
-
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i
                         class="fa-solid fa-envelope" style="margin-right: 1px;margin-left: 1px;"></i></span>
                         <input type="mail" placeholder="Mail" formControlName="email" name="mail" id="mail"
-                        class="form-control" 
-                [ngClass]="{'is-invalid': (!email.valid && (email.dirty || email.touched)), 'is-valid' : (email.valid && (email.dirty || email.touched)) }">
+                        class="form-control"
+                [ngClass]="{'is-invalid': ( (!email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email) ), 'is-valid' : ( (email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email) )}">
 
-                <div class="invalid-feedback" *ngIf="(!email.valid && (email.dirty || email.touched))" >
+                <div class="invalid-feedback" *ngIf="(!email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email)"> 
                     <div *ngIf="email.errors?.required">Por favor ingrese su email.</div>
                     <div *ngIf="email.errors?.email">El mail debe tener un formato de mail valido.</div>
                     <div *ngIf="email.errors?.emailExists">Ya existe una cuenta con este mail.</div>                                   
@@ -65,8 +64,22 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="modal.close('')">Save</button>
+          <input type="button"class="btn btn-lg fs-16 bg-blue-utn"
+          value="Guardar"
+          style="border: none;color: white; margin:5px;" 
+          (click)="modal.close('dasda')"
+          [disabled]="!updateEmailForm.valid && (email.value != hiddenData.user.email)"/>
+          <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('')">Save</button> -->
         </div>
       </ng-template>
+
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <ngb-toast class="text-white bg-success" style="font-size:14px;" *ngIf="showToastSuccessSendEmailForChange" [delay]="1500" [autohide]="true" (hidden)="showToastSuccessSendEmailForChange=false" >
+          <b style="font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Se ha enviado un mail a la nueva direccion de correo</b> 
+        </ngb-toast>
+        <ngb-toast *ngIf="showToastErrorSendEmailForChange" [autohide]="true" [delay]="1500" (hide)="showToastErrorSendEmailForChange=false" class="text-white bg-danger" style="font-size:14px;" >
+          <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> Se ha producido un error al enviar un mail a la nueva direccion de correo</b> 
+        </ngb-toast>
+      </div>
 
 </main>

@@ -22,14 +22,15 @@ export class ConfirmEmailComponent implements OnInit {
               private emailSenderService: EmailSenderService, private modalService: NgbModal, private userService : UserService) { }
 
   hiddenData : HiddenData;
-  showToastSuccess : boolean = false;
-  showToastError: boolean = false;
+  showToastSuccessSendEmailAgain : boolean = false;
+  showToastErrorSendEmailAgain: boolean = false;
+
+  showToastSuccessSendEmailForChange: boolean = false;
+  showToastErrorSendEmailForChange: boolean = false;
+
   sendingEmail = false;
   
 
-  updateEmailForm = new FormGroup({
-    email: new FormControl('', [ Validators.required, Validators.email ], [CustomValidator.emailExists(this.userService)] ),
-  });
 
   get email() { return this.updateEmailForm.get('email') }
 
@@ -42,6 +43,10 @@ export class ConfirmEmailComponent implements OnInit {
       this.hiddenData = this.hiddenDataService.getData();
     }
   }
+
+  updateEmailForm = new FormGroup({
+    email: new FormControl(this.hiddenDataService.getData().user.email, [ Validators.required, Validators.email ], [CustomValidator.emailExists(this.userService)] ),
+  });
 
   ngOnDestroy()
   {    
@@ -56,23 +61,36 @@ export class ConfirmEmailComponent implements OnInit {
 
   sendEmailAgain()
   {
-    this.sendingEmail = true;
-    console.log(this.hiddenData.token);
-    
-    this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed?token=`+this.hiddenData.token)).then(response=>{
-      this.showToastSuccess = true;
+    this.sendingEmail = true;    
+    this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`+this.hiddenData.token)).then(response=>{
+      this.showToastSuccessSendEmailAgain = true;
       this.sendingEmail = false;
     }).catch(error=>{
-      this.showToastError = true;
+      this.showToastErrorSendEmailAgain = true;
       this.sendingEmail = false;
     });
   }
 
   open(content) {
+    this.sendingEmail = true;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      console.log(result);
-      
+      if(this.email.value != this.hiddenData.user.email) 
+      {
+        var user = this.hiddenData.user;
+        user.email = this.email.value;
+        console.log(this.hiddenData.token);
+        this.userService.update(user, this.hiddenData.token).then(response => {
+          var sendEmailConfirmEmailRequest = new SendEmailConfirmEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`);
+          this.emailSenderService.confirmEmail(sendEmailConfirmEmailRequest)
+          .then(response => {
+            this.showToastSuccessSendEmailForChange = true;
+          })
+          .catch(error => {this.showToastErrorSendEmailForChange = true;});
+          
+        }).catch(error=>{});
+      }
     }, (reason) => { /*Modal no exitoso*/ });
+    this.sendingEmail = false;
   }
 
 

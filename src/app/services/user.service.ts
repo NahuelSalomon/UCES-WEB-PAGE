@@ -22,6 +22,18 @@ export class UserService {
    return this.http.post(this.urlAPI, user, httpOptions).toPromise(); 
   }
 
+  update(user : User, token: string) : Promise<any> {
+  
+    const headerAuth = {
+      headers: new HttpHeaders({
+        'authorization': `Bearer ${token}`
+      })
+    };
+  
+   return this.http.put(`${this.urlAPI}/${user.id}`, user, headerAuth).toPromise(); 
+  }
+
+
   getAll() : Promise<any> {
     return this.http.get(this.urlAPI + "/").toPromise();
   }

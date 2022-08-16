@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
     
     this.authService.register(user)
     .then(tokenResponse=>{
-        this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(user.email,`http://localhost:4200/email-confirmed?token=`+tokenResponse["token"])).then(response=>{
+        this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(user.email,`http://localhost:4200/email-confirmed`)).then(response=>{
           this.hiddenDataService.receiveData(new HiddenData(user, tokenResponse));
           let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/confirm-email';    
           this.router.navigateByUrl(redirect);

@@ -109,8 +109,6 @@ export class AuthService {
 
   setUserDetails(userDetails : any, token: string)
   {     
-      console.log(userDetails);
-      
       if(userDetails['active'] && userDetails['confirmedEmail'])
       {
         this.userTypeListener.next(userDetails['userType']);

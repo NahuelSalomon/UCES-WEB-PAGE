@@ -18,7 +18,7 @@ export class AddCareerComponent implements OnInit {
   constructor(private careerService: CareerService, private careerStatisticsService: CareerStatisticsService) { }
 
   careerForm = new FormGroup({
-    name: new FormControl('', [ Validators.required])
+    name: new FormControl('', [ Validators.required, Validators.minLength(5), Validators.maxLength(100)])
   })
 
   get name() { return this.careerForm.get('name'); }
@@ -29,11 +29,13 @@ export class AddCareerComponent implements OnInit {
   onSubmit(){
 
     let name: string = this.name.value
-    let newCareerStatistics = new CareerStatistics(null, 0, 0);
-    let statistics: CareerStatistics
 
-    this.careerStatisticsService.add(newCareerStatistics)
-      .then(response => console.log(response))
+    this.careerService.add(new Career(null, name, null))
+    .then(response => {
+      window.location.reload()
+    })
+    .catch(error => console.log(error))
+      
         
   }
 

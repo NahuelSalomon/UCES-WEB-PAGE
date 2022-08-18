@@ -1,0 +1,120 @@
+<script>
+    $('select').selectpicker();
+</script>
+
+<main>
+    <!-- Main page content-->
+    <div class="container-xl px-4 mt-n10">
+
+        <div class="card">
+            <div class="card-body">
+                <h4>Añadir materia</h4>
+                <br>
+                <form [formGroup]="subjectForm" (ngSubmit)="onSubmit()">
+
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <label for="code" class="form-label">Código</label>
+                            <input type="text" class="form-control" name="code" formControlName="code"
+                                placeholder="11-0000">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="name" formControlName="name" placeholder="">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="professors" class="form-label">Profesores</label>
+                            <select multiple class="form-select" id="professors" formControlName="professors">
+                                <option selected disabled default>Seleccionar uno o más profesores</option>
+                                <option *ngFor="let professor of professorsList" [value]="professor.id">
+                                    {{professor.name}} </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="'row g-3">
+                        <div class="col-md-6">
+                            <label for="career" class="form-label">Carrera</label>
+                            <select class="form-select" id="career" (change)="changeCareer($any($event.target).value)"
+                                formControlName="career">
+                                <option selected disabled default>Seleccionar una carrera</option>
+                                <option *ngFor="let career of careerList" [value]="career.id">{{career.name}} </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="correlatives" class="form-label">Materias correlativas</label>
+                            <select multiple class="form-select" id="career" [disabled]="!selectedCareer"
+                                formControlName="correlatives">
+                                <option selected disabled default>Seleccionar una o más materias</option>
+                                <option *ngFor="let subject of careerSubjects" [value]="subject.id">{{subject.code}} - {{subject.name}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button class="btn btn-secondary me-md-2" type="submit"
+                                [disabled]="!subjectForm.valid">Agregar</button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div class="row g-3">
+
+                    <div class="row g-3" *ngIf="!code.valid && (code.dirty || code.touched)">
+                        <div class="col">
+                            <div class="alert alert-warning d-flex align-items-center" role="alert"
+                                *ngIf="code.errors.maxlength">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img"
+                                    fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </svg>
+                                <div>
+                                    El código no puede tener más de 30 caracteres.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3" *ngIf="!name.valid && (name.dirty || name.touched)">
+                        <div class="col">
+                            <div class="alert alert-warning d-flex align-items-center" role="alert"
+                                *ngIf="name.errors.required || name.errors.minlength || name.errors.maxlength">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img"
+                                    fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </svg>
+                                <div>
+                                    El nombre es obligatorio y debe tener entre 2 y 60 caracteres.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row g-3" *ngIf="!career.valid && (career.dirty || career.touched)">
+                        <div class="col">
+                            <div class="alert alert-warning d-flex align-items-center" role="alert"
+                                *ngIf="career.errors.required">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img"
+                                    fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </svg>
+                                <div>
+                                    Debe seleccionar una carrera.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SubjectStatistics } from '../models/subject-statistics';
 
 @Injectable({
@@ -11,14 +12,14 @@ export class SubjectStatisticsService {
 
   constructor(private http : HttpClient) { }
 
-  add(subjectStatistics : SubjectStatistics) : Promise<any> {
+  add(subjectStatistics : SubjectStatistics) : Observable<any> {
   
     const httpOptions = {
      headers : new HttpHeaders({
        'Content-Type' : 'application/json'
      })
    };
-   return this.http.post(this.urlAPI, subjectStatistics, httpOptions).toPromise(); 
+   return this.http.post(this.urlAPI, subjectStatistics, httpOptions)
   }
 
   getAll() : Promise<any> {

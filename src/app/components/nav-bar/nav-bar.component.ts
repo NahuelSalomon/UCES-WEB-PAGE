@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Career } from 'src/app/models/career';
 import { CareerService } from 'src/app/services/career.service';
+import { SubjectListComponent } from '../subjects/subject-list/subject-list.component';
 
 @Component({
   selector: 'app-nav-bar',

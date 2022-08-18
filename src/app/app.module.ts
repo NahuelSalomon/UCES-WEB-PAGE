@@ -24,8 +24,7 @@ import { ConfirmEmailComponent } from './components/confirmation-email/confirm-e
 import { EmailConfirmedComponent } from './components/confirmation-email/email-confirmed/email-confirmed.component';
 import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
 import { DeleteSubjectModalComponent } from './components/subjects/subject-modals/delete-subject-modal/delete-subject-modal.component';
-
-
+import { AddSubjectComponent } from './components/subjects/add-subject/add-subject.component';
 
 
 
@@ -45,8 +44,8 @@ import { DeleteSubjectModalComponent } from './components/subjects/subject-modal
     ConfirmEmailComponent,
     SubjectListComponent,
     DeleteSubjectModalComponent,
-    EmailConfirmedComponent
-
+    EmailConfirmedComponent,
+    AddSubjectComponent
 
   ],
   imports: [

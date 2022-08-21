@@ -25,6 +25,8 @@ import { EmailConfirmedComponent } from './components/confirmation-email/email-c
 import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
 import { DeleteSubjectModalComponent } from './components/subjects/subject-modals/delete-subject-modal/delete-subject-modal.component';
 import { AddSubjectComponent } from './components/subjects/add-subject/add-subject.component';
+import { SendEmailToResetPasswordComponent } from './components/forget-password/send-email-to-reset-password/send-email-to-reset-password.component';
+import { ResetPasswordComponent } from './components/forget-password/reset-password/reset-password.component';
 
 
 
@@ -45,7 +47,9 @@ import { AddSubjectComponent } from './components/subjects/add-subject/add-subje
     SubjectListComponent,
     DeleteSubjectModalComponent,
     EmailConfirmedComponent,
-    AddSubjectComponent
+    AddSubjectComponent,
+    SendEmailToResetPasswordComponent,
+    ResetPasswordComponent
 
   ],
   imports: [

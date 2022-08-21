@@ -69,3 +69,14 @@
   font-size: 20px; 
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+.box {
+  margin: auto;  
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0px 0px 5px #405967;
+  background-color: white;
+  padding: 25px;
+}

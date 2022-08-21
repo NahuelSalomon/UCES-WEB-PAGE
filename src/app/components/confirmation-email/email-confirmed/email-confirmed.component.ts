@@ -26,11 +26,9 @@ export class EmailConfirmedComponent implements OnInit {
     {
       this.authService.getUserDetails(token)
       .then(responseUserDetails=>{
-        console.log("llegue 0");
         
         this.userService.confirmMail(responseUserDetails['id'],token)
         .then(responseConfirmEmail =>{
-          console.log("llegue 1");
           this.emailConfirmed = true;
         })
         .catch(errorConfirmEmail=>{ this.emailConfirmed = false; });

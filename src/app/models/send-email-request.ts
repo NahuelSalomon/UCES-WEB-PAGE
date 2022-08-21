@@ -1,4 +1,4 @@
-export class SendEmailConfirmEmailRequest {
+export class SendEmailRequest {
     email: string;
     urlToRedirect: string;
 

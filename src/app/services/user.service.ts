@@ -57,6 +57,17 @@ export class UserService {
     return this.http.put(this.urlAPI + "/"+ id + "/confirmEmail",null,headerAuth).toPromise();
   }
 
+  resetPassword(id: number, password: string,token: string)
+  {
+    const headerAuth = {
+      headers: new HttpHeaders({
+        'authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.put(this.urlAPI + "/"+ id + "/password/"+password,null,headerAuth).toPromise();
+  }
+
   delete(id: number) : Promise<any> {
     return this.http.delete(this.urlAPI + "/" + id).toPromise();
   }

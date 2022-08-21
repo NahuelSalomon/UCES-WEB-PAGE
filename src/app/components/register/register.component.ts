@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CustomValidator } from 'src/app/common/custom-validator';
 import { HiddenData } from 'src/app/models/hidden-data';
-import { SendEmailConfirmEmailRequest } from 'src/app/models/send-email-confirm-email-request';
+import { SendEmailRequest } from 'src/app/models/send-email-request';
 import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/user-type';
 import { EmailSenderService } from 'src/app/services/email-sender.service';
@@ -39,10 +39,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-    
-
   }
 
   redirectToLogin()
@@ -57,7 +53,7 @@ export class RegisterComponent implements OnInit {
     
     this.authService.register(user)
     .then(tokenResponse=>{
-        this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(user.email,`http://localhost:4200/email-confirmed`)).then(response=>{
+        this.emailSenderService.confirmEmail(new SendEmailRequest(user.email,`http://localhost:4200/email-confirmed`)).then(response=>{
           this.hiddenDataService.receiveData(new HiddenData(user, tokenResponse));
           let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/confirm-email';    
           this.router.navigateByUrl(redirect);

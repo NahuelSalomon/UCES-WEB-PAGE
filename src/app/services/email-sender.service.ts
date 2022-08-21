@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SendEmailConfirmEmailRequest } from '../models/send-email-confirm-email-request';
+import { SendEmailRequest } from '../models/send-email-request';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,14 @@ export class EmailSenderService {
 
   constructor(private http : HttpClient) { }
 
-  confirmEmail(sendEmailConfirmEmailRequest : SendEmailConfirmEmailRequest) : Promise<any> {
+  confirmEmail(sendEmailRequest : SendEmailRequest) : Promise<any> {
 
-   return this.http.post(`${this.urlAPI}/confirmEmail`, sendEmailConfirmEmailRequest).toPromise(); 
+   return this.http.post(`${this.urlAPI}/confirmEmail`, sendEmailRequest).toPromise(); 
   }
+
+  resetPassword(sendEmailRequest : SendEmailRequest) : Promise<any> {
+
+    return this.http.post(`${this.urlAPI}/resetPassword`, sendEmailRequest).toPromise(); 
+   }
 
 }

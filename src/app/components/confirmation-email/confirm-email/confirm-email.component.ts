@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CustomValidator } from 'src/app/common/custom-validator';
 import { HiddenData } from 'src/app/models/hidden-data';
-import { SendEmailConfirmEmailRequest } from 'src/app/models/send-email-confirm-email-request';
+import { SendEmailRequest } from 'src/app/models/send-email-request';
 import { User } from 'src/app/models/user';
 import { EmailSenderService } from 'src/app/services/email-sender.service';
 import { HiddenDataService } from 'src/app/services/hidden-data.service';
@@ -62,7 +62,7 @@ export class ConfirmEmailComponent implements OnInit {
   sendEmailAgain()
   {
     this.sendingEmail = true;    
-    this.emailSenderService.confirmEmail(new SendEmailConfirmEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`+this.hiddenData.token)).then(response=>{
+    this.emailSenderService.confirmEmail(new SendEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`+this.hiddenData.token)).then(response=>{
       this.showToastSuccessSendEmailAgain = true;
       this.sendingEmail = false;
     }).catch(error=>{
@@ -80,7 +80,7 @@ export class ConfirmEmailComponent implements OnInit {
         user.email = this.email.value;
         console.log(this.hiddenData.token);
         this.userService.update(user, this.hiddenData.token).then(response => {
-          var sendEmailConfirmEmailRequest = new SendEmailConfirmEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`);
+          var sendEmailConfirmEmailRequest = new SendEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`);
           this.emailSenderService.confirmEmail(sendEmailConfirmEmailRequest)
           .then(response => {
             this.showToastSuccessSendEmailForChange = true;

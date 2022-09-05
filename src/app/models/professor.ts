@@ -1,3 +1,4 @@
+import { Subject } from "./subject";
 import { SubjectStatistics } from "./subject-statistics";
 
 export class Professor {
@@ -5,13 +6,13 @@ export class Professor {
     id: number;
     name: string;
     ratings: number;
-    statistics: Array<SubjectStatistics>;
+    subjects: Array<Subject>;
 
-    constructor(id:number, name: string, ratings: number, statistics: Array<SubjectStatistics>) {
+    constructor(id:number, name: string, ratings: number, subjects: Array<Subject>) {
         this.id = id;
         this.name = name;
         this.ratings = ratings;
-        this.statistics = statistics;
+        this.subjects = this.subjects;
     }
 
 }

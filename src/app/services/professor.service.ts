@@ -21,16 +21,16 @@ export class ProfessorService {
    return this.http.post(this.urlAPI, professor, httpOptions).toPromise(); 
   }
 
-  getAll() : Promise<any> {
-    return this.http.get(this.urlAPI).toPromise();
+  getAll(size = 10, page= 0) : Promise<any> {
+    return this.http.get(`${this.urlAPI}?page=${page}&size=${size}`).toPromise();
   }
 
   getById(id: number) : Promise<any> {
-    return this.http.get(this.urlAPI + "/" +id).toPromise();
+    return this.http.get(this.urlAPI +id).toPromise();
   }
 
   delete(id: number) : Promise<any> {
-    return this.http.delete(this.urlAPI + "/" + id).toPromise();
+    return this.http.delete(this.urlAPI + id).toPromise();
    }
 
    update(id : number, professor : Professor) : Promise<any> {

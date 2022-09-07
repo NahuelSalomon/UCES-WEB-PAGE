@@ -27,6 +27,9 @@ import { DeleteSubjectModalComponent } from './components/subjects/subject-modal
 import { AddSubjectComponent } from './components/subjects/add-subject/add-subject.component';
 import { SendEmailToResetPasswordComponent } from './components/forget-password/send-email-to-reset-password/send-email-to-reset-password.component';
 import { ResetPasswordComponent } from './components/forget-password/reset-password/reset-password.component';
+import { ProfessorListComponent } from './components/professor/professor-list/professor-list.component';
+import { DeleteProfessorModalComponent } from './components/professor/modals-professor/delete-professor-modal/delete-professor-modal.component';
+import { AddProfessorComponent } from './components/professor/add-professor/add-professor.component';
 
 
 
@@ -49,7 +52,10 @@ import { ResetPasswordComponent } from './components/forget-password/reset-passw
     EmailConfirmedComponent,
     AddSubjectComponent,
     SendEmailToResetPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ProfessorListComponent,
+    DeleteProfessorModalComponent,
+    AddProfessorComponent
 
   ],
   imports: [

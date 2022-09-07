@@ -21,17 +21,21 @@ import { ProfessorService } from 'src/app/services/professor.service';
 })
 export class DeleteProfessorModalComponent {
   @Input() professor : Professor
-  @Output() isSuccessful = new EventEmitter<boolean>();
 
   constructor(public activeModal: NgbActiveModal, private professorService: ProfessorService) { }
 
 
   delete(){
     this.professorService.delete(this.professor.id)
-    .then(resp => this.isSuccessful.emit(true))
-    .catch(err => this.isSuccessful.emit(false))
-    
-    this.activeModal.close();
+    .then(resp => {
+      sessionStorage.setItem('deleteSuccess', '1')
+      window.location.reload()
+    })
+    .catch(err => {
+      sessionStorage.setItem('deleteSuccess', '0')
+      window.location.reload()
+    })
+    this.activeModal.close()
   }
 
 }

@@ -8,6 +8,7 @@ import { EmailConfirmedComponent } from './components/confirmation-email/email-c
 import { ResetPasswordComponent } from './components/forget-password/reset-password/reset-password.component';
 import { SendEmailToResetPasswordComponent } from './components/forget-password/send-email-to-reset-password/send-email-to-reset-password.component';
 import { LoginComponent } from './components/login/login.component';
+import { ProfessorListComponent } from './components/professor/professor-list/professor-list.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:'register', component:RegisterComponent},
   {path:'send-email-to-reset-password', component:SendEmailToResetPasswordComponent},
   {path:'reset-password', component:ResetPasswordComponent},
+  {path: 'professor/list', component:ProfessorListComponent},
   {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 

@@ -22,8 +22,9 @@ export class BoardPageComponent implements OnInit {
   @Input() board : Board;
   @Input() typeForum : ForumType;
   @Input() forumList: Array<Forum>;
-  private authListenerSubs: Subscription;
+  forumTypeQuery : ForumType = ForumType.QUERY; 
   userType = "ANONYMOUS";
+  recommendationIsSelected = false;
   showToastSuccess : boolean = false;
   showToastError: boolean = false;
 
@@ -36,26 +37,19 @@ export class BoardPageComponent implements OnInit {
 
   
 
-  changeTypeForum(typeForum : string) {
-
-    /** Se cambia de un tipo de foro a otro tipo de foro */
-    var element = document.getElementsByName("active-form-type")[0];
-    element.classList.remove("active","active-form-type");
-    element.style.backgroundColor = "white";
-    element.style.color = "black";
-    element.setAttribute("name",""); 
+  changeForumType() {
     
-    var elementToActive  = document.getElementById(typeForum);
-    elementToActive.classList.add("active");
-    elementToActive.style.backgroundColor = "#405967";
-    elementToActive.style.color = "white";
-    elementToActive.setAttribute("name","active-form-type"); 
 
-    if(typeForum == 'recommendation') {
+    this.recommendationIsSelected = !this.recommendationIsSelected;  
+
+    if(this.recommendationIsSelected) {
       this.typeForum = ForumType.RECOMMENDATION;
-    } else if (typeForum == 'query') {
+    } else  {
       this.typeForum = ForumType.QUERY;
     }
+
+    console.log(this.forumList);
+    
   }
 
   addForum(){    
@@ -68,24 +62,17 @@ export class BoardPageComponent implements OnInit {
         var body = ( <HTMLInputElement> document.getElementById("forumBody")).value;
        
         
-        var forum: Forum;
-     
-        if(this.typeForum == ForumType.RECOMMENDATION) {          
-          forum = new Recommendation(0, body, user, 0, 0, this.board);
-        } else if (this.typeForum == ForumType.QUERY) {
-          forum = new Query(0, body, user, 0, 0, this.board);
-        }
+        var forum: Forum = this.typeForum == ForumType.RECOMMENDATION ?  
+        new Recommendation(0, body, user, 0, 0, this.board) :
+        (this.typeForum == ForumType.QUERY ? forum = new Query(0, body, user, 0, 0, this.board) : null);
 
         if(forum != null){
 
       
           this.forumService.add(forum)
           .then(response => {
-            this.forumList.push(forum);
-            console.log(this.showToastSuccess);
-            
+            this.forumList.push(forum);            
             this.showToastSuccess = true;
-            //window.alert("Se ha agregado la "+ forum.forumType.toLowerCase() +" correctamente");
           })
           .catch(error => {
             this.showToastError = true;

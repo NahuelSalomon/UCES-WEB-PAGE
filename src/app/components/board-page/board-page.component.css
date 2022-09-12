@@ -1,0 +1,89 @@
+.active
+{
+    background-color: #405967 !important;
+    color: white !important;
+    pointer-events: none !important;
+}
+
+.nav-link
+{
+    cursor: pointer;
+}
+
+.success-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#dcf3d7!important; 
+    color: #3f5438 !important;
+}
+
+.error-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#eec8c5!important; 
+    color: #a12120 !important;
+}
+
+.btn-secu
+{
+    background-color: transparent;
+    border: none;
+}
+
+.btn-secu:hover
+{
+    background-color: #eef5f9;
+}
+
+.card-body-forum
+{
+    background-color: #DCE5EA;
+    padding: 10px;
+    border-radius: 0px 10px 10px 10px;
+}
+
+.d-in-block
+{
+    display: inline-block;
+}
+
+.btn-transparent
+{
+    background-color: transparent;
+    border: none;
+}
+
+.btn-transparent:hover
+{
+    text-decoration: underline;
+    color: blue;
+}
+
+.mr-ml-16
+{
+    margin-right: 16px;
+    margin-left: 16px;
+}
+
+.interaction-btns
+{
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.card-response-query
+{
+    margin-top: 16px;
+}
+
+.card
+{
+    padding: 16px;
+}
+
+.bg-light-blue
+{
+    background-color: #eef5f9;
+}

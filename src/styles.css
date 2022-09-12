@@ -20,6 +20,11 @@
     
 }
 
+.mb-0
+{
+margin-bottom: 0px;
+}
+
 .mb-25 {
     margin-bottom: 25px;
   }
@@ -80,3 +85,16 @@
   background-color: white;
   padding: 25px;
 }
+
+.pd-6-12
+{
+    padding: 6px 12px;
+}
+
+.mb-mt-0
+{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+

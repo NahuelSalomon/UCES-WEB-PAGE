@@ -18,8 +18,8 @@
     </ul>
 
 
+    <div *ngIf="forumList">
       <div *ngFor="let forum of forumList">
-        <div *ngIf="forum.forumType == typeForum">
           <br>
           <div class="card">
             <div class="card-body card-body-forum">
@@ -28,38 +28,45 @@
             </div>
             <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
             <div class="interaction-btns text-end mr-ml-16">
-              <div *ngIf="forum.forumType == forumTypeQuery" style="display: inline-block;">
+              <div *ngIf="!recommendationIsSelected" style="display: inline-block;">
                 <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-comment-dots"></i> Responder</button> 
                 <p class="d-in-block mb-0"> · </p> 
-                <button class="btn btn-light btn-transparent mb-0">0 respuestas</button>
+                <button class="btn btn-light btn-transparent mb-0">{{forum.responses.length}} Respuestas</button>
                 <p class="d-in-block mb-0 pd-6-12">|</p>
               </div>
                 <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-thumbs-up"></i> Recomendar</button>
                 <p class="d-in-block mb-0"> · </p> 
                 <button class="btn btn-light btn-transparent mb-0">0 recomendaciones</button>
             </div>
-      
-          <div *ngIf="forum.forumType == forumTypeQuery" class="row">
+          <div *ngIf="!recommendationIsSelected && forum.responses" >
             <div class="col-12">
               <hr class="mb-mt-0 mr-ml-16" />
             </div>
+            <div *ngFor="let response of forum.responses">
+             <div class="row">
 
+             
             <div class="col-1"></div>
-            <div class="col-11">
-              <div class="card-response-query">
-                <div class="card-body card-body-forum bg-light-blue">
-                  <h5 class="card-title">Nombre y apellido alumno</h5>
-                  <p class="card-text">Simulacion a respuesta de consulta</p>
+              <div class="col-11">
+                <div class="card-response-query">
+                  <div class="card-body card-body-forum bg-light-blue">
+                    <h5 class="card-title">{{ response.user.firstname }} {{ response.user.lastname }}</h5>
+                    <p class="card-text">{{ response.body }}</p>
+                  </div>
                 </div>
               </div>
             </div>
+          </div> 
+            
+           
 
           </div> 
 
         </div>
 
-        </div>
+  
       </div>
+    </div>
 
 
     <br>

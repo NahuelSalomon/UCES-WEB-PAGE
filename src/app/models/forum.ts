@@ -11,6 +11,7 @@ export class Forum {
     downVotes: number;
     board: Board;
     forumType: ForumType;
+    responses: Array<QueryResponse>;
 
     constructor(id: number, body: string, user: User, upVotes: number, downVotes:number, board: Board) {
         this.id  = id;
@@ -19,6 +20,7 @@ export class Forum {
         this.upVotes = upVotes;
         this.downVotes = downVotes;
         this.board = board;
+        this.responses = new Array<QueryResponse>();
     }
 
 }

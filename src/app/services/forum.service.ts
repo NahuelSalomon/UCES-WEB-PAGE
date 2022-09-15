@@ -22,22 +22,16 @@ export class ForumService {
    return this.http.post(this.urlAPI, forum, httpOptions).toPromise(); 
   }
 
-  addQuery(query : Query) : Promise<any> {
-  
-    const httpOptions = {
-     headers : new HttpHeaders({
-       'Content-Type' : 'application/json'
-     })
-   };
-   return this.http.post(`${this.urlAPI}/queries/`, query, httpOptions).toPromise(); 
-  }
-
   getAll() : Promise<any> {
     return this.http.get(this.urlAPI).toPromise();
   }
 
-  getAllByBoard(idBoard: number) : Promise<any> {
-    return this.http.get(`${this.urlAPI}/boards/${idBoard}`).toPromise();
+  getAllQueriesByBoard(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}`).toPromise();
+  }
+
+  getAllRecommendationssByBoard(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}`).toPromise();
   }
 
   getById(id: number) : Promise<any> {

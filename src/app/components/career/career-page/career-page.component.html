@@ -19,7 +19,7 @@
 
     </form>
 
-    <board-page [board]="board" [forumList]="forumList"></board-page>
+    <board-page *ngIf="board" [board]="board"></board-page>
 
   </div>
 </main>

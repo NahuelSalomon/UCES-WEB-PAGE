@@ -9,9 +9,6 @@ import { ForumType } from 'src/app/models/forum-type';
 import { ForumService } from 'src/app/services/forum.service';
 import { UserService } from 'src/app/services/user.service';
 
-
-
-
 @Component({
   selector: 'board-page',
   templateUrl: './board-page.component.html',
@@ -20,9 +17,9 @@ import { UserService } from 'src/app/services/user.service';
 export class BoardPageComponent implements OnInit {
 
   @Input() board : Board;
-  @Input() typeForum : ForumType;
-  @Input() forumList: Array<Forum>;
-  forumTypeQuery : ForumType = ForumType.QUERY; 
+  forumType : ForumType;
+  forumList: Array<Forum>;
+  queryForumType : ForumType = ForumType.QUERY; 
   userType = "ANONYMOUS";
   recommendationIsSelected = false;
   showToastSuccess : boolean = false;
@@ -31,44 +28,45 @@ export class BoardPageComponent implements OnInit {
   constructor(private authService : AuthService, private forumService: ForumService, private userService : UserService) { }
 
   ngOnInit(): void {
-    this.typeForum = ForumType.QUERY;
+    this.forumType = ForumType.QUERY;
     this.userType = this.authService.userType; 
+    this.getForumList();
   }
 
-  
-
   changeForumType() {
+    console.log(this.board);
     
-
     this.recommendationIsSelected = !this.recommendationIsSelected;  
+    this.forumType = this.recommendationIsSelected ? ForumType.RECOMMENDATION : ForumType.QUERY;  
+    this.getForumList();
+        
+  }
 
-    if(this.recommendationIsSelected) {
-      this.typeForum = ForumType.RECOMMENDATION;
-    } else  {
-      this.typeForum = ForumType.QUERY;
-    }
+  getForumList()
+  {    
+    var promiseToGetForumList = this.recommendationIsSelected ? 
+    this.forumService.getAllRecommendationssByBoard(this.board.id) : 
+    this.forumService.getAllQueriesByBoard(this.board.id); 
+      promiseToGetForumList
+        .then(forumResponse=>{
 
-    console.log(this.forumList);
-    
+        this.forumList = forumResponse['content'];
+        
+        })
+        .catch(forumResponseError=>{});
   }
 
   addForum(){    
 
     this.userService.getById(this.authService.idUser)
       .then(response => {
-        
-             
         var user = response;
         var body = ( <HTMLInputElement> document.getElementById("forumBody")).value;
-       
-        
-        var forum: Forum = this.typeForum == ForumType.RECOMMENDATION ?  
+        var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?  
         new Recommendation(0, body, user, 0, 0, this.board) :
-        (this.typeForum == ForumType.QUERY ? forum = new Query(0, body, user, 0, 0, this.board) : null);
+        (this.forumType == ForumType.QUERY ? forum = new Query(0, body, user, 0, 0, this.board) : null);
 
         if(forum != null){
-
-      
           this.forumService.add(forum)
           .then(response => {
             this.forumList.push(forum);            
@@ -86,7 +84,6 @@ export class BoardPageComponent implements OnInit {
 
       })
       .catch(error=>{
-        console.log(error);
         
       })
 

@@ -8,6 +8,7 @@ export class Recommendation extends Forum {
     constructor(id: number, body: string, user: User, upVotes: number, downVotes:number, board :Board) {
         super(id, body, user, upVotes, downVotes, board);
         this.forumType = ForumType.RECOMMENDATION;
+        super.responses = null;
     }
 
 }

@@ -26,14 +26,11 @@ export class CareerPageComponent implements OnInit {
   subjectList: Array<Subject>;
   forumList: Array<Forum>;
   board : Board;
-  typeForum: ForumType;
-
-  
-
+  forumType: ForumType;
 
   ngOnInit(): void {      
     
-    this.typeForum = ForumType.QUERY;
+    this.forumType = ForumType.QUERY;
     this.route.params.subscribe(params => {
 
       
@@ -43,32 +40,22 @@ export class CareerPageComponent implements OnInit {
           this.career = response;
           this.subjectService.getByCareer(this.career.id)    
             .then(responseSubjectList => {
-              
               this.subjectList = responseSubjectList;
-              
-              this.subjectSelected = this.subjectList[0];
+                this.subjectSelected = this.subjectList[0];
+                  this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
+                    this.board = responseBoard;
 
-              this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
-               
-               
-                this.board = responseBoard;
-
-                
-                this.forumService.getAllByBoard(this.board.id)
+                /* this.forumService.getAllByBoard(this.board.id)
                
                 .then(responseForumList => {
                   this.forumList = responseForumList;
 
                   
                 })
-                .catch(error => {});
+                .catch(error => {}); */
               });   
-              
-
-
             })
             .catch(err => console.log(err));
-        
         })
         .catch(err => console.log(err));
       })
@@ -86,14 +73,14 @@ export class CareerPageComponent implements OnInit {
       this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
         this.board = responseBoard;
 
-        this.forumService.getAllByBoard(this.board.id)
+        /* this.forumService.getAllByBoard(this.board.id)
                
         .then(responseForumList => {
           this.forumList = responseForumList;
 
           
         })
-        .catch(error => {});
+        .catch(error => {}); */
 
       });      
     })

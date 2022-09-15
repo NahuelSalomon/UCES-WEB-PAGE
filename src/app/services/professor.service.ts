@@ -40,6 +40,6 @@ export class ProfessorService {
         'Content-Type' : 'application/json'
       })
     };
-    return this.http.put(this.urlAPI + "/" + id, professor, httpOptions).toPromise(); 
+    return this.http.put(this.urlAPI + id, professor, httpOptions).toPromise(); 
     }
 }

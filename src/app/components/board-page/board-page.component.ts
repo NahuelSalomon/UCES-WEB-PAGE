@@ -8,6 +8,10 @@ import { Query } from 'src/app/models/query';
 import { ForumType } from 'src/app/models/forum-type';
 import { ForumService } from 'src/app/services/forum.service';
 import { UserService } from 'src/app/services/user.service';
+import { QueryResponse } from 'src/app/models/query-response';
+import { User } from 'src/app/models/user';
+import { ResponseQueryService } from 'src/app/services/response-query.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'board-page',
@@ -16,75 +20,123 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class BoardPageComponent implements OnInit {
 
-  @Input() board : Board;
-  forumType : ForumType;
+  @Input() board: Board;
+  forumType: ForumType;
   forumList: Array<Forum>;
-  queryForumType : ForumType = ForumType.QUERY; 
+  queryForumType: ForumType = ForumType.QUERY;
   userType = "ANONYMOUS";
   recommendationIsSelected = false;
-  showToastSuccess : boolean = false;
+
+  textToastSuccess: string;
+  textToastError: string;
+
+  showToastSuccess: boolean = false;
   showToastError: boolean = false;
 
-  constructor(private authService : AuthService, private forumService: ForumService, private userService : UserService) { }
+  forumForm = new FormGroup({
+    body: new FormControl('', [ Validators.required ])
+  });
+
+  responseQueryForm : FormGroup;
+
+  get body() { return this.forumForm.get('body') }
+
+  
+  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService) { }
 
   ngOnInit(): void {
     this.forumType = ForumType.QUERY;
-    this.userType = this.authService.userType; 
-    this.getForumList();
+    this.userType = this.authService.userType;
+    this.setForumList();
+    
   }
 
   changeForumType() {
-    console.log(this.board);
-    
-    this.recommendationIsSelected = !this.recommendationIsSelected;  
-    this.forumType = this.recommendationIsSelected ? ForumType.RECOMMENDATION : ForumType.QUERY;  
-    this.getForumList();
-        
+    this.recommendationIsSelected = !this.recommendationIsSelected;
+    this.forumType = this.recommendationIsSelected ? ForumType.RECOMMENDATION : ForumType.QUERY;
+    this.setForumList();
+
   }
 
-  getForumList()
-  {    
-    var promiseToGetForumList = this.recommendationIsSelected ? 
-    this.forumService.getAllRecommendationssByBoard(this.board.id) : 
-    this.forumService.getAllQueriesByBoard(this.board.id); 
-      promiseToGetForumList
-        .then(forumResponse=>{
+  setForumList() {
+    var promiseToGetForumList = this.recommendationIsSelected ?
+      this.forumService.getAllRecommendationssByBoard(this.board.id) :
+      this.forumService.getAllQueriesByBoard(this.board.id);
+    promiseToGetForumList
+      .then(forumResponse => {
 
-        this.forumList = forumResponse['content'];
-        
-        })
-        .catch(forumResponseError=>{});
+        this.forumList = forumResponse;
+
+      })
+      .catch(forumResponseError => { });
   }
 
-  addForum(){    
+
+  addResponseQuery(idQuery: number) {
+
+    this.userService.getById(this.authService.idUser)
+      .then(userResponse => {
+        this.forumService.getById(idQuery)
+          .then(forumResponse => {
+            var queryResponse: QueryResponse = new QueryResponse(0, "", userResponse, forumResponse);
+            this.queryResponseService.add(queryResponse)
+              .then(queryResponseResponse => {
+                this.textToastSuccess = "La respuesta a la consulta se ha agregado con exito";
+                this.showToastSuccess = true;
+              })
+              .catch(errorQueryResponse => {
+                this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
+                this.showToastError = true;
+              });
+          })
+          .catch(errorForumResponse => {
+            this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
+            this.showToastError = true;
+          });
+      })
+      .catch(errorUserResponse => {
+        this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
+        this.showToastError = true;
+      });
+
+
+
+
+
+  }
+
+  addForum() {
 
     this.userService.getById(this.authService.idUser)
       .then(response => {
         var user = response;
-        var body = ( <HTMLInputElement> document.getElementById("forumBody")).value;
-        var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?  
-        new Recommendation(0, body, user, 0, 0, this.board) :
-        (this.forumType == ForumType.QUERY ? forum = new Query(0, body, user, 0, 0, this.board) : null);
+        var body = this.body.value;
+        console.log("body" + body);
 
-        if(forum != null){
+        var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?
+          new Recommendation(0, body, user, 0, 0, this.board) :
+          (this.forumType == ForumType.QUERY ? forum = new Query(0, body, user, 0, 0, this.board) : null);
+
+        if (forum != null) {
           this.forumService.add(forum)
-          .then(response => {
-            this.forumList.push(forum);            
-            this.showToastSuccess = true;
-          })
-          .catch(error => {
-            this.showToastError = true;
-            //window.alert("Se ha producido un error");
-          })
+            .then(response => {
+              this.forumList.push(forum);
+
+              this.textToastSuccess = "El foro se ha agregado con éxito";
+              this.showToastSuccess = true;
+            })
+            .catch(error => {
+              this.textToastError = "Se ha producido un error al agregar el foro";
+              this.showToastError = true;
+            })
         }
-
         
-
-        ( <HTMLInputElement> document.getElementById("forumBody")).value = "";
+        this.forumForm.reset();
 
       })
-      .catch(error=>{
-        
+      .catch(error => {
+        this.textToastError = "Se ha producido un error al agregar el foro";
+        this.showToastError = true;
       })
 
   }

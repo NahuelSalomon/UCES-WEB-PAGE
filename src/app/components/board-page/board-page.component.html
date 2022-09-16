@@ -3,14 +3,12 @@
 
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a [ngClass]="{'active': !recommendationIsSelected, 'nav-link' : true}"
-          (click)="changeForumType()">
-           Consultas
+        <a [ngClass]="{'active': !recommendationIsSelected, 'nav-link' : true}" (click)="changeForumType()">
+          Consultas
         </a>
       </li>
       <li class="nav-item">
-        <a  class="nav-link"
-          [ngClass]="{'active': recommendationIsSelected, 'nav-link' : true}"
+        <a class="nav-link" [ngClass]="{'active': recommendationIsSelected, 'nav-link' : true}"
           (click)="changeForumType()">
           Recomendaciones
         </a>
@@ -20,51 +18,72 @@
 
     <div *ngIf="forumList">
       <div *ngFor="let forum of forumList">
-          <br>
-          <div class="card">
-            <div class="card-body card-body-forum">
-              <h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5>
-              <p class="card-text">{{ forum.body }}</p>
+        <br>
+        <div class="card">
+          <div class="card-body card-body-forum">
+            <h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5>
+            <p class="card-text">{{ forum.body }}</p>
+          </div>
+          <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
+          <div class="interaction-btns text-end mr-ml-16">
+            <div *ngIf="!recommendationIsSelected" style="display: inline-block;">
+              <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-comment-dots"></i> Responder</button>
+              <p class="d-in-block mb-0"> · </p>
+              <button class="btn btn-light btn-transparent mb-0" *ngIf="forum.responses">{{forum.responses.length}}
+                Respuestas</button>
+              <p class="d-in-block mb-0 pd-6-12">|</p>
             </div>
-            <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
-            <div class="interaction-btns text-end mr-ml-16">
-              <div *ngIf="!recommendationIsSelected" style="display: inline-block;">
-                <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-comment-dots"></i> Responder</button> 
-                <p class="d-in-block mb-0"> · </p> 
-                <button class="btn btn-light btn-transparent mb-0">{{forum.responses.length}} Respuestas</button>
-                <p class="d-in-block mb-0 pd-6-12">|</p>
-              </div>
-                <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-thumbs-up"></i> Recomendar</button>
-                <p class="d-in-block mb-0"> · </p> 
-                <button class="btn btn-light btn-transparent mb-0">0 recomendaciones</button>
-            </div>
-          <div *ngIf="!recommendationIsSelected && forum.responses" >
+            <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-thumbs-up"></i> Recomendar</button>
+            <p class="d-in-block mb-0"> · </p>
+            <button class="btn btn-light btn-transparent mb-0">0 recomendaciones</button>
+          </div>
+          <div *ngIf="!recommendationIsSelected && forum.responses">
             <div class="col-12">
               <hr class="mb-mt-0 mr-ml-16" />
             </div>
-            <div *ngFor="let response of forum.responses">
-             <div class="row">
 
-             
-            <div class="col-1"></div>
+
+            <div class="row">
+
+
+              <div class="col-1"></div>
               <div class="col-11">
-                <div class="card-response-query">
-                  <div class="card-body card-body-forum bg-light-blue">
-                    <h5 class="card-title">{{ response.user.firstname }} {{ response.user.lastname }}</h5>
-                    <p class="card-text">{{ response.body }}</p>
+
+                <!-- <div *ngIf="userType == 'ROLE_STUDENT'"> -->
+                  <div class="row" style="padding-top: 16px;">
+                    <div class="col-11">
+                      <div class="mb-3" >
+                        <textarea class="form-control" id="forumBody" rows="2" placeholder="Escriba aquí una respuesta..."></textarea>
+                      </div>
+                    </div>
+                    <div class="col-1">
+                      <div class="text-end"><button  class="btn btn-success" (click)="addResponseQuery(forum.id)"><i class="fa-solid fa-circle-chevron-right"></i></button></div>
+                    </div>
+                   
+                   
+                  </div>
+                
+               <!--  </div> -->
+
+                <div *ngFor="let response of forum.responses">
+                  <div class="card-response-query">
+                    <div class="card-body card-body-forum bg-light-blue">
+                      <h5 class="card-title">{{ response.user.firstname }} {{ response.user.lastname }}</h5>
+                      <p class="card-text">{{ response.body }}</p>
+                    </div>
                   </div>
                 </div>
+
               </div>
             </div>
-          </div> 
-            
-           
 
-          </div> 
+
+
+          </div>
 
         </div>
 
-  
+
       </div>
     </div>
 
@@ -72,22 +91,26 @@
     <br>
     <br>
     <div *ngIf="userType == 'ROLE_STUDENT'">
+      <form [formGroup]="forumForm">
+
+        
       <div class="mb-3">
-        <label for="forumBody" class="form-label">Escriba aqui lo que desea agregar al foro</label>
-        <textarea class="form-control" id="forumBody" rows="2"></textarea>
+        <textarea formControlName="body" placeholder="Crear foro" class="form-control" id="forumBody" rows="2"></textarea>
       </div>
-      <div class="text-end"><button class="btn btn-success" (click)="addForum()">Agregar</button></div>
-      
+      <div class="text-end"><button class="btn btn-success" [disabled]="!forumForm.valid" (click)="addForum()">Agregar</button></div>
+    </form>
     </div>
 
   </div>
 
   <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
-    <ngb-toast class="success-alert" *ngIf="showToastSuccess" [delay]="2000" [autohide]="true" (hidden)="showToastSuccess=false" >
-      <b style="font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Se ha agregado el foro correctamente</b> 
+    <ngb-toast class="success-alert" *ngIf="showToastSuccess" [delay]="2000" [autohide]="true"
+      (hidden)="showToastSuccess=false">
+      <b style="font-weight: 500;"><i class="fa-solid fa-circle-check"></i> {{textToastSuccess}}</b>
     </ngb-toast>
-    <ngb-toast class="error-alert" *ngIf="showToastError" [delay]="2000" [autohide]="true" (hide)="showToastError=false">
-      <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> Se ha producido un error</b> 
+    <ngb-toast class="error-alert" *ngIf="showToastError" [delay]="2000" [autohide]="true"
+      (hide)="showToastError=false">
+      <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> {{textToastError}}</b>
     </ngb-toast>
   </div>
 

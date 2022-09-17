@@ -23,7 +23,7 @@ export class BoardPageComponent implements OnInit {
   @Input() board: Board;
   forumType: ForumType;
   forumList: Array<Forum>;
-  queryForumType: ForumType = ForumType.QUERY;
+  //queryForumType: ForumType = ForumType.QUERY;
   userType = "ANONYMOUS";
   recommendationIsSelected = false;
 
@@ -41,6 +41,7 @@ export class BoardPageComponent implements OnInit {
 
   get body() { return this.forumForm.get('body') }
 
+  getBodyQueryResponseControl(name: string) { return this.responseQueryForm.get(name);}
   
   constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService) { }
 
@@ -49,6 +50,7 @@ export class BoardPageComponent implements OnInit {
     this.userType = this.authService.userType;
     this.setForumList();
     
+    this.responseQueryForm = new FormGroup({});
   }
 
   changeForumType() {
@@ -66,43 +68,80 @@ export class BoardPageComponent implements OnInit {
       .then(forumResponse => {
 
         this.forumList = forumResponse;
+        this.forumList.forEach(forum=>{ 
+          var formControl : FormControl = new FormControl('', [ Validators.required ]);
+          formControl.disable(); 
+          this.responseQueryForm.addControl("bodyQueryResponse"+forum.id,formControl); 
+        });
 
       })
       .catch(forumResponseError => { });
   }
 
+  isQueryResponseValid(idQuery: number)
+  {
+    return this.getBodyQueryResponseControl("bodyQueryResponse"+idQuery).valid;
+  }
 
-  addResponseQuery(idQuery: number) {
-
+  addResponseQuery(forum: Forum) {
     this.userService.getById(this.authService.idUser)
       .then(userResponse => {
-        this.forumService.getById(idQuery)
-          .then(forumResponse => {
-            var queryResponse: QueryResponse = new QueryResponse(0, "", userResponse, forumResponse);
+            var body = this.getBodyQueryResponseControl("bodyQueryResponse"+forum.id).value;
+            var queryResponse: QueryResponse = new QueryResponse(0,body , userResponse, forum);
             this.queryResponseService.add(queryResponse)
               .then(queryResponseResponse => {
+
+
                 this.textToastSuccess = "La respuesta a la consulta se ha agregado con exito";
                 this.showToastSuccess = true;
+                this.setForumList();
               })
               .catch(errorQueryResponse => {
                 this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
                 this.showToastError = true;
               });
+
+              this.responseQueryForm.reset();
           })
-          .catch(errorForumResponse => {
-            this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
-            this.showToastError = true;
-          });
-      })
       .catch(errorUserResponse => {
         this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
         this.showToastError = true;
       });
+  }
 
+  showQueryResponsesForum(forum : Forum)
+  {
+    var control = this.getBodyQueryResponseControl("bodyQueryResponse"+forum.id);
 
+    if(control.disabled)
+    {
+      control.enable();
+    }else
+    {
+      control.disable();
+    }
+  }
 
+  responseQuery(forum: Forum)
+  {
+    var value : string = "bodyQueryResponse"+forum.id;
+    var control = this.getBodyQueryResponseControl(value);
+    
 
+    control.enable();
 
+    setTimeout(()=>{
+      var element = document.getElementById(value);
+      element.focus();
+    },0);
+        
+  }
+
+  
+
+  isEnabledQueryResponsesControl(forum:Forum) : boolean
+  {
+    return this.getBodyQueryResponseControl("bodyQueryResponse"+forum.id).enabled;
   }
 
   addForum() {
@@ -111,7 +150,7 @@ export class BoardPageComponent implements OnInit {
       .then(response => {
         var user = response;
         var body = this.body.value;
-        console.log("body" + body);
+ 
 
         var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?
           new Recommendation(0, body, user, 0, 0, this.board) :
@@ -120,7 +159,7 @@ export class BoardPageComponent implements OnInit {
         if (forum != null) {
           this.forumService.add(forum)
             .then(response => {
-              this.forumList.push(forum);
+              this.setForumList();
 
               this.textToastSuccess = "El foro se ha agregado con éxito";
               this.showToastSuccess = true;

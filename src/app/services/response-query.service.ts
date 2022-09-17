@@ -7,7 +7,7 @@ import { QueryResponse } from '../models/query-response';
 })
 export class ResponseQueryService {
 
-  private urlAPI = "http://localhost:8080/api/response";
+  private urlAPI = "http://localhost:8080/api/query/responses/";
 
   constructor(private http : HttpClient) { }
 

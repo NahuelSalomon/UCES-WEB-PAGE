@@ -23,6 +23,7 @@ export class BoardPageComponent implements OnInit {
   @Input() board: Board;
   forumType: ForumType;
   forumList: Array<Forum>;
+  forumLikedUser: Array<Forum> = new Array<Forum>();
   //queryForumType: ForumType = ForumType.QUERY;
   userType = "ANONYMOUS";
   recommendationIsSelected = false;
@@ -47,10 +48,20 @@ export class BoardPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.forumType = ForumType.QUERY;
-    this.userType = this.authService.userType;
+    
+    
+    this.userType = sessionStorage.getItem('userType');
     this.setForumList();
     
     this.responseQueryForm = new FormGroup({});
+
+    this.authService.getUserDetails(sessionStorage.getItem('token'))
+    .then(userResponse=>{
+      this.forumLikedUser = userResponse.forumsVoted;
+    })
+    .catch(error=>{});
+
+     
   }
 
   changeForumType() {
@@ -144,17 +155,21 @@ export class BoardPageComponent implements OnInit {
     return this.getBodyQueryResponseControl("bodyQueryResponse"+forum.id).enabled;
   }
 
-  addForum() {
+  forumRecommendedByTheLoggedUser(forum : Forum) : boolean
+  {    
+    return this.forumLikedUser.some(f => f.id === forum.id);
+  }
 
-    this.userService.getById(this.authService.idUser)
+  addForum() {
+    this.authService.getUserDetails(sessionStorage.getItem('token'))
       .then(response => {
         var user = response;
         var body = this.body.value;
  
 
         var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?
-          new Recommendation(0, body, user, 0, 0, this.board) :
-          (this.forumType == ForumType.QUERY ? forum = new Query(0, body, user, 0, 0, this.board) : null);
+          new Recommendation(0, body, user, this.board) :
+          (this.forumType == ForumType.QUERY ? forum = new Query(0, body, user, this.board) : null);
 
         if (forum != null) {
           this.forumService.add(forum)
@@ -165,6 +180,8 @@ export class BoardPageComponent implements OnInit {
               this.showToastSuccess = true;
             })
             .catch(error => {
+              console.log(error);
+              
               this.textToastError = "Se ha producido un error al agregar el foro";
               this.showToastError = true;
             })
@@ -178,6 +195,11 @@ export class BoardPageComponent implements OnInit {
         this.showToastError = true;
       })
 
+  }
+
+  voteUnVoteForum(forum:Forum)
+  {
+  
   }
 
 }

@@ -1,3 +1,4 @@
+import { Forum } from "./forum";
 import { UserType } from "./user-type";
 
 export class User {
@@ -10,6 +11,7 @@ export class User {
     userType: UserType;
     active: boolean;
     confirmedEmail: boolean;
+    forumsVoted : Array<Forum>;
 
     constructor(id: number, firstname: string, lastname: string, email: string, password: string, userType: UserType, active: boolean) {
         this.id = id;
@@ -19,6 +21,7 @@ export class User {
         this.password = password;  
         this.userType = userType;
         this.active = active;
+        this.forumsVoted = new Array<Forum>();
     }
 
 }

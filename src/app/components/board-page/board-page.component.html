@@ -35,9 +35,11 @@
                 </button>
               <p class="d-in-block mb-0 pd-6-12"><i class="fa-solid fa-grip-lines-vertical"></i></p>
             </div>
-            <button class="btn btn-light btn-secu mb-0"><i class="fa-regular fa-thumbs-up" style="margin-bottom: 0px !important;"></i> Recomendar</button>
+            <button class="btn btn-light btn-secu mb-0" (click)="voteUnVoteForum(forum)">
+              <i [ngClass]="forumRecommendedByTheLoggedUser(forum) ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up' " style="margin-bottom: 0px !important;"></i> Recomendar
+            </button>
             <p class="d-in-block mb-0"> · </p>
-            <button class="btn btn-light btn-transparent mb-0">0 recomendaciones</button>
+            <button class="btn btn-light btn-transparent mb-0">{{ forum.usersWhoVoted.length }} recomendaciones</button>
           </div>
           <div *ngIf="!recommendationIsSelected && forum.responses && isEnabledQueryResponsesControl(forum)">
             <div class="col-12">

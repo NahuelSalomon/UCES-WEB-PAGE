@@ -5,8 +5,8 @@ import { User } from "./user";
 
 export class Recommendation extends Forum {
 
-    constructor(id: number, body: string, user: User, upVotes: number, downVotes:number, board :Board) {
-        super(id, body, user, upVotes, downVotes, board);
+    constructor(id: number, body: string, user: User, board :Board) {
+        super(id, body, user, board);
         this.forumType = ForumType.RECOMMENDATION;
         super.responses = null;
     }

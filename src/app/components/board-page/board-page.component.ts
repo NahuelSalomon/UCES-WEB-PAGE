@@ -54,12 +54,8 @@ export class BoardPageComponent implements OnInit {
     this.setForumList();
     
     this.responseQueryForm = new FormGroup({});
-
-    this.authService.getUserDetails(sessionStorage.getItem('token'))
-    .then(userResponse=>{
-      this.forumLikedUser = userResponse.forumsVoted;
-    })
-    .catch(error=>{});
+    this.setForumsLikedUser();
+   
 
      
   }
@@ -75,7 +71,7 @@ export class BoardPageComponent implements OnInit {
     var promiseToGetForumList = this.recommendationIsSelected ?
       this.forumService.getAllRecommendationssByBoard(this.board.id) :
       this.forumService.getAllQueriesByBoard(this.board.id);
-    promiseToGetForumList
+      promiseToGetForumList
       .then(forumResponse => {
 
         this.forumList = forumResponse;
@@ -88,6 +84,16 @@ export class BoardPageComponent implements OnInit {
       })
       .catch(forumResponseError => { });
   }
+
+  setForumsLikedUser()
+  {
+    this.authService.getUserDetails(sessionStorage.getItem('token'))
+    .then(userResponse=>{
+      this.forumLikedUser = userResponse.forumsVoted;
+    })
+    .catch(error=>{});
+  }
+
 
   isQueryResponseValid(idQuery: number)
   {
@@ -138,7 +144,6 @@ export class BoardPageComponent implements OnInit {
     var value : string = "bodyQueryResponse"+forum.id;
     var control = this.getBodyQueryResponseControl(value);
     
-
     control.enable();
 
     setTimeout(()=>{
@@ -147,8 +152,6 @@ export class BoardPageComponent implements OnInit {
     },0);
         
   }
-
-  
 
   isEnabledQueryResponsesControl(forum:Forum) : boolean
   {
@@ -199,7 +202,34 @@ export class BoardPageComponent implements OnInit {
 
   voteUnVoteForum(forum:Forum)
   {
-  
+    this.authService.getUserDetails(sessionStorage.getItem('token'))
+      .then(userResponse => {
+        var user = userResponse;
+        this.userService.votedUnVoteForum(user.id, forum.id)   
+        .then(response=>{
+          if(this.forumRecommendedByTheLoggedUser(forum))
+          {
+            this.setForumsLikedUser();
+            this.setForumList();
+          }else
+          {
+            this.setForumsLikedUser();
+            this.setForumList();
+          }
+
+          
+        })
+        .catch(error=>{
+          console.log(error);
+        });
+
+
+      })
+      .catch(userError=>{
+
+      });
+   
+   
   }
 
 }

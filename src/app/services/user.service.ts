@@ -72,4 +72,17 @@ export class UserService {
     return this.http.delete(this.urlAPI + "/" + id).toPromise();
   }
 
+  votedUnVoteForum(idUser : number, idForum : number)
+  {
+
+    var url = `${this.urlAPI}/${idUser}/forumsVoted/${idForum}`;
+    const httpOptions = {
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json'
+      })
+    };
+    
+    return this.http.put(url,httpOptions).toPromise();
+  }
+
 }

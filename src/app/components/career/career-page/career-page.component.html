@@ -10,14 +10,29 @@
   <!-- Main page content-->
   <div class="container-xl px-4 mt-n10">
 
-    <form class="col-3 col-lg-2">
+    <form class="row">
 
-      <select *ngIf="career" class="form-select form-select-sm mb-3" (change)="subjectChange($any($event.target).value)">
-        <!-- <option selected disabled default>Seleccionar materia</option> -->
-        <option [value]="subject.id" *ngFor="let subject of subjectList"> {{ subject.name }} </option>
-      </select>
+      <div class="col-6">
+        <select *ngIf="career" class="form-select form-select-sm mb-3 w-50" (change)="subjectChange($any($event.target).value)">
+          <!-- <option selected disabled default>Seleccionar materia</option> -->
+          <option [value]="subject.id" *ngFor="let subject of subjectList"> {{ subject.name }} </option>
+        </select>
+      </div>
+
+      <div class="col-6 d-flex justify-content-end">
+
+        <select class="form-select form-select-sm mb-3 w-50" >
+          <!-- <option selected disabled default>Seleccionar materia</option> -->
+          <option>Cantidad de votos</option>
+          <option>Fecha</option>
+          <!-- <option>Cantidad de votos</option>
+          <option>Fecha</option> -->
+        </select>
+      </div>
 
     </form>
+
+
 
     <board-page *ngIf="board" [board]="board"></board-page>
 

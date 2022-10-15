@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Board } from 'src/app/models/board';
 import { Forum } from 'src/app/models/forum';
@@ -21,6 +21,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class BoardPageComponent implements OnInit {
 
   @Input() board: Board;
+
+
   forumType: ForumType;
   forumList: Array<Forum>;
   forumLikedUser: Array<Forum> = new Array<Forum>();
@@ -47,17 +49,18 @@ export class BoardPageComponent implements OnInit {
   constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService) { }
 
   ngOnInit(): void {
-    this.forumType = ForumType.QUERY;
-    
-    
+    this.forumType = ForumType.QUERY;    
     this.userType = sessionStorage.getItem('userType');
     this.setForumList();
     
     this.responseQueryForm = new FormGroup({});
     this.setForumsLikedUser();
-   
+  
+  }
 
-     
+  ngOnChanges(changes: SimpleChanges)
+  {    
+    this.setForumList();
   }
 
   changeForumType() {
@@ -68,6 +71,7 @@ export class BoardPageComponent implements OnInit {
   }
 
   setForumList() {
+    
     var promiseToGetForumList = this.recommendationIsSelected ?
       this.forumService.getAllRecommendationssByBoard(this.board.id) :
       this.forumService.getAllQueriesByBoard(this.board.id);
@@ -101,8 +105,9 @@ export class BoardPageComponent implements OnInit {
   }
 
   addResponseQuery(forum: Forum) {
-    this.userService.getById(this.authService.idUser)
+    this.authService.getUserDetails(sessionStorage.getItem('token'))
       .then(userResponse => {
+
             var body = this.getBodyQueryResponseControl("bodyQueryResponse"+forum.id).value;
             var queryResponse: QueryResponse = new QueryResponse(0,body , userResponse, forum);
             this.queryResponseService.add(queryResponse)

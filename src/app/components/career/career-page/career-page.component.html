@@ -10,7 +10,7 @@
   <!-- Main page content-->
   <div class="container-xl px-4 mt-n10">
 
-    <form class="row">
+    <div class="row">
 
       <div class="col-6">
         <select *ngIf="career" class="form-select form-select-sm mb-3 w-50" (change)="subjectChange($any($event.target).value)">
@@ -21,16 +21,13 @@
 
       <div class="col-6 d-flex justify-content-end">
 
-        <select class="form-select form-select-sm mb-3 w-50" >
+        <select *ngIf="listOrderTypes" [(ngModel)]="orderTypeSelected" class="form-select form-select-sm mb-3 w-50" (change)="orderTypeChange()">
           <!-- <option selected disabled default>Seleccionar materia</option> -->
-          <option>Cantidad de votos</option>
-          <option>Fecha</option>
-          <!-- <option>Cantidad de votos</option>
-          <option>Fecha</option> -->
+          <option [ngValue]="orderType.forumOrder" *ngFor="let orderType of listOrderTypes"> {{ orderType.description }} </option>
         </select>
       </div>
 
-    </form>
+    </div>
 
 
 

@@ -12,7 +12,7 @@ import { CareerService } from 'src/app/services/career.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { BoardService } from 'src/app/services/board.service';
 import { ForumService } from 'src/app/services/forum.service';
-import { ForumOrder } from 'src/app/models/forum-order';
+import { ForumOrder,ForumOrderDescription,ForumOrderLabel } from 'src/app/models/forum-order';
 
 @Component({
   selector: 'app-career-page',
@@ -23,18 +23,22 @@ export class CareerPageComponent implements OnInit {
 
   constructor(private route :ActivatedRoute, private careerService: CareerService, private subjectService: SubjectService, private boardSevice : BoardService, private forumService: ForumService) { }
 
-
-
-
   career: Career;
   subjectSelected: Subject;
   subjectList: Array<Subject>;
   forumList: Array<Forum>;
   board : Board;
   forumType: ForumType;
-
+  listOrderTypes: Array<ForumOrderDescription>;
+  orderTypeSelected: ForumOrder;
+  
 
   ngOnInit(): void {      
+    
+  
+
+    this.listOrderTypes = ForumOrderLabel;
+    this.orderTypeSelected = ForumOrder.ORDER_BY_DATE;
     
     this.forumType = ForumType.QUERY;
     this.route.params.subscribe(params => {
@@ -64,6 +68,11 @@ export class CareerPageComponent implements OnInit {
   }
 
 
+  orderTypeChange()
+  {
+    console.log(this.orderTypeSelected);
+    
+  }
 
   subjectChange(value: string){    
     var idSubject = Number.parseInt(value);

@@ -30,6 +30,22 @@ export class ForumService {
     return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}`).toPromise();
   }
 
+  getAllQueriesByBoardSortedByVotes(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}/sort/votes`).toPromise();
+  }
+
+  getAllQueriesByBoardSortedByDate(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}/sort/date`).toPromise();
+  }
+
+  getAllRecommendationsByBoardSortedByVotes(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}/sort/votes`).toPromise();
+  }
+
+  getAllRecommendationsByBoardSortedByDate(idBoard: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}/sort/date`).toPromise();
+  }
+
   getAllRecommendationssByBoard(idBoard: number) : Promise<any> {
     return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}`).toPromise();
   }

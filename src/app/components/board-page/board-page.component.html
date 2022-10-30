@@ -21,7 +21,10 @@
         <br>
         <div class="card">
           <div class="card-body card-body-forum">
-            <h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5>
+             <div class="row">
+                <div class="col-8"><h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5></div>
+                <div class="col-4 text-end" style="font-size: 14px;">{{ forum.date[2] }}-{{ forum.date[1] }}-{{ forum.date[0] }} <!-- {{ forum.date[3] }}:{{ forum.date[4] }}:{{ forum.date[5] }} --></div>
+              </div>
             <p class="card-text">{{ forum.body }}</p>
           </div>
           <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
@@ -81,7 +84,7 @@
                     </div>
                   </div>
                 </div>
-
+    
               </div>
             </div>
 

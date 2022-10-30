@@ -21,7 +21,7 @@
 
       <div class="col-6 d-flex justify-content-end">
 
-        <select *ngIf="listOrderTypes" [(ngModel)]="orderTypeSelected" class="form-select form-select-sm mb-3 w-50" (change)="orderTypeChange()">
+        <select *ngIf="listOrderTypes" [(ngModel)]="orderTypeSelected" class="form-select form-select-sm mb-3 w-50">
           <!-- <option selected disabled default>Seleccionar materia</option> -->
           <option [ngValue]="orderType.forumOrder" *ngFor="let orderType of listOrderTypes"> {{ orderType.description }} </option>
         </select>
@@ -31,7 +31,7 @@
 
 
 
-    <board-page *ngIf="board" [board]="board"></board-page>
+    <board-page *ngIf="board" [board]="board" [orderTypeSelected]="orderTypeSelected"></board-page>
 
   </div>
 </main>

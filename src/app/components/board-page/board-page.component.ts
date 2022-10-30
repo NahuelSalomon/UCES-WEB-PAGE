@@ -12,6 +12,7 @@ import { QueryResponse } from 'src/app/models/query-response';
 import { User } from 'src/app/models/user';
 import { ResponseQueryService } from 'src/app/services/response-query.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ForumOrder } from 'src/app/models/forum-order';
 
 @Component({
   selector: 'board-page',
@@ -21,6 +22,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class BoardPageComponent implements OnInit {
 
   @Input() board: Board;
+  @Input() orderTypeSelected: ForumOrder;
 
 
   forumType: ForumType;
@@ -59,7 +61,7 @@ export class BoardPageComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges)
-  {    
+  {        
     this.setForumList();
   }
 
@@ -71,22 +73,32 @@ export class BoardPageComponent implements OnInit {
   }
 
   setForumList() {
-    
-    var promiseToGetForumList = this.recommendationIsSelected ?
-      this.forumService.getAllRecommendationssByBoard(this.board.id) :
-      this.forumService.getAllQueriesByBoard(this.board.id);
+      var promiseToGetForumList = 
+        this.recommendationIsSelected ?
+          (this.orderTypeSelected == ForumOrder.ORDER_BY_DATE ? 
+            this.forumService.getAllRecommendationsByBoardSortedByDate(this.board.id) : 
+            this.forumService.getAllRecommendationsByBoardSortedByVotes(this.board.id))
+          :
+          (this.orderTypeSelected == ForumOrder.ORDER_BY_DATE ? 
+            this.forumService.getAllQueriesByBoardSortedByDate(this.board.id) : 
+            this.forumService.getAllQueriesByBoardSortedByVotes(this.board.id))
+
       promiseToGetForumList
       .then(forumResponse => {
-
         this.forumList = forumResponse;
-        this.forumList.forEach(forum=>{ 
-          var formControl : FormControl = new FormControl('', [ Validators.required ]);
-          formControl.disable(); 
-          this.responseQueryForm.addControl("bodyQueryResponse"+forum.id,formControl); 
-        });
+        if(forumResponse != null)
+        {
+          
+          this.forumList.forEach(forum=>{ 
+            var formControl : FormControl = new FormControl('', [ Validators.required ]);
+            formControl.disable(); 
+            this.responseQueryForm.addControl("bodyQueryResponse"+forum.id,formControl); 
+          });
+        }
+
 
       })
-      .catch(forumResponseError => { });
+      .catch(forumResponseError => {  });
   }
 
   setForumsLikedUser()
@@ -176,8 +188,8 @@ export class BoardPageComponent implements OnInit {
  
 
         var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?
-          new Recommendation(0, body, user, this.board) :
-          (this.forumType == ForumType.QUERY ? forum = new Query(0, body, user, this.board) : null);
+          new Recommendation(0, body,new Date() , user, this.board) :
+          (this.forumType == ForumType.QUERY ? forum = new Query(0, body,new Date(), user, this.board) : null);
 
         if (forum != null) {
           this.forumService.add(forum)
@@ -188,7 +200,6 @@ export class BoardPageComponent implements OnInit {
               this.showToastSuccess = true;
             })
             .catch(error => {
-              console.log(error);
               
               this.textToastError = "Se ha producido un error al agregar el foro";
               this.showToastError = true;
@@ -225,7 +236,7 @@ export class BoardPageComponent implements OnInit {
           
         })
         .catch(error=>{
-          console.log(error);
+
         });
 
 

@@ -28,6 +28,7 @@ export class CareerPageComponent implements OnInit {
   subjectList: Array<Subject>;
   forumList: Array<Forum>;
   board : Board;
+
   forumType: ForumType;
   listOrderTypes: Array<ForumOrderDescription>;
   orderTypeSelected: ForumOrder;
@@ -51,27 +52,13 @@ export class CareerPageComponent implements OnInit {
                 this.subjectSelected = this.subjectList[0];
                   this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
                     this.board = responseBoard;
-                /* this.forumService.getAllByBoard(this.board.id)
-               
-                .then(responseForumList => {
-                  this.forumList = responseForumList;
-
-                  
-                })
-                .catch(error => {}); */
+                
               });   
             })
             .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
       })
-  }
-
-
-  orderTypeChange()
-  {
-    console.log(this.orderTypeSelected);
-    
   }
 
   subjectChange(value: string){    
@@ -84,15 +71,6 @@ export class CareerPageComponent implements OnInit {
       this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
         this.board = responseBoard;
        
-        /* this.forumService.getAllByBoard(this.board.id)
-               
-        .then(responseForumList => {
-          this.forumList = responseForumList;
-
-          
-        })
-        .catch(error => {}); */
-
       });      
     })
     .catch((error) =>{

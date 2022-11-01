@@ -1,5 +1,5 @@
-<div class="card">
-  <div class="card-body">
+<div class="card" style="border:2px solid #405967;">
+  <div class="card-body" >
 
     <ul class="nav nav-tabs">
       <li class="nav-item">
@@ -19,7 +19,7 @@
     <div *ngIf="forumList">
       <div *ngFor="let forum of forumList">
         <br>
-        <div class="card">
+        <div class="card" style="border:1px solid #405967;">
           <div class="card-body card-body-forum">
              <div class="row">
                 <div class="col-8"><h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5></div>
@@ -124,5 +124,20 @@
       <b style="font-weight: 500;"><i class="fa-solid fa-circle-xmark"></i> {{textToastError}}</b>
     </ngb-toast>
   </div>
-
 </div>
+
+<nav aria-label="..." style="margin:20px;" class="d-flex justify-content-center">
+  <ul class="pagination" style="margin: auto;">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item active" aria-current="page">
+      <a class="page-link" href="#">2</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>

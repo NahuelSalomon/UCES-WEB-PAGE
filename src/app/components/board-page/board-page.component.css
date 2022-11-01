@@ -98,3 +98,8 @@
     border-radius: 0px 10px 10px 10px;
     resize: none;
 }
+
+.page-item .active
+{
+    background-color:#405967 !important;
+}

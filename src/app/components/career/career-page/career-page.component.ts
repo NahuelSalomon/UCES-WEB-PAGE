@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { iif, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Board } from 'src/app/models/board';
@@ -21,7 +21,7 @@ import { ForumOrder,ForumOrderDescription,ForumOrderLabel } from 'src/app/models
 })
 export class CareerPageComponent implements OnInit {
 
-  constructor(private route :ActivatedRoute, private careerService: CareerService, private subjectService: SubjectService, private boardSevice : BoardService, private forumService: ForumService) { }
+  constructor(private route :ActivatedRoute, private router: Router, private careerService: CareerService, private subjectService: SubjectService, private boardSevice : BoardService, private forumService: ForumService) { }
 
   career: Career;
   subjectSelected: Subject;
@@ -76,6 +76,10 @@ export class CareerPageComponent implements OnInit {
     .catch((error) =>{
       console.log(error)
     });
+  }
+
+  callPollByCareer(idCareer: number){
+    this.router.navigate(["career/poll/" + this.career.id])
   }
 
 }

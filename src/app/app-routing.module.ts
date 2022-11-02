@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdministratorGuard } from './auth/administrator.guard';
 import { CareerListComponent } from './components/career/career-list/career-list.component';
 import { CareerPageComponent } from './components/career/career-page/career-page.component';
+import { CareerPollComponent } from './components/career/career-poll/career-poll.component';
 import { ConfirmEmailComponent } from './components/confirmation-email/confirm-email/confirm-email.component';
 import { EmailConfirmedComponent } from './components/confirmation-email/email-confirmed/email-confirmed.component';
 import { ResetPasswordComponent } from './components/forget-password/reset-password/reset-password.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path:"subject/list", component:SubjectListComponent},
   {path:"career/page/:id", component:CareerPageComponent},
   {path:"career/list", component:CareerListComponent},
+  {path:"career/poll/:id", component:CareerPollComponent},
   {path:"users/list", component:UsersListComponent},
   {path:'login', component:LoginComponent },
   {path:'confirm-email', component:ConfirmEmailComponent },

@@ -30,6 +30,8 @@ import { ResetPasswordComponent } from './components/forget-password/reset-passw
 import { ProfessorListComponent } from './components/professor/professor-list/professor-list.component';
 import { DeleteProfessorModalComponent } from './components/professor/modals-professor/delete-professor-modal/delete-professor-modal.component';
 import { AddProfessorComponent } from './components/professor/add-professor/add-professor.component';
+import { EditProfessorComponent } from './components/professor/edit-professor/edit-professor.component';
+import { CareerPollComponent } from './components/career/career-poll/career-poll.component';
 
 
 
@@ -55,7 +57,9 @@ import { AddProfessorComponent } from './components/professor/add-professor/add-
     ResetPasswordComponent,
     ProfessorListComponent,
     DeleteProfessorModalComponent,
-    AddProfessorComponent
+    AddProfessorComponent,
+    EditProfessorComponent,
+    CareerPollComponent
 
   ],
   imports: [

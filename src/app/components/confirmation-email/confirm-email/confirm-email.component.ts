@@ -78,7 +78,6 @@ export class ConfirmEmailComponent implements OnInit {
       {
         var user = this.hiddenData.user;
         user.email = this.email.value;
-        console.log(this.hiddenData.token);
         this.userService.update(user, this.hiddenData.token).then(response => {
           var sendEmailConfirmEmailRequest = new SendEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`);
           this.emailSenderService.confirmEmail(sendEmailConfirmEmailRequest)

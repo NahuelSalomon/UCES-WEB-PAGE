@@ -13,6 +13,7 @@ import { User } from 'src/app/models/user';
 import { ResponseQueryService } from 'src/app/services/response-query.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ForumOrder } from 'src/app/models/forum-order';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'board-page',
@@ -28,7 +29,6 @@ export class BoardPageComponent implements OnInit {
   forumType: ForumType;
   forumList: Array<Forum>;
   forumLikedUser: Array<Forum> = new Array<Forum>();
-  //queryForumType: ForumType = ForumType.QUERY;
   userType = "ANONYMOUS";
   recommendationIsSelected = false;
 
@@ -37,6 +37,11 @@ export class BoardPageComponent implements OnInit {
 
   showToastSuccess: boolean = false;
   showToastError: boolean = false;
+
+  totalForums: number;
+  numberOfPages: number;
+  sizeOfPages: number;
+  currentPageNumber: number;
 
   forumForm = new FormGroup({
     body: new FormControl('', [ Validators.required ])
@@ -48,7 +53,13 @@ export class BoardPageComponent implements OnInit {
 
   getBodyQueryResponseControl(name: string) { return this.responseQueryForm.get(name);}
   
-  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService) { }
+  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService,private modalService: NgbModal) 
+  {
+    this.currentPageNumber = 1;
+    this.sizeOfPages = 3;
+    this.numberOfPages = 0; 
+
+  }
 
   ngOnInit(): void {
     this.forumType = ForumType.QUERY;    
@@ -61,13 +72,15 @@ export class BoardPageComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges)
-  {        
+  {       
+    this.currentPageNumber = 0;
     this.setForumList();
   }
 
   changeForumType() {
     this.recommendationIsSelected = !this.recommendationIsSelected;
     this.forumType = this.recommendationIsSelected ? ForumType.RECOMMENDATION : ForumType.QUERY;
+    this.currentPageNumber = 0;
     this.setForumList();
 
   }
@@ -76,19 +89,21 @@ export class BoardPageComponent implements OnInit {
       var promiseToGetForumList = 
         this.recommendationIsSelected ?
           (this.orderTypeSelected == ForumOrder.ORDER_BY_DATE ? 
-            this.forumService.getAllRecommendationsByBoardSortedByDate(this.board.id) : 
-            this.forumService.getAllRecommendationsByBoardSortedByVotes(this.board.id))
+            this.forumService.getAllRecommendationsByBoardSortedByDate(this.board.id,this.currentPageNumber-1,this.sizeOfPages) : 
+            this.forumService.getAllRecommendationsByBoardSortedByVotes(this.board.id,this.currentPageNumber-1,this.sizeOfPages))
           :
           (this.orderTypeSelected == ForumOrder.ORDER_BY_DATE ? 
-            this.forumService.getAllQueriesByBoardSortedByDate(this.board.id) : 
-            this.forumService.getAllQueriesByBoardSortedByVotes(this.board.id))
+            this.forumService.getAllQueriesByBoardSortedByDate(this.board.id,this.currentPageNumber-1,this.sizeOfPages) : 
+            this.forumService.getAllQueriesByBoardSortedByVotes(this.board.id,this.currentPageNumber-1,this.sizeOfPages))
 
       promiseToGetForumList
       .then(forumResponse => {
-        this.forumList = forumResponse;
+        this.forumList = forumResponse.body;
         if(forumResponse != null)
         {
-          
+          this.numberOfPages = forumResponse.headers.get("X-Total-Pages");
+          this.totalForums = forumResponse.headers.get("X-Total-Count");
+
           this.forumList.forEach(forum=>{ 
             var formControl : FormControl = new FormControl('', [ Validators.required ]);
             formControl.disable(); 
@@ -216,6 +231,11 @@ export class BoardPageComponent implements OnInit {
 
   }
 
+  pageChange(page)
+  {    
+    this.setForumList(); 
+  }
+
   voteUnVoteForum(forum:Forum)
   {
     this.authService.getUserDetails(sessionStorage.getItem('token'))
@@ -246,6 +266,14 @@ export class BoardPageComponent implements OnInit {
       });
    
    
+  }
+
+  openModal(content) {
+   
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      
+    }, (reason) => { /*Modal no exitoso*/ });
+    
   }
 
 }

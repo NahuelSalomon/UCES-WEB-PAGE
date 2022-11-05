@@ -32,6 +32,7 @@ import { DeleteProfessorModalComponent } from './components/professor/modals-pro
 import { AddProfessorComponent } from './components/professor/add-professor/add-professor.component';
 import { EditProfessorComponent } from './components/professor/edit-professor/edit-professor.component';
 import { CareerPollComponent } from './components/career/career-poll/career-poll.component';
+import { SubjectPollModalComponent } from './components/subjects/subject-poll-modal/subject-poll-modal.component';
 
 
 
@@ -59,7 +60,8 @@ import { CareerPollComponent } from './components/career/career-poll/career-poll
     DeleteProfessorModalComponent,
     AddProfessorComponent,
     EditProfessorComponent,
-    CareerPollComponent
+    CareerPollComponent,
+    SubjectPollModalComponent
 
   ],
   imports: [

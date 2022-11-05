@@ -30,20 +30,20 @@ export class ForumService {
     return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}`).toPromise();
   }
 
-  getAllQueriesByBoardSortedByVotes(idBoard: number) : Promise<any> {
-    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}/sort/votes`).toPromise();
+  getAllQueriesByBoardSortedByVotes(idBoard: number, page: number, size: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}/sort/votes?page=${page}&size=${size}`, {observe: 'response'}).toPromise();
   }
 
-  getAllQueriesByBoardSortedByDate(idBoard: number) : Promise<any> {
-    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}/sort/date`).toPromise();
+  getAllQueriesByBoardSortedByDate(idBoard: number, page: number, size: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/queries/boards/${idBoard}/sort/date?page=${page}&size=${size}`, {observe: 'response'}).toPromise();
   }
 
-  getAllRecommendationsByBoardSortedByVotes(idBoard: number) : Promise<any> {
-    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}/sort/votes`).toPromise();
+  getAllRecommendationsByBoardSortedByVotes(idBoard: number, page: number, size: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}/sort/votes?page=${page}&size=${size}`,{observe: 'response'}).toPromise();
   }
 
-  getAllRecommendationsByBoardSortedByDate(idBoard: number) : Promise<any> {
-    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}/sort/date`).toPromise();
+  getAllRecommendationsByBoardSortedByDate(idBoard: number, page: number, size: number) : Promise<any> {
+    return this.http.get(`${this.urlAPI}/recommendations/boards/${idBoard}/sort/date?page=${page}&size=${size}`,{observe: 'response'}).toPromise();
   }
 
   getAllRecommendationssByBoard(idBoard: number) : Promise<any> {

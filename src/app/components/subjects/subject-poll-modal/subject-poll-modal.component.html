@@ -1,9 +1,48 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Encuesta para materia</h4>
+    <h4 class="modal-title" id="modal-basic-title">Encuesta para materia - {{ subject.name }}</h4>
     <button type="button" class="btn-close" aria-label="Close" ></button>
 </div>
     <div class="modal-body">
-      
+        <div *ngIf="poll">
+            
+            <div *ngFor="let question of poll.questions" class="question-poll">
+                <p style="font-weight: 600;">{{ question.question }}</p>
+
+                <div *ngIf="question.pollResponseType == pollResponseType.RATING_TO_FIVE" >
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="{{question.id}}" id="flexRadioDefault1" checked>
+                            <label class="form-check-label" for="flexRadioDefault1">1</label>
+                        </div>
+                
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{question.id}}" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{question.id}}" id="flexRadioDefault3">
+                        <label class="form-check-label" for="flexRadioDefault3">3</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{question.id}}" id="flexRadioDefault4">
+                        <label class="form-check-label" for="flexRadioDefault4">4</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{question.id}}" id="flexRadioDefault5">
+                        <label class="form-check-label" for="flexRadioDefault5">5</label>
+                    </div>
+                </div>
+
+                <div *ngIf="question.pollResponseType == pollResponseType.SHORT_NUMBER_ANSWER">
+                    <div class="mb-3">
+                        <input type="number" class="form-control" min="0" placeholder="Tu respuesta">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
 <div class="modal-footer">
       <input type="button"class="btn btn-lg fs-16 bg-blue-utn"

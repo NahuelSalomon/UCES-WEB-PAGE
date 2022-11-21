@@ -13,4 +13,10 @@ export class PollService {
   getByCareerId(careerId: number) : Promise<any> {
     return this.http.get(this.urlAPI +'/career/' + careerId).toPromise();
   }
+
+
+  getBySubjectId(subjectId: number) : Promise<any> {
+    return this.http.get( `${this.urlAPI}/subject/${subjectId}`).toPromise();
+  }
+
 }

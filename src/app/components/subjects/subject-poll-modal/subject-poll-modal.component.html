@@ -4,10 +4,12 @@
 </div>
     <div class="modal-body">
         <div *ngIf="poll">
-            
-            <div *ngFor="let question of poll.questions" class="question-poll">
+           <form [formGroup]="pollQuestionFormGroup">
+
+                <div *ngFor="let question of poll.questions" class="question-poll">
                 <p style="font-weight: 600;">{{ question.question }}</p>
                 
+                <!-- YES_NO_DESCRIPTION_IN_NO_ANSWER -->
                 <div *ngIf="question.pollResponseType == pollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER" >
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="{{question.id}}" id="rating1{{question.id}}" checked >
@@ -24,12 +26,15 @@
                     </textarea>
                 </div>
 
+                <!-- PROFESSOR_RATING -->
                 <div *ngIf="question.pollResponseType == pollResponseType.PROFESSOR_RATING" >
                     <select class="form-select form-select-sm mb-3 w-50 form-custom-select">
                         <!-- <option selected disabled default>Seleccionar materia</option> -->
                         <option [value]="subject.id" *ngFor="let professor of professorList"> {{ professor.name }} </option>
                     </select>
                 </div>
+
+                <!-- RATING_TO_FIVE ; PROFESSOR_RATING -->
                 <div *ngIf="question.pollResponseType == pollResponseType.RATING_TO_FIVE || question.pollResponseType == pollResponseType.PROFESSOR_RATING" >
 
                     <div class="form-check form-check-inline">
@@ -55,13 +60,9 @@
                     </div>
                 </div>
 
-                <!-- <div *ngIf="question.pollResponseType == pollResponseType.PROFESSOR_RATING">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" min="0" placeholder="Tu respuesta">
-                    </div>
-                </div> -->
-
             </div>
+
+        </form>
         </div>
 
 

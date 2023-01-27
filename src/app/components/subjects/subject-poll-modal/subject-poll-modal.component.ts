@@ -41,15 +41,15 @@ export class SubjectPollModalComponent implements OnInit {
         
         this.poll.questions.forEach(question=>
         {
-          var pollAnswer : PollAnswer  = new PollAnswer();
-          pollAnswer.pollQuestion = question;
 
-          var formControl : FormControl = new FormControl('', [ Validators.required ]);
-          formControl.disable(); 
-          this.pollQuestionFormGroup.addControl(question.pollResponseType + this.poll.id, formControl); 
+
+          var initialValueFromControl = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER  
+                                        ?  "1" : '';
+          var formControl : FormControl = new FormControl( initialValueFromControl, [ Validators.required ]);
+ 
+          this.pollQuestionFormGroup.addControl(question.pollResponseType + question.id, formControl); 
           
 
-          this.answersList.push(pollAnswer);
         })
 
 
@@ -58,7 +58,7 @@ export class SubjectPollModalComponent implements OnInit {
 
       })
       .catch(pollError=>{
-        console.log(pollError);
+
         
       });
 
@@ -76,6 +76,30 @@ export class SubjectPollModalComponent implements OnInit {
     {
       return true;
 
+    }
+
+    sendPollResponses()
+    {
+      for(var question of this.poll.questions)
+      {
+        var responseValue = this.getFromControl(question.pollResponseType+question.id).value;
+
+        var rating = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.PROFESSOR_RATING ?
+                     responseValue : null;
+
+        var shortAnswer = question.pollResponseType == PollResponseType.SHORT_ANSWER || question.pollResponseType == PollResponseType.SHORT_NUMBER_ANSWER ?
+                          responseValue : null;
+
+
+        var pollResponse = new PollAnswer(Number(rating),shortAnswer,null,null, question);
+        
+        
+        this.answersList.push(pollResponse);
+
+      }  
+      
+      console.log(this.answersList);
+      
     }
     
 

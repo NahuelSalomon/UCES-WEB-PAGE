@@ -25,6 +25,8 @@ export class SubjectPollModalComponent implements OnInit {
   
   pollQuestionFormGroup : FormGroup;
 
+  pollResponseTypesWithTwoResponses : Array<PollResponseType> = new Array<PollResponseType>(PollResponseType.PROFESSOR_RATING,PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER);
+
   getFromControl(name: string) { return this.pollQuestionFormGroup.get(name);}
 
   constructor(private route :ActivatedRoute, private pollService: PollService, private professorService: ProfessorService) { }
@@ -43,11 +45,22 @@ export class SubjectPollModalComponent implements OnInit {
         {
 
 
-          var initialValueFromControl = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER  
+          var initialValueFromControlFirstResponse = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER  
                                         ?  "1" : '';
-          var formControl : FormControl = new FormControl( initialValueFromControl, [ Validators.required ]);
+          var formControlFirstResponse : FormControl = new FormControl( initialValueFromControlFirstResponse, [ Validators.required ]);
  
-          this.pollQuestionFormGroup.addControl(question.pollResponseType + question.id, formControl); 
+          if(this.pollResponseTypesWithTwoResponses.find(p => p == question.pollResponseType) != null)
+          {
+            var initialValueFromControlSecondResponse = question.pollResponseType == PollResponseType.PROFESSOR_RATING  
+            ?  this.professorList[0].id : '';
+
+            var formControlSecondResponse : FormControl = new FormControl( initialValueFromControlSecondResponse, [ Validators.required ]);  
+
+            this.pollQuestionFormGroup.addControl(`${question.pollResponseType}${question.id}second`, formControlSecondResponse); 
+
+          } 
+
+          this.pollQuestionFormGroup.addControl(question.pollResponseType + question.id, formControlFirstResponse); 
           
 
         })

@@ -28,7 +28,7 @@
 
                 <!-- PROFESSOR_RATING -->
                 <div *ngIf="question.pollResponseType == pollResponseType.PROFESSOR_RATING" >
-                    <select class="form-select form-select-sm mb-3 w-50 form-custom-select">
+                    <select class="form-select form-select-sm mb-3 w-50 form-custom-select" formControlName="{{question.pollResponseType}}{{question.id}}second">
                         <!-- <option selected disabled default>Seleccionar materia</option> -->
                         <option [value]="subject.id" *ngFor="let professor of professorList"> {{ professor.name }} </option>
                     </select>

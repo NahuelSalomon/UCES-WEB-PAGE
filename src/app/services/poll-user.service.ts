@@ -1,24 +1,24 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Professor } from '../models/professor';
+import { PollUser } from '../models/poll-user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfessorService {
+export class PollUserService {
 
-  private urlAPI = "http://localhost:8080/api/professor/";
+  private urlAPI = "http://localhost:8080/api/pollUser/";
 
   constructor(private http : HttpClient) { }
 
-  add(professor : Professor) : Promise<any> {
+  add(pollUser : PollUser) : Promise<any> {
   
    const httpOptions = {
      headers : new HttpHeaders({
        'Content-Type' : 'application/json'
      })
    };
-   return this.http.post(this.urlAPI, professor, httpOptions).toPromise(); 
+   return this.http.post(this.urlAPI, pollUser, httpOptions).toPromise(); 
   }
 
   getAll(size = 10, page= 0) : Promise<any> {
@@ -29,17 +29,14 @@ export class ProfessorService {
     return this.http.get(this.urlAPI +id).toPromise();
   }
 
+  getByPollAndUser(idPoll : number, idUser : number) : Promise<any>
+  {
+    return this.http.get(`${this.urlAPI}poll/${idPoll}/user/${idUser}`).toPromise();
+  }
+
   delete(id: number) : Promise<any> {
     return this.http.delete(this.urlAPI + id).toPromise();
    }
 
-   update(id : number, professor : Professor) : Promise<any> {
 
-    const httpOptions = {
-      headers : new HttpHeaders({
-        'Content-Type' : 'application/json'
-      })
-    };
-    return this.http.put(this.urlAPI + id, professor, httpOptions).toPromise(); 
-    }
 }

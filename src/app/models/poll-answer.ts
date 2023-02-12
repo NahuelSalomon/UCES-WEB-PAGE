@@ -11,8 +11,9 @@ export class PollAnswer {
     pollQuestion: PollQuestion;
 
 
-    constructor(rating: number, shortAnswer: string, positiveAnswer: boolean, professor: Professor, pollQuestion: PollQuestion)
+    constructor(id: number,rating: number, shortAnswer: string, positiveAnswer: boolean, professor: Professor, pollQuestion: PollQuestion)
     {
+        this.id = id;
         this.rating = rating;
         this.shortAnswer = shortAnswer;
         this.positiveAnswer = positiveAnswer;

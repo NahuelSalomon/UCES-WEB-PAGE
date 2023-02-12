@@ -23,17 +23,10 @@
       </div>
       <div class="col-md-6 col-sm-12 d-flex justify-content-end">
         <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(subjectPollModal)">Encuesta de materia</button>
-        <ng-template #subjectPollModal let-modal >
-          <app-subject-poll-modal [subject]="board.subject"></app-subject-poll-modal>
+        <ng-template #subjectPollModal let-modal>
+          <app-subject-poll-modal [subject]="board.subject" [modal]="modal" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-subject-poll-modal>
         </ng-template>
         
-          <!-- <select class="form-select form-select-sm mb-3 w-50 form-custom-select">
-            
-            <option > Ordenar por fecha</option>
-            <option > Ordenar por votos</option>
-          </select> -->
-
-
       </div>
 
     </div>
@@ -78,10 +71,6 @@
 
               <div class="col-1"></div>
               <div class="col-11">
-
-              
-     
-                    
                     <form [formGroup]="responseQueryForm">
                       <div class="row" style="padding-top: 16px;">
                     <div class="col-11">
@@ -93,10 +82,7 @@
                       <div class="text-end"><button  class="btn btn-success" [disabled]="!isQueryResponseValid(forum.id)" (click)="addResponseQuery(forum)"><i class="fa-solid fa-circle-chevron-right"></i></button></div>
                     </div>
                   </div>
-                  </form>
-                   
-         
-                
+                  </form>      
                <!--  </div> -->
 
                 <div *ngFor="let response of forum.responses">
@@ -110,14 +96,8 @@
     
               </div>
             </div>
-
-
-
           </div>
-
         </div>
-
-
       </div>
     </div>
 

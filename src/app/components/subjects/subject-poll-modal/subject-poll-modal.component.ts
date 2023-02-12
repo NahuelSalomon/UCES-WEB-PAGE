@@ -1,12 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Career } from 'src/app/models/career';
 import { Poll } from 'src/app/models/poll';
 import { PollAnswer } from 'src/app/models/poll-answer';
 import { PollResponseType } from 'src/app/models/poll-response-type';
+import { PollUser } from 'src/app/models/poll-user';
 import { Professor } from 'src/app/models/professor';
 import { Subject } from 'src/app/models/subject';
+import { PollAnswerService } from 'src/app/services/poll-answer.service';
+import { PollUserService } from 'src/app/services/poll-user.service';
 import { PollService } from 'src/app/services/poll.service';
 import { ProfessorService } from 'src/app/services/professor.service';
 
@@ -22,14 +26,19 @@ export class SubjectPollModalComponent implements OnInit {
   pollResponseType = PollResponseType;
   professorList : Array<Professor>;
   answersList : Array<PollAnswer>;
+  showToastSuccess : boolean = false;
+  showToastError : boolean = false;
+  @Input() modal;
+  @Output() pollSuccessfulResultEventEmitter = new EventEmitter<boolean>();
+  
   
   pollQuestionFormGroup : FormGroup;
 
-  pollResponseTypesWithTwoResponses : Array<PollResponseType> = new Array<PollResponseType>(PollResponseType.PROFESSOR_RATING,PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER);
+  pollResponseTypesWithTwoResponses : Array<PollResponseType> = new Array<PollResponseType>(PollResponseType.PROFESSOR_RATING);
 
   getFromControl(name: string) { return this.pollQuestionFormGroup.get(name);}
 
-  constructor(private route :ActivatedRoute, private pollService: PollService, private professorService: ProfessorService) { }
+  constructor(private route :ActivatedRoute, private pollService: PollService, private professorService: ProfessorService, private pollAnswerService: PollAnswerService, private pollUserService: PollUserService, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -95,21 +104,52 @@ export class SubjectPollModalComponent implements OnInit {
         var shortAnswer = question.pollResponseType == PollResponseType.SHORT_ANSWER || question.pollResponseType == PollResponseType.SHORT_NUMBER_ANSWER ?
                           responseValue : (question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER && responseValue == "0" ? secondResponseValue : null);
 
-        var positiveAnswer = question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER ? responseValue : null; 
-        
+        var positiveAnswer = question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER ? responseValue == 1 : null;
+              
         var professor = question.pollResponseType == PollResponseType.PROFESSOR_RATING ? this.professorList.find(p=> p.id == Number(secondResponseValue)) : null;
 
-        var pollResponse = new PollAnswer(Number(rating),shortAnswer,positiveAnswer,professor, question);
+        var pollResponse = new PollAnswer(0,Number(rating),shortAnswer,positiveAnswer,professor, question);
         
         
         this.answersList.push(pollResponse);
-
       }  
-      
-      console.log(this.answersList);
-      this.answersList = new Array<PollAnswer>();
+    
+      this.pollAnswerService.addAll(this.answersList)
+       .then(responseAddAll=>
+        {
+
+          this.authService.getUserDetails(sessionStorage.getItem('token'))
+          .then(userResponse=>{
+            
+          
+            var pollUser = new PollUser(0,this.poll,userResponse);
+            this.pollUserService.add(pollUser)
+            .then(responseAddPoll=>{
+              this.modal.dismiss();
+              this.pollSuccessfulResultEventEmitter.emit(true);
+            })
+            .catch(errorAddPoll=>{
+              this.modal.dismiss();
+              this.pollSuccessfulResultEventEmitter.emit(false);
+            });
+
+          })
+          .catch(error=>{
+            this.modal.dismiss();
+            this.pollSuccessfulResultEventEmitter.emit(false);
+          });
+        })
+        .catch(errorAddAll=>{
+          this.modal.dismiss();
+          this.pollSuccessfulResultEventEmitter.emit(false);
+        });
       
     }
-    
+
+    yesNoRadioButtonSelected(value)
+    {
+
+
+    }
 
 }

@@ -14,27 +14,25 @@ import { PollUserService } from 'src/app/services/poll-user.service';
 import { PollService } from 'src/app/services/poll.service';
 import { ProfessorService } from 'src/app/services/professor.service';
 
-@Component({
-  selector: 'app-subject-poll-modal',
-  templateUrl: './subject-poll-modal.component.html',
-  styleUrls: ['./subject-poll-modal.component.css']
-})
-export class SubjectPollModalComponent implements OnInit {
 
-  @Input() subject: Subject;
-  poll: Poll;
+@Component({
+  selector: 'app-poll-modal',
+  templateUrl: './poll-modal.component.html',
+  styleUrls: ['./poll-modal.component.css']
+})
+export class PollModalComponent implements OnInit {
+
+  @Input() poll: Poll;
+  @Input() modal;
+  @Output() pollSuccessfulResultEventEmitter = new EventEmitter<boolean>();
+
   pollResponseType = PollResponseType;
   professorList : Array<Professor>;
   answersList : Array<PollAnswer>;
-  showToastSuccess : boolean = false;
-  showToastError : boolean = false;
-  @Input() modal;
-  @Output() pollSuccessfulResultEventEmitter = new EventEmitter<boolean>();
-  
-  
   pollQuestionFormGroup : FormGroup;
-
   pollResponseTypesWithTwoResponses : Array<PollResponseType> = new Array<PollResponseType>(PollResponseType.PROFESSOR_RATING);
+  completedPollFormControls : boolean = false;
+
 
   getFromControl(name: string) { return this.pollQuestionFormGroup.get(name);}
 
@@ -48,37 +46,25 @@ export class SubjectPollModalComponent implements OnInit {
     this.professorService.getAll()
       .then(professorResponse =>{
           this.professorList = professorResponse;
-
-          this.pollService.getBySubjectId(this.subject.id)
-          .then(pollResponse=>{
-    
-            this.poll = pollResponse;
-            
             this.poll.questions.forEach(question=>
             {
-    
-    
+              console.log(question.pollResponseType);
+              
               var initialValueFromControlFirstResponse = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER || question.pollResponseType == PollResponseType.PROFESSOR_RATING 
-                                            ?  "1" : '';
+                                                          ?  "1" : '';
               var formControlFirstResponse : FormControl = new FormControl( initialValueFromControlFirstResponse, [ Validators.required ]);
-     
+    
               if(this.pollResponseTypesWithTwoResponses.find(p => p == question.pollResponseType) != null)
               {
                 var initialValueFromControlSecondResponse = question.pollResponseType == PollResponseType.PROFESSOR_RATING  
                 ?  this.professorList[0].id : '';
-    
                 var formControlSecondResponse : FormControl = new FormControl( initialValueFromControlSecondResponse, [ Validators.required ]);  
-    
                 this.pollQuestionFormGroup.addControl(`${question.pollResponseType}${question.id}second`, formControlSecondResponse); 
-    
               } 
-    
+
               this.pollQuestionFormGroup.addControl(question.pollResponseType + question.id, formControlFirstResponse); 
-              
             })
-          })
-          .catch(pollError=>{
-          });
+            this.completedPollFormControls = true;
       })
       .catch(professorError =>{});
     }

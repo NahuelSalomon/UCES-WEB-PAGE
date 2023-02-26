@@ -16,6 +16,8 @@ import { ForumOrder } from 'src/app/models/forum-order';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PollUserService } from 'src/app/services/poll-user.service';
 import { PollService } from 'src/app/services/poll.service';
+import { Toast } from 'src/app/models/toast';
+import { Poll } from 'src/app/models/poll';
 
 @Component({
   selector: 'board-page',
@@ -27,42 +29,33 @@ export class BoardPageComponent implements OnInit {
   @Input() board: Board;
   @Input() orderTypeSelected: ForumOrder;
 
-
   forumType: ForumType;
   forumList: Array<Forum>;
   forumLikedUser: Array<Forum> = new Array<Forum>();
   userType = "ANONYMOUS";
   recommendationIsSelected = false;
-
-  textToastSuccess: string;
-  textToastError: string;
-
-  showToastSuccess: boolean = false;
-  showToastError: boolean = false;
-
+  toasts: Array<Toast> = new Array<Toast>();
   totalForums: number;
   numberOfPages: number;
   sizeOfPages: number;
   currentPageNumber: number;
-
   forumForm = new FormGroup({
     body: new FormControl('', [Validators.required])
   });
-
   responseQueryForm: FormGroup;
+  subjectPoll: Poll;
 
   get body() { return this.forumForm.get('body') }
-
-  getBodyQueryResponseControl(name: string) { return this.responseQueryForm.get(name); }
 
   constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService, private modalService: NgbModal, private pollUserService: PollUserService, private pollService: PollService) {
     this.currentPageNumber = 1;
     this.sizeOfPages = 3;
     this.numberOfPages = 0;
-
   }
 
   ngOnInit(): void {
+
+    
     this.forumType = ForumType.QUERY;
     this.userType = sessionStorage.getItem('userType');
     this.setForumList();
@@ -72,10 +65,14 @@ export class BoardPageComponent implements OnInit {
 
   }
 
+  /*we got here when we changed the subject*/ 
   ngOnChanges(changes: SimpleChanges) {
     this.currentPageNumber = 0;
     this.setForumList();
+    this.setSubjectPoll();
   }
+
+  getBodyQueryResponseControl(name: string) { return this.responseQueryForm.get(name); }
 
   changeForumType() {
     this.recommendationIsSelected = !this.recommendationIsSelected;
@@ -109,8 +106,6 @@ export class BoardPageComponent implements OnInit {
             this.responseQueryForm.addControl("bodyQueryResponse" + forum.id, formControl);
           });
         }
-
-
       })
       .catch(forumResponseError => { });
   }
@@ -123,6 +118,16 @@ export class BoardPageComponent implements OnInit {
       .catch(error => { });
   }
 
+  setSubjectPoll()
+  {
+    this.pollService.getBySubjectId(this.board.subject.id)
+      .then(pollResponse=>{
+        this.subjectPoll = pollResponse;
+      })
+      .catch(errorPollResponse=>{
+
+      })
+  }
 
   isQueryResponseValid(idQuery: number) {
     return this.getBodyQueryResponseControl("bodyQueryResponse" + idQuery).valid;
@@ -136,22 +141,16 @@ export class BoardPageComponent implements OnInit {
         var queryResponse: QueryResponse = new QueryResponse(0, body, userResponse, forum);
         this.queryResponseService.add(queryResponse)
           .then(queryResponseResponse => {
-
-
-            this.textToastSuccess = "La respuesta a la consulta se ha agregado con exito";
-            this.showToastSuccess = true;
+            this.showSuccessToast("La respuesta a la consulta se ha agregado con exito");  
             this.setForumList();
           })
           .catch(errorQueryResponse => {
-            this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
-            this.showToastError = true;
+            this.showErrorToast("Se ha producido un error al agregar la respuesta a la consulta");
           });
-
         this.responseQueryForm.reset();
       })
       .catch(errorUserResponse => {
-        this.textToastError = "Se ha producido un error al agregar la respuesta a la consulta";
-        this.showToastError = true;
+        this.showErrorToast("Se ha producido un error al agregar la respuesta a la consulta");
       });
   }
 
@@ -191,8 +190,6 @@ export class BoardPageComponent implements OnInit {
       .then(response => {
         var user = response;
         var body = this.body.value;
-
-
         var forum: Forum = this.forumType == ForumType.RECOMMENDATION ?
           new Recommendation(0, body, new Date(), user, this.board) :
           (this.forumType == ForumType.QUERY ? forum = new Query(0, body, new Date(), user, this.board) : null);
@@ -201,25 +198,17 @@ export class BoardPageComponent implements OnInit {
           this.forumService.add(forum)
             .then(response => {
               this.setForumList();
-
-              this.textToastSuccess = "El foro se ha agregado con éxito";
-              this.showToastSuccess = true;
+              this.showSuccessToast("El foro se ha agregado con éxito");  
             })
             .catch(error => {
-
-              this.textToastError = "Se ha producido un error al agregar el foro";
-              this.showToastError = true;
+              this.showErrorToast("Se ha producido un error al agregar el foro");
             })
         }
-
         this.forumForm.reset();
-
       })
-      .catch(error => {
-        this.textToastError = "Se ha producido un error al agregar el foro";
-        this.showToastError = true;
+      .catch(error => {              
+        this.showErrorToast("Se ha producido un error al agregar el foro");
       })
-
   }
 
   pageChange(page) {
@@ -240,19 +229,13 @@ export class BoardPageComponent implements OnInit {
               this.setForumList();
             }
 
-
           })
           .catch(error => {
 
           });
-
-
       })
       .catch(userError => {
-
       });
-
-
   }
 
   openModal(content) {
@@ -274,43 +257,52 @@ export class BoardPageComponent implements OnInit {
               }
               else
               {
-                alert("Ya has respondido esta encuesta");
+                this.showWarningToast("Ya has respondido esta encuesta");
               }
 
-             
             })
             .catch(errorPollUser => {
-  
+                this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
             })
-
-
           })
           .catch(errorUserResponse => {
-
+            this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
           })
-       
-
       })
       .catch(errorPollResponse => {
-
+        this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
       });
-
-
-
-
-
   }
 
   pollSuccessfulResultEvent(result) {
-    console.log(result);
-
     if (result) {
-      this.showToastSuccess = true;
-      this.textToastSuccess = "La ecuesta se ha enviado de manera exitosa";
+      this.showSuccessToast("La ecuesta se ha enviado de manera exitosa");
     }
     else {
-      this.showToastError = true;
-      this.textToastError = "Ha ocurrido un error al enviar la encuesta";
+      this.showErrorToast("Ha ocurrido un error al enviar la encuesta");
+    }
+  }
+
+  showSuccessToast(toastBody: string)
+  {
+    this.toasts.push({class: "success-alert", delay:2000, body: toastBody,iconClass: "fa-solid fa-circle-check"});
+  }
+
+  showErrorToast(toastBody: string)
+  {
+    this.toasts.push({class: "error-alert", delay:2000, body: toastBody,iconClass: "fa-solid fa-circle-xmark"});
+  }
+
+  showWarningToast(toastBody: string)
+  {
+    this.toasts.push({class: "warning-alert", delay:2000, body: toastBody,iconClass: "fa-solid fa-triangle-exclamation"});
+  }
+
+  removeToast(toast)
+  {
+    const index = this.toasts.indexOf(toast);
+    if (index > -1) {
+      this.toasts.splice(index, 1);
     }
   }
 

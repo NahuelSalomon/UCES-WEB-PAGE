@@ -1,20 +1,26 @@
 <app-nav-bar></app-nav-bar>
 <main>
   <header class="py-3 mb-4 border-bottom">
-    <div class="container d-flex flex-wrap justify-content-center">
-      <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-       <span class="fs-4" *ngIf="career"> <i class="fa-solid fa-graduation-cap "></i>  {{career.name}} </span>
-      </a>
+    <div class="container-xl px-4 mt-n10">
+      <div class="row">
+        <div class="col-6">
+          <div class="d-flex flex-wrap justify-content-center">
+            <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+             <span class="fs-4" *ngIf="career"> <i class="fa-solid fa-graduation-cap "></i>  {{career.name}} </span>
+            </a>
+          </div>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+          <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(careerPollModal)">Encuesta de carrera</button>
+          <ng-template #careerPollModal let-modal>
+            <app-poll-modal [modal]="modal" [poll]="careerPoll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
+          </ng-template>
+        </div>
+      </div>
     </div>
   </header>
   <!-- Main page content-->
   <div class="container-xl px-4 mt-n10">
-
-    <!-- <div class="row mb-4">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary" type="button" style="background-color: #405967;" (click)="callPollByCareer(career.id)">Encuesta de carrera</button>
-      </div>
-    </div> -->
 
     <div class="row">
 
@@ -38,6 +44,16 @@
 
 
     <board-page *ngIf="board" [board]="board" [orderTypeSelected]="orderTypeSelected"></board-page>
+
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+      <ngb-toast *ngFor="let toast of toasts"   
+        [class]="toast.class" 
+        [delay]="toast.delay" 
+        [autohide]="true"
+        (hidden)="removeToast(toast)">
+        <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
+      </ngb-toast>
+    </div>
 
   </div>
 </main>

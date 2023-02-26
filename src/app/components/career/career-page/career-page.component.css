@@ -2,3 +2,27 @@
     background-color: #A989B0;
 }
 
+.success-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#dcf3d7!important; 
+    color: #3f5438 !important;
+}
+
+.error-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#eec8c5!important; 
+    color: #a12120 !important;
+}
+
+
+.warning-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#FFF3CD!important; 
+    color: #7E6D5D !important;
+}

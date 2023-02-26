@@ -26,6 +26,16 @@
     color: #a12120 !important;
 }
 
+
+.warning-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#FFF3CD!important; 
+    color: #7E6D5D !important;
+}
+
+
 .btn-secu
 {
     background-color: transparent;

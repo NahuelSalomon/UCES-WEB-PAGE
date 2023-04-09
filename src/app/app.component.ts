@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
@@ -17,7 +18,7 @@ export class AppComponent {
   
   title = 'UCES-WEB-PAGE';
 
-  constructor() {}
+  constructor(private sanitizer: DomSanitizer) {}
 
 
 
@@ -25,5 +26,4 @@ export class AppComponent {
 
   }
   
-
 }

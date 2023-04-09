@@ -18,6 +18,8 @@ import { PollUserService } from 'src/app/services/poll-user.service';
 import { PollService } from 'src/app/services/poll.service';
 import { Toast } from 'src/app/models/toast';
 import { Poll } from 'src/app/models/poll';
+import { Byte } from '@angular/compiler/src/util';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'board-page',
@@ -47,7 +49,7 @@ export class BoardPageComponent implements OnInit {
 
   get body() { return this.forumForm.get('body') }
 
-  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService, private modalService: NgbModal, private pollUserService: PollUserService, private pollService: PollService) {
+  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService, private modalService: NgbModal, private pollUserService: PollUserService, private pollService: PollService, private sanitizer: DomSanitizer) {
     this.currentPageNumber = 1;
     this.sizeOfPages = 3;
     this.numberOfPages = 0;
@@ -62,6 +64,9 @@ export class BoardPageComponent implements OnInit {
 
     this.responseQueryForm = new FormGroup({});
     this.setForumsLikedUser();
+
+ 
+    
 
   }
 
@@ -96,6 +101,10 @@ export class BoardPageComponent implements OnInit {
     promiseToGetForumList
       .then(forumResponse => {
         this.forumList = forumResponse.body;
+
+        console.log(this.forumList);
+        
+
         if (forumResponse != null) {
           this.numberOfPages = forumResponse.headers.get("X-Total-Pages");
           this.totalForums = forumResponse.headers.get("X-Total-Count");
@@ -106,6 +115,8 @@ export class BoardPageComponent implements OnInit {
             this.responseQueryForm.addControl("bodyQueryResponse" + forum.id, formControl);
           });
         }
+
+
       })
       .catch(forumResponseError => { });
   }
@@ -304,6 +315,18 @@ export class BoardPageComponent implements OnInit {
     if (index > -1) {
       this.toasts.splice(index, 1);
     }
+    
+  }
+
+  convertBytesToImage(bytes)
+  {
+    if(bytes != null)
+    {
+      const uInt8Array = Uint8Array.from(atob(bytes), c => c.charCodeAt(0));
+      const blob = new Blob([uInt8Array], { type: 'application/octet-stream' });
+      return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)) as string;
+    }
+    return '../../../assets/images/default-avatar-image.jpg';
   }
 
 }

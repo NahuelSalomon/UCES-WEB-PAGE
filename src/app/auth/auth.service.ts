@@ -120,7 +120,7 @@ export class AuthService {
       } else
       {
         this.hiddenDataService.receiveData(new HiddenData(
-                                            new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active']),
+                                            new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active'],userDetails['image']),
                                             token                                                
                                             ));             
                                                        

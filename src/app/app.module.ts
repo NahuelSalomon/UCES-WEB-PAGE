@@ -33,7 +33,7 @@ import { AddProfessorComponent } from './components/professor/add-professor/add-
 import { EditProfessorComponent } from './components/professor/edit-professor/edit-professor.component';
 import { CareerPollComponent } from './components/career/career-poll/career-poll.component';
 import { PollModalComponent } from './components/polls/poll-modal/poll-modal.component';
-
+import { NgxFileDropModule  } from 'ngx-file-drop';
 
 
 
@@ -73,7 +73,8 @@ import { PollModalComponent } from './components/polls/poll-modal/poll-modal.com
     AppRoutingModule,
     ReactiveFormsModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxFileDropModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }

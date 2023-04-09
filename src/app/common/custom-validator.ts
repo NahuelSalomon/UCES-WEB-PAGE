@@ -29,9 +29,7 @@ export class CustomValidator {
         let regExp: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 
         return(control: AbstractControl): {[key:string]: any} | null => {
-            const password1Upper1Lower1NumberMin8 = regExp.test(control.value);
-            console.log("Contra "+control.value);
-            
+            const password1Upper1Lower1NumberMin8 = regExp.test(control.value);            
             return !password1Upper1Lower1NumberMin8 ? { 'password1Upper1Lower1NumberMin8': {value: control.value}} : null;
         };
     }
@@ -41,13 +39,6 @@ export class CustomValidator {
 
         return(control: AbstractControl): {[key:string]: any} | null => {
             const positiveNumbersOnly = regExp.test(control.value);
-            /* let positiveNumbersOnly = false;
-            if(Number.isInteger(control.value)) {
-                if(control.value > 0) {
-                    positiveNumbersOnly = true;
-                }
-            } */
-
             return !positiveNumbersOnly ? { 'positiveNumbersOnly': {value: control.value}} : null;
         };
 

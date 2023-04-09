@@ -10,6 +10,9 @@ import { UserType } from 'src/app/models/user-type';
 import { EmailSenderService } from 'src/app/services/email-sender.service';
 import { HiddenDataService } from 'src/app/services/hidden-data.service';
 import { UserService } from 'src/app/services/user.service';
+import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Byte } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +38,7 @@ export class RegisterComponent implements OnInit {
   
 
   constructor(private authService: AuthService, private router: Router, private userService : UserService, 
-              private hiddenDataService: HiddenDataService,private emailSenderService : EmailSenderService) { 
+              private hiddenDataService: HiddenDataService,private emailSenderService : EmailSenderService,private sanitizer: DomSanitizer) { 
   }
 
   ngOnInit(): void {
@@ -49,8 +52,11 @@ export class RegisterComponent implements OnInit {
 
   createAccount()
   {
-    var user: User = new User(0,this.firstname.value,this.lastname.value,this.email.value,this.password.value,UserType.ROLE_STUDENT,true);
+    var user: User = new User(0,this.firstname.value,this.lastname.value,this.email.value,this.password.value,UserType.ROLE_STUDENT,true, this.selectedImageBytes);
     
+    console.log(user);
+    
+
     this.authService.register(user)
     .then(tokenResponse=>{
         this.emailSenderService.confirmEmail(new SendEmailRequest(user.email,`http://localhost:4200/email-confirmed`)).then(response=>{
@@ -60,9 +66,38 @@ export class RegisterComponent implements OnInit {
         }).catch(error=>{});
     })
     .catch(response=>{
+      console.log(response);
+      
       window.alert('Ha ocurrido un error');
     });
     
   }
+
+  defaultImage = '/assets/images/default-avatar-image.jpg';
+  selectedImageUrl: string;
+  selectedImageBytes: Array<Byte>;;
+
+  onFileSelected(event) {
+    const file: File = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      const arrayBuffer = reader.result as ArrayBuffer;
+      const uInt8Array = new Uint8Array(arrayBuffer);
+      this.selectedImageBytes = Array.from(new Uint8Array(uInt8Array));
+      const blob = new Blob([uInt8Array], { type: file.type });
+      this.selectedImageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)) as string;
+    };
+
+    reader.readAsArrayBuffer(file);
+  }
+
+  onImageError()
+  {
+    this.selectedImageBytes = null;
+    this.selectedImageUrl = null;
+  }
+  
+  
 
 }

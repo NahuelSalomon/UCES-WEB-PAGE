@@ -12,101 +12,116 @@
                         <form id="register-form" [formGroup]="registerForm" (ngSubmit)="createAccount()" class="form"
                             method="post">
 
-                            <div class="form-group mb-25 row">
-                                <div class="col-6">
-                                    
-                                    
-                                    <div class="input-group" style="margin: 0px;">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-id-card"></i></span>
-                                    
-                                                <input type="text" formControlName="firstname" name="firstname" maxlength="40"
-                                                id="firstname" placeholder="Nombre" class="form-control" [ngClass]="{'is-invalid': (!firstname.valid && (firstname.dirty || firstname.touched)), 'is-valid' : (firstname.valid && (firstname.dirty || firstname.touched))}">
-                 
-                                                <div class="invalid-feedback" *ngIf="(!firstname.valid && (firstname.dirty || firstname.touched))">
-                                                    <div *ngIf="firstname.errors?.required">Por favor ingrese su nombre.</div>
-                                                    <div *ngIf="firstname.errors?.lettersOnly">El nombre solo puede contener letras.</div>                                   
-                                                </div>
-                                    
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="text-center avatar-box">
+                                        <input type="file" (change)="onFileSelected($event)" accept="image/*" id="fileInput" style="display:none">
+                                        <img [src]="selectedImageUrl ? selectedImageUrl : defaultImage" (error)="onImageError()" class="avatar">
+                                        <label for="fileInput" class="btn btn-primary">Elegir imagen</label>
                                     </div>
-                                    
-
 
                                 </div>
-                                <div class="col-6">
-                                    
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-id-card"></i></span>
+                                <div class="col-8">
+                                    <div class="form-group mb-25 row">
+                                        <div class="col-6">
                                             
-                                    
-                                    <input type="text" formControlName="lastname" name="lastname" maxlength="40"
-                                        id="lastname" placeholder="Apellido" class="form-control" [ngClass]="{'is-invalid': (!lastname.valid && (lastname.dirty || lastname.touched)), 'is-valid' : (lastname.valid && (lastname.dirty || lastname.touched)) }">
+                                            
+                                            <div class="input-group" style="margin: 0px;">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-id-card"></i></span>
+                                            
+                                                        <input type="text" formControlName="firstname" name="firstname" maxlength="40"
+                                                        id="firstname" placeholder="Nombre" class="form-control" [ngClass]="{'is-invalid': (!firstname.valid && (firstname.dirty || firstname.touched)), 'is-valid' : (firstname.valid && (firstname.dirty || firstname.touched))}">
+                         
+                                                        <div class="invalid-feedback" *ngIf="(!firstname.valid && (firstname.dirty || firstname.touched))">
+                                                            <div *ngIf="firstname.errors?.required">Por favor ingrese su nombre.</div>
+                                                            <div *ngIf="firstname.errors?.lettersOnly">El nombre solo puede contener letras.</div>                                   
+                                                        </div>
+                                            
+                                            </div>
+                                            
+        
+        
+                                        </div>
+                                        <div class="col-6">
+                                            
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-id-card"></i></span>
+                                                    
+                                            
+                                            <input type="text" formControlName="lastname" name="lastname" maxlength="40"
+                                                id="lastname" placeholder="Apellido" class="form-control" [ngClass]="{'is-invalid': (!lastname.valid && (lastname.dirty || lastname.touched)), 'is-valid' : (lastname.valid && (lastname.dirty || lastname.touched)) }">
+                                                
+                                                <div class="invalid-feedback" *ngIf="(!lastname.valid && (lastname.dirty || lastname.touched))">
+                                                    <div *ngIf="lastname.errors?.required">Por favor ingrese su apellido.</div>
+                                                    <div *ngIf="lastname.errors?.lettersOnly">El apellido solo puede contener letras.</div>                                   
+                                                </div>
+                                            </div>
+                                        </div>
                                         
-                                        <div class="invalid-feedback" *ngIf="(!lastname.valid && (lastname.dirty || lastname.touched))">
-                                            <div *ngIf="lastname.errors?.required">Por favor ingrese su apellido.</div>
-                                            <div *ngIf="lastname.errors?.lettersOnly">El apellido solo puede contener letras.</div>                                   
+                                    </div>
+        
+                                    <div class="form-group mb-25">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fa-solid fa-envelope" style="margin-right: 1px;margin-left: 1px;"></i></span>
+                                                    <input type="mail" placeholder="Mail" formControlName="email" name="mail" id="mail"
+                                            class="form-control" [ngClass]="{'is-invalid': (!email.valid && (email.dirty || email.touched)), 'is-valid' : (email.valid && (email.dirty || email.touched)) }">
+        
+                                            <div class="invalid-feedback" *ngIf="(!email.valid && (email.dirty || email.touched))" >
+                                                <div *ngIf="email.errors?.required">Por favor ingrese su email.</div>
+                                                <div *ngIf="email.errors?.email">El mail debe tener un formato de mail valido.</div>
+                                                <div *ngIf="email.errors?.emailExists">Ya existe una cuenta con este mail.</div>                                   
+                                            </div>
+        
+                                            </div>
+                                    
+                              
+                                    </div>
+        
+                                    <div class="form-group mb-25 row">
+                                        <div class="col-6">
+                                            
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        style="margin-right: 2px;margin-left: 2px;" class="fa-solid fa-lock"></i></span>
+                                                        <input type="password" formControlName="password" name="password"
+                                                        id="password" placeholder="Contraseña" class="form-control" [ngClass]="{'is-invalid': (!password.valid && (password.dirty || password.touched)), 'is-valid' : (password.valid && (password.dirty || password.touched))}">
+                                                    <div class="invalid-feedback" *ngIf="(!password.valid && (password.dirty || password.touched))">
+                                                        <div *ngIf="password.errors?.password1Upper1Lower1NumberMin8">La contraseña debe tener al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, y 1 caracter especial.</div>
+                                                    </div>
+        
+                                            </div>
+        
+           
+                                        </div>
+                                        <div class="col-6">
+                                            
+                                            <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    style="margin-right: 2px;margin-left: 2px;" class="fa-solid fa-lock"></i></span>
+                                                    <input type="password" formControlName="passwordRepeat" name="confirmPassword" id="confirmPassword"
+                                                    placeholder="Confirmar contraseña" class="form-control" [ngClass]="{'is-invalid': (!passwordRepeat.valid && (passwordRepeat.dirty || passwordRepeat.touched)), 'is-valid' : (passwordRepeat.valid && (passwordRepeat.dirty || passwordRepeat.touched))}">
+                                                    <div class="invalid-feedback" *ngIf="(!passwordRepeat.valid && (passwordRepeat.dirty || passwordRepeat.touched))" >
+                                                        <div *ngIf="passwordRepeat.errors?.required">Por favor confirme su contraseña.</div>                            
+                                                        <div *ngIf="passwordRepeat.errors?.mustMatch">Las contraseñas con coinciden.</div>
+                                                    </div>
+                                            </div>
                                         </div>
                                     </div>
+        
+                                    <div class="text-end">
+                                        <input type="button" (click)="redirectToLogin()" class="btn btn-secondary btn-lg fs-18"
+                                            value="Cancelar"
+                                            style="border: none;color: white; margin:5px;" />
+        
+                                        <input type="button" (click)="createAccount()" class="btn btn-lg fs-18 bg-blue-utn"
+                                            value="Crear cuenta"
+                                            style="border: none;color: white; margin:5px;" [disabled]="!registerForm.valid" />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-25">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1"><i
-                                            class="fa-solid fa-envelope" style="margin-right: 1px;margin-left: 1px;"></i></span>
-                                            <input type="mail" placeholder="Mail" formControlName="email" name="mail" id="mail"
-                                    class="form-control" [ngClass]="{'is-invalid': (!email.valid && (email.dirty || email.touched)), 'is-valid' : (email.valid && (email.dirty || email.touched)) }">
-
-                                    <div class="invalid-feedback" *ngIf="(!email.valid && (email.dirty || email.touched))" >
-                                        <div *ngIf="email.errors?.required">Por favor ingrese su email.</div>
-                                        <div *ngIf="email.errors?.email">El mail debe tener un formato de mail valido.</div>
-                                        <div *ngIf="email.errors?.emailExists">Ya existe una cuenta con este mail.</div>                                   
-                                    </div>
-
-                                    </div>
                             
-                      
-                            </div>
-
-                            <div class="form-group mb-25 row">
-                                <div class="col-6">
-                                    
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1"><i
-                                                style="margin-right: 2px;margin-left: 2px;" class="fa-solid fa-lock"></i></span>
-                                                <input type="password" formControlName="password" name="password"
-                                                id="password" placeholder="Contraseña" class="form-control" [ngClass]="{'is-invalid': (!password.valid && (password.dirty || password.touched)), 'is-valid' : (password.valid && (password.dirty || password.touched))}">
-                                            <div class="invalid-feedback" *ngIf="(!password.valid && (password.dirty || password.touched))">
-                                                <div *ngIf="password.errors?.password1Upper1Lower1NumberMin8">La contraseña debe tener al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, y 1 caracter especial.</div>
-                                            </div>
-
-                                    </div>
-
-   
-                                </div>
-                                <div class="col-6">
-                                    
-                                    <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i
-                                            style="margin-right: 2px;margin-left: 2px;" class="fa-solid fa-lock"></i></span>
-                                            <input type="password" formControlName="passwordRepeat" name="confirmPassword" id="confirmPassword"
-                                            placeholder="Confirmar contraseña" class="form-control" [ngClass]="{'is-invalid': (!passwordRepeat.valid && (passwordRepeat.dirty || passwordRepeat.touched)), 'is-valid' : (passwordRepeat.valid && (passwordRepeat.dirty || passwordRepeat.touched))}">
-                                            <div class="invalid-feedback" *ngIf="(!passwordRepeat.valid && (passwordRepeat.dirty || passwordRepeat.touched))" >
-                                                <div *ngIf="passwordRepeat.errors?.required">Por favor confirme su contraseña.</div>                            
-                                                <div *ngIf="passwordRepeat.errors?.mustMatch">Las contraseñas con coinciden.</div>
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-end">
-                                <input type="button" (click)="redirectToLogin()" class="btn btn-secondary btn-lg fs-18"
-                                    value="Cancelar"
-                                    style="border: none;color: white; margin:5px;" />
-
-                                <input type="button" (click)="createAccount()" class="btn btn-lg fs-18 bg-blue-utn"
-                                    value="Crear cuenta"
-                                    style="border: none;color: white; margin:5px;" [disabled]="!registerForm.valid" />
-                            </div>
 
                         </form>
                     </div>

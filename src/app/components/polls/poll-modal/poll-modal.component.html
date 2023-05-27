@@ -10,7 +10,7 @@
                 <p style="font-weight: 600;">{{ question.question }}</p>
                 
                 <!-- YES_NO_DESCRIPTION_IN_NO_ANSWER -->
-                <div *ngIf="question.pollResponseType == pollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER" >
+                <div *ngIf="question.pollResponseType == pollResponseType.YES_NO_ANSWER" >
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="{{question.pollResponseType}}{{question.id}}" value="1" id="rating1{{question.id}}" formControlName="{{question.pollResponseType}}{{question.id}}" (ngModelChange)="yesNoRadioButtonSelected(question.pollResponseType+question.id)" checked>
                         <label class="form-check-label" for="rating1{{question.id}}">Si</label>
@@ -61,9 +61,9 @@
                 </div>
 
                 <!-- PROFESSOR_RATING -->
-                <div *ngIf="question.pollResponseType == pollResponseType.SHORT_ANSWER" >
+                <!-- <div *ngIf="question.pollResponseType == pollResponseType.SHORT_ANSWER" >
                     <textarea class="form-control" formControlName="{{question.pollResponseType}}{{question.id}}" rows="3"></textarea>
-                </div>
+                </div> -->
 
 
             </div>

@@ -21,7 +21,7 @@
         </ul>
 
       </div>
-      <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+      <div class="col-md-6 col-sm-12 d-flex justify-content-end" *ngIf="userType !== undefined && userType !== null" >
         <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(subjectPollModal)">Encuesta de materia</button>
         <ng-template #subjectPollModal let-modal>
           <app-poll-modal [modal]="modal" [poll]="subjectPoll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
@@ -53,7 +53,7 @@
              <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
              <div class="interaction-btns text-end mr-ml-16">
                <div *ngIf="!recommendationIsSelected" style="display: inline-block;">
-                 <button class="btn btn-light btn-secu mb-0" (click)="responseQuery(forum)"><i class="fa-regular fa-comment-dots" ></i> Responder</button>
+                 <button *ngIf="userType !== undefined && userType !== null" class="btn btn-light btn-secu mb-0" (click)="responseQuery(forum)"><i class="fa-regular fa-comment-dots"></i> Responder</button>
                  <p class="d-in-block mb-0"> · </p>
                  <button class="btn btn-light btn-transparent mb-0" *ngIf="forum.responses" (click)="showQueryResponsesForum(forum)">{{forum.responses.length}}
                    Respuestas <i *ngIf="isEnabledQueryResponsesControl(forum)" class="fa-regular fa-square-caret-up"></i>
@@ -61,7 +61,7 @@
                    </button>
                  <p class="d-in-block mb-0 pd-6-12"><i class="fa-solid fa-grip-lines-vertical"></i></p>
                </div>
-               <button class="btn btn-light btn-secu mb-0" (click)="voteUnVoteForum(forum)">
+               <button class="btn btn-light btn-secu mb-0" (click)="voteUnVoteForum(forum)" *ngIf="userType !== undefined && userType !== null">
                  <i [ngClass]="forumRecommendedByTheLoggedUser(forum) ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up' " style="margin-bottom: 0px !important;"></i> Recomendar
                </button>
                <p class="d-in-block mb-0"> · </p>
@@ -69,11 +69,7 @@
              </div>
 
             </div>
-          </div>
-        
-
-
-          
+          </div>          
           <div *ngIf="!recommendationIsSelected && forum.responses && isEnabledQueryResponsesControl(forum)">
             <div class="col-12">
               <hr class="mb-mt-0 mr-ml-16" />
@@ -85,7 +81,7 @@
 
               <div class="col-1"></div>
               <div class="col-11">
-                    <form [formGroup]="responseQueryForm">
+                    <form [formGroup]="responseQueryForm" *ngIf="userType !== undefined && userType !== null">
                       <div class="row" style="padding-top: 16px;">
                     <div class="col-11">
                       <div class="mb-3" >

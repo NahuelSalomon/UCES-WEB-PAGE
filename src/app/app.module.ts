@@ -34,6 +34,7 @@ import { EditProfessorComponent } from './components/professor/edit-professor/ed
 import { CareerPollComponent } from './components/career/career-poll/career-poll.component';
 import { PollModalComponent } from './components/polls/poll-modal/poll-modal.component';
 import { NgxFileDropModule  } from 'ngx-file-drop';
+import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 
 
 
@@ -62,7 +63,8 @@ import { NgxFileDropModule  } from 'ngx-file-drop';
     AddProfessorComponent,
     EditProfessorComponent,
     CareerPollComponent,
-    PollModalComponent
+    PollModalComponent,
+    UserDetailsComponent
 
   ],
   imports: [

@@ -50,7 +50,7 @@ export class PollModalComponent implements OnInit {
             {
               console.log(question.pollResponseType);
               
-              var initialValueFromControlFirstResponse = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER || question.pollResponseType == PollResponseType.PROFESSOR_RATING 
+              var initialValueFromControlFirstResponse = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_ANSWER || question.pollResponseType == PollResponseType.PROFESSOR_RATING 
                                                           ?  "1" : '';
               var formControlFirstResponse : FormControl = new FormControl( initialValueFromControlFirstResponse, [ Validators.required ]);
     
@@ -87,14 +87,11 @@ export class PollModalComponent implements OnInit {
         var rating = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.PROFESSOR_RATING ?
                      responseValue : null;
 
-        var shortAnswer = question.pollResponseType == PollResponseType.SHORT_ANSWER || question.pollResponseType == PollResponseType.SHORT_NUMBER_ANSWER ?
-                          responseValue : (question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER && responseValue == "0" ? secondResponseValue : null);
-
-        var positiveAnswer = question.pollResponseType == PollResponseType.YES_NO_DESCRIPTION_IN_NO_ANSWER ? responseValue == 1 : null;
+        var positiveAnswer = question.pollResponseType == PollResponseType.YES_NO_ANSWER ? responseValue == 1 : null;
               
         var professor = question.pollResponseType == PollResponseType.PROFESSOR_RATING ? this.professorList.find(p=> p.id == Number(secondResponseValue)) : null;
 
-        var pollResponse = new PollAnswer(0,Number(rating),shortAnswer,positiveAnswer,professor, question);
+        var pollResponse = new PollAnswer(0,Number(rating),positiveAnswer,professor, question);
         
         
         this.answersList.push(pollResponse);

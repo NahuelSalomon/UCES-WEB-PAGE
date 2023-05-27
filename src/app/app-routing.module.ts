@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdministratorGuard } from './auth/administrator.guard';
+import { IsLoggedGuard } from './auth/is-logged.guard';
 import { CareerListComponent } from './components/career/career-list/career-list.component';
 import { CareerPageComponent } from './components/career/career-page/career-page.component';
 import { CareerPollComponent } from './components/career/career-poll/career-poll.component';
@@ -13,6 +14,7 @@ import { ProfessorListComponent } from './components/professor/professor-list/pr
 import { RegisterComponent } from './components/register/register.component';
 import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
+import { UserDetailsComponent } from './components/users/user-details/user-details.component';
 
 
 const routes: Routes = [
@@ -28,6 +30,7 @@ const routes: Routes = [
   {path:'send-email-to-reset-password', component:SendEmailToResetPasswordComponent},
   {path:'reset-password', component:ResetPasswordComponent},
   {path: 'professor/list', component:ProfessorListComponent},
+  {path: 'user/details', component: UserDetailsComponent, canActivate: [IsLoggedGuard]},
   {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 

@@ -41,12 +41,14 @@ export class CareerPageComponent implements OnInit {
   listOrderTypes: Array<ForumOrderDescription>;
   orderTypeSelected: ForumOrder;
   toasts: Array<Toast> = new Array<Toast>();
+  userType: string;
   
 
   ngOnInit(): void {      
     this.listOrderTypes = ForumOrderLabel;
     this.orderTypeSelected = ForumOrder.ORDER_BY_DATE;
-    
+    this.userType = sessionStorage.getItem('userType');
+
     this.forumType = ForumType.QUERY;
     this.route.params.subscribe(params => {
       this.careerService.getById(params.id)

@@ -5,17 +5,15 @@ export class PollAnswer {
 
     id: number;
     rating: number;
-    shortAnswer: string;
     positiveAnswer: boolean;
     professor: Professor;
     pollQuestion: PollQuestion;
 
 
-    constructor(id: number,rating: number, shortAnswer: string, positiveAnswer: boolean, professor: Professor, pollQuestion: PollQuestion)
+    constructor(id: number,rating: number, positiveAnswer: boolean, professor: Professor, pollQuestion: PollQuestion)
     {
         this.id = id;
         this.rating = rating;
-        this.shortAnswer = shortAnswer;
         this.positiveAnswer = positiveAnswer;
         this.professor = professor;
         this.pollQuestion = pollQuestion;

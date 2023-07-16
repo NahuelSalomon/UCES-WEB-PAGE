@@ -30,7 +30,7 @@ const routes: Routes = [
   {path:'send-email-to-reset-password', component:SendEmailToResetPasswordComponent},
   {path:'reset-password', component:ResetPasswordComponent},
   {path: 'professor/list', component:ProfessorListComponent},
-  {path: 'user/details', component: UserDetailsComponent, canActivate: [IsLoggedGuard]},
+  {path: 'user/details', component: UserDetailsComponent},
   {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 

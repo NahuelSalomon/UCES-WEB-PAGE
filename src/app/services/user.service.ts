@@ -30,7 +30,11 @@ export class UserService {
       })
     };
   
-   return this.http.put(`${this.urlAPI}/${user.id}`, user, headerAuth).toPromise(); 
+    const updateedUser = {
+      image: user.image 
+    };
+
+   return this.http.put(`${this.urlAPI}/${user.id}`, updateedUser , headerAuth).toPromise(); 
   }
 
 

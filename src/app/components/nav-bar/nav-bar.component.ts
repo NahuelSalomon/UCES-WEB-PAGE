@@ -42,8 +42,6 @@ export class NavBarComponent implements OnInit {
       this.authService.getUserDetails(sessionStorage.getItem('token'))
       .then(response => {
         this.user = response;
-        console.log(this.user.firstname);
-        
       })
       .catch(error => {              
         //this.showErrorToast("Se ha producido un error al agregar el foro");

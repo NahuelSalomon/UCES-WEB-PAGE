@@ -33,6 +33,14 @@ margin-bottom: 0px;
     margin-bottom: 25px;
   }
 
+  .mb-10 {
+    margin-bottom: 10;
+  }
+
+  .mb-5 {
+    margin-bottom: 5px;
+  }
+
   .fs-20{
     font-size: 20px;
     font-weight: 600;
@@ -123,4 +131,27 @@ ngb-pagination .page-item.active .page-link {
   border-color: #405967 !important;
 }
 
+.success-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#dcf3d7!important; 
+    color: #3f5438 !important;
+}
 
+.error-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#eec8c5!important; 
+    color: #a12120 !important;
+}
+
+
+.warning-alert
+{
+    font-size:16px; 
+    padding: 8px; 
+    background-color:#FFF3CD!important; 
+    color: #7E6D5D !important;
+}

@@ -101,10 +101,7 @@ export class BoardPageComponent implements OnInit {
     promiseToGetForumList
       .then(forumResponse => {
         this.forumList = forumResponse.body;
-
-        console.log(this.forumList);
         
-
         if (forumResponse != null) {
           this.numberOfPages = forumResponse.headers.get("X-Total-Pages");
           this.totalForums = forumResponse.headers.get("X-Total-Count");

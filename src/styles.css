@@ -118,7 +118,7 @@ margin-bottom: 0px;
   border-radius: 12px;
   padding: 7px 10px;
   cursor: pointer;
-  background-color: #f0f0f0;
+  background-color: white;
   color: #405967;
 	font-size: 1em;
   font-weight: bold;
@@ -154,4 +154,29 @@ ngb-pagination .page-item.active .page-link {
     padding: 8px; 
     background-color:#FFF3CD!important; 
     color: #7E6D5D !important;
+}
+
+.container-xl
+{
+  max-width: 1700px !important;
+}
+
+.component-container
+{
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 5px;
+    display: block;
+    color: hsl(204, 14%, 36%);
+    border: #405967 3px solid;
+    margin-bottom: 20px;
+}
+
+.component-container-data
+{
+  background-color: #405967;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
 }

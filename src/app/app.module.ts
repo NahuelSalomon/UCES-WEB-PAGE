@@ -35,6 +35,8 @@ import { CareerPollComponent } from './components/career/career-poll/career-poll
 import { PollModalComponent } from './components/polls/poll-modal/poll-modal.component';
 import { NgxFileDropModule  } from 'ngx-file-drop';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { CareerStatisticsComponent } from './components/career/career-statistics/career-statistics.component';
+import { SubjectStatisticsComponent } from './components/subjects/subject-statistics/subject-statistics.component';
 
 
 
@@ -64,7 +66,9 @@ import { UserDetailsComponent } from './components/users/user-details/user-detai
     EditProfessorComponent,
     CareerPollComponent,
     PollModalComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    CareerStatisticsComponent,
+    SubjectStatisticsComponent
 
   ],
   imports: [

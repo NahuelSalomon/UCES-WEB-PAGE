@@ -22,7 +22,7 @@
 
       </div>
       <div class="col-md-6 col-sm-12 d-flex justify-content-end" *ngIf="userType !== undefined && userType !== null" >
-        <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(subjectPollModal)">Encuesta de materia</button>
+        <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(subjectPollModal)"><i class="fa-solid fa-square-poll-vertical"></i> Encuesta de materia</button>
         <ng-template #subjectPollModal let-modal>
           <app-poll-modal [modal]="modal" [poll]="subjectPoll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
         </ng-template>
@@ -35,7 +35,7 @@
     <div *ngIf="forumList">
       <div *ngFor="let forum of forumList">
         <br>
-        <div class="card" style="border:1px solid #405967;">
+        <div class="card" style="border:1px solid #405967; background-color: whitesmoke;">
           
           <div class="row">
             <div class="col-1 text-end">
@@ -98,13 +98,13 @@
                 <div *ngFor="let response of forum.responses">
                   
                    
-                      <div class="card-response-query">
+                      <div class="card-response-query" >
                         <div class="row">
                           <div class="col-1 text-end">
                             <img [src]="convertBytesToImage(response.user.image)" class="avatar">
                           </div>
                           <div class="col-11">
-                            <div class="card-body card-body-forum bg-light-blue">
+                            <div class="card-body card-body-forum bg-light-blue" style="border: 1px solid #ced4da">
                               <h5 class="card-title">{{ response.user.firstname }} {{ response.user.lastname }}</h5>
                               <p class="card-text">{{ response.body }}</p>
                             </div>
@@ -153,8 +153,8 @@
   </div>
 </div>
 
-<div style="margin:20px;" class="d-flex justify-content-center">
-  <ngb-pagination
+<div style="margin:20px; margin-bottom: 0px !important;" class="d-flex justify-content-center">
+  <ngb-pagination style="height: 38.21px;"
 	[collectionSize]="totalForums"
 	[(page)]="currentPageNumber"
 	[pageSize]="sizeOfPages"

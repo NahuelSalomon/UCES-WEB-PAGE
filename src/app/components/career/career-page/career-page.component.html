@@ -3,47 +3,88 @@
   <header class="py-3 mb-4 border-bottom">
     <div class="container-xl px-4 mt-n10">
       <div class="row">
-        <div class="col-6">
-          <div class="d-flex flex-wrap justify-content-center">
+        <div class="col-9 ">
+          <div class="d-flex flex-wrap justify-content-center component-container">
             <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-             <span class="fs-4" *ngIf="career"> <i class="fa-solid fa-graduation-cap "></i>  {{career.name}} </span>
+             <span class="fs-4" *ngIf="career"> <i class="fa-solid fa-graduation-cap"></i>  {{career.name}} </span>
             </a>
           </div>
         </div>
-        <div class="col-6 d-flex justify-content-end" *ngIf="userType !== undefined && userType !== null">
-          <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(careerPollModal)">Encuesta de carrera</button>
-          <ng-template #careerPollModal let-modal>
-            <app-poll-modal [modal]="modal" [poll]="careerPoll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
-          </ng-template>
-        </div>
+        <div class="col-3" *ngIf="userType !== undefined && userType !== null">
+  
+
+         
+            
+            <div class="component-container">
+              <div class="row">
+              <div class="col-6">
+                <p style="margin-bottom: 0px;"><b>Opinión promedio</b></p>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+              </div>
+              <div class="col-6 d-flex justify-content-end">
+                <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(careerPollModal)"><i class="fa-solid fa-square-poll-vertical"></i> Encuesta de carrera</button>
+                <ng-template #careerPollModal let-modal>
+                  <app-poll-modal [modal]="modal" [poll]="careerPoll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+            </div>
+            
+
+       
+ 
+   
       </div>
     </div>
   </header>
   <!-- Main page content-->
   <div class="container-xl px-4 mt-n10">
 
-    <div class="row">
 
-      <div class="col-6">
-        <select *ngIf="career" class="form-select form-select-sm mb-3 w-50 form-custom-select" (change)="subjectChange($any($event.target).value)">
-          <!-- <option selected disabled default>Seleccionar materia</option> -->
-          <option [value]="subject.id" *ngFor="let subject of subjectList"> {{ subject.name }} </option>
-        </select>
+    
+    <div class="row">
+      <div class="col-9">
+        
+        <div class="component-container">
+
+        <div class="row">
+          <div class="col-6">
+            <select *ngIf="career" class="form-select form-select-sm mb-3 w-50 form-custom-select" (change)="subjectChange($any($event.target).value)">
+              <!-- <option selected disabled default>Seleccionar materia</option> -->
+              <option [value]="subject.id" *ngFor="let subject of subjectList"> {{ subject.name }} </option>
+            </select>
+          </div>
+    
+          <div class="col-6 d-flex justify-content-end">
+    
+            <select *ngIf="listOrderTypes" [(ngModel)]="orderTypeSelected" class="form-select form-select-sm mb-3 w-50 form-custom-select">
+              <!-- <option selected disabled default>Seleccionar materia</option> -->
+              <option [ngValue]="orderType.forumOrder" *ngFor="let orderType of listOrderTypes"> {{ orderType.description }} </option>
+            </select>
+          </div>
+    
+          <div class="col-12">
+            <board-page *ngIf="board" [board]="board" [orderTypeSelected]="orderTypeSelected"></board-page>
+          </div>
+        </div>
+      </div>
       </div>
 
-      <div class="col-6 d-flex justify-content-end">
-
-        <select *ngIf="listOrderTypes" [(ngModel)]="orderTypeSelected" class="form-select form-select-sm mb-3 w-50 form-custom-select">
-          <!-- <option selected disabled default>Seleccionar materia</option> -->
-          <option [ngValue]="orderType.forumOrder" *ngFor="let orderType of listOrderTypes"> {{ orderType.description }} </option>
-        </select>
+      <div class="col-3">
+        <career-statistics-page></career-statistics-page>
+        <subject-statistics-page></subject-statistics-page>
       </div>
 
     </div>
 
+ 
 
 
-    <board-page *ngIf="board" [board]="board" [orderTypeSelected]="orderTypeSelected"></board-page>
 
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
       <ngb-toast *ngFor="let toast of toasts"   

@@ -20,12 +20,16 @@
                     <thead>
                         <tr>
                             <th scope="col">Nombre</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Descripcion</th>
                             <th scole="col">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let career of careersList">
                             <td> {{career.name}} </td>
+                            <td> {{career.duration}} </td>
+                            <td> {{career.description}} </td>
                             <td>
                                 <button type="button" class="btn btn-outline-danger" (click)="openDeleteModal(career)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">

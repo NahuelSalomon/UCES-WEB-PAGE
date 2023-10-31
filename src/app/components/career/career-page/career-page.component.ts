@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { iif, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { Board } from 'src/app/models/board';
 import { Career } from 'src/app/models/career';
 import { Forum } from 'src/app/models/forum';
@@ -16,9 +14,9 @@ import { ForumOrder,ForumOrderDescription,ForumOrderLabel } from 'src/app/models
 import { Poll } from 'src/app/models/poll';
 import { PollService } from 'src/app/services/poll.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PollUserService } from 'src/app/services/poll-user.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Toast } from 'src/app/models/toast';
+import { PollResultService } from 'src/app/services/poll-result.service';
 
 @Component({
   selector: 'app-career-page',
@@ -29,7 +27,7 @@ export class CareerPageComponent implements OnInit {
 
   constructor(private route :ActivatedRoute, private router: Router, private careerService: CareerService, 
               private subjectService: SubjectService, private boardSevice : BoardService, private forumService: ForumService, 
-              private pollService: PollService,private modalService: NgbModal, private pollUserService: PollUserService, private authService: AuthService) { }
+              private pollService: PollService,private modalService: NgbModal,private authService: AuthService, private pollResultService: PollResultService) { }
 
   career: Career;
   subjectSelected: Subject;
@@ -37,6 +35,7 @@ export class CareerPageComponent implements OnInit {
   forumList: Array<Forum>;
   board : Board;
   careerPoll: Poll;
+  subjectPoll: Poll;
   forumType: ForumType;
   listOrderTypes: Array<ForumOrderDescription>;
   orderTypeSelected: ForumOrder;
@@ -58,9 +57,11 @@ export class CareerPageComponent implements OnInit {
             .then(responseSubjectList => {
               this.subjectList = responseSubjectList;
                 this.subjectSelected = this.subjectList[0];
+                this.setSubjectPoll();
                   this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
                     this.board = responseBoard;
-              });   
+                });   
+                
             })
             .catch(err => console.log(err));
             this.setCareerPoll();
@@ -71,13 +72,15 @@ export class CareerPageComponent implements OnInit {
 
   subjectChange(value: string){    
     var idSubject = Number.parseInt(value);
+    console.log(idSubject);
+    
     this.subjectService.getById(idSubject).then((response) =>{
       this.subjectSelected = response;
-      
+      this.setSubjectPoll();
       this.boardSevice.getBySubject(this.subjectSelected.id).then((responseBoard)=>{        
         this.board = responseBoard;
-       
       });      
+
     })
     .catch((error) =>{
       console.log(error)
@@ -95,8 +98,20 @@ export class CareerPageComponent implements OnInit {
         this.careerPoll = pollResponse;
       })
       .catch(errorResponse=>{
-
+        this.careerPoll = null;
       })
+  }
+
+  setSubjectPoll()
+  {
+    this.pollService.getBySubjectId(this.subjectSelected.id)
+    .then(responseSubjectPoll=>
+      {        
+        this.subjectPoll = responseSubjectPoll;
+      })
+    .catch(errorSubjectPoll=>{
+      this.subjectPoll = null;
+    });
   }
 
   pollSuccessfulResultEvent(result)
@@ -113,7 +128,7 @@ export class CareerPageComponent implements OnInit {
         this.authService.getUserDetails(sessionStorage.getItem('token'))
           .then(userResponse => {
 
-            this.pollUserService.getByPollAndUser(this.careerPoll.id,userResponse.id)
+            this.pollResultService.getByPollAndUser(this.careerPoll.id,userResponse.id)
             .then(responsePollUser => {
 
               if(responsePollUser == null)

@@ -4,9 +4,9 @@
 </div>
     <div class="modal-body">
         <div *ngIf="poll && completedPollFormControls">
-           <form [formGroup]="pollQuestionFormGroup">
+           <form [formGroup]="pollQuestionFormGroup" *ngIf="pollQuestions">
 
-                <div *ngFor="let question of poll.questions" class="question-poll">
+                <div *ngFor="let question of pollQuestions" class="question-poll">
                 <p style="font-weight: 600;">{{ question.question }}</p>
                 
                 <!-- YES_NO_DESCRIPTION_IN_NO_ANSWER -->
@@ -21,21 +21,11 @@
                         <label class="form-check-label" for="rating2{{question.id}}">No</label>
                     </div>
                     <br>
-                    <!-- <textarea class="form-control" placeholder="Conteniedos que no se cumplieron" formControlName="{{question.pollResponseType}}{{question.id}}second" [ngClass]="{'d-none': isNoAnswer(question.pollResponseType + question.id) }">  </textarea> -->
-                        
-                  
                 </div>
 
-                <!-- PROFESSOR_RATING -->
-                <div *ngIf="question.pollResponseType == pollResponseType.PROFESSOR_RATING" >
-                    <select class="form-select form-select-sm mb-3 w-50 form-custom-select" formControlName="{{question.pollResponseType}}{{question.id}}second">
-                        <!-- <option selected disabled default>Seleccionar materia</option> -->
-                        <option [value]="professor.id" *ngFor="let professor of professorList"> {{ professor.name }} </option>
-                    </select>
-                </div>
-
+                
                 <!-- RATING_TO_FIVE ; PROFESSOR_RATING -->
-                <div *ngIf="question.pollResponseType == pollResponseType.RATING_TO_FIVE || question.pollResponseType == pollResponseType.PROFESSOR_RATING" >
+                <div *ngIf="question.pollResponseType == pollResponseType.RATING_TO_FIVE" >
 
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="{{question.pollResponseType}}{{question.id}}" id="rating1{{question.id}}" formControlName="{{question.pollResponseType}}{{question.id}}" value="1" checked>
@@ -59,13 +49,6 @@
                         <label class="form-check-label" for="rating5{{question.id}}">5</label>
                     </div>
                 </div>
-
-                <!-- PROFESSOR_RATING -->
-                <!-- <div *ngIf="question.pollResponseType == pollResponseType.SHORT_ANSWER" >
-                    <textarea class="form-control" formControlName="{{question.pollResponseType}}{{question.id}}" rows="3"></textarea>
-                </div> -->
-
-
             </div>
 
         </form>

@@ -8,10 +8,10 @@ export class Forum {
     body: string;
     date: Date;
     user: User;
-    usersWhoVoted : Array<User>;
     board: Board;
     forumType: ForumType;
-    responses: Array<QueryResponse>;nb  
+    usersWhoVoted : Array<User>;
+    responses: Array<QueryResponse>;
 
     constructor(id: number, body: string,date: Date, user: User, board: Board) {
         this.id  = id;
@@ -22,5 +22,4 @@ export class Forum {
         this.usersWhoVoted = new Array<User>();
         this.responses = new Array<QueryResponse>();
     }
-
 }

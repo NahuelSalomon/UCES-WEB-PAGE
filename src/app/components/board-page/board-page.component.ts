@@ -14,12 +14,12 @@ import { ResponseQueryService } from 'src/app/services/response-query.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ForumOrder } from 'src/app/models/forum-order';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PollUserService } from 'src/app/services/poll-user.service';
 import { PollService } from 'src/app/services/poll.service';
 import { Toast } from 'src/app/models/toast';
 import { Poll } from 'src/app/models/poll';
 import { Byte } from '@angular/compiler/src/util';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PollResultService } from 'src/app/services/poll-result.service';
 
 @Component({
   selector: 'board-page',
@@ -49,7 +49,9 @@ export class BoardPageComponent implements OnInit {
 
   get body() { return this.forumForm.get('body') }
 
-  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, private queryResponseService: ResponseQueryService, private modalService: NgbModal, private pollUserService: PollUserService, private pollService: PollService, private sanitizer: DomSanitizer) {
+  constructor(private authService: AuthService, private forumService: ForumService, private userService: UserService, 
+              private queryResponseService: ResponseQueryService, private modalService: NgbModal, 
+              private pollService: PollService, private sanitizer: DomSanitizer, private pollResultService: PollResultService) {
     this.currentPageNumber = 1;
     this.sizeOfPages = 3;
     this.numberOfPages = 0;
@@ -64,10 +66,6 @@ export class BoardPageComponent implements OnInit {
 
     this.responseQueryForm = new FormGroup({});
     this.setForumsLikedUser();
-
- 
-    
-
   }
 
   /*we got here when we changed the subject*/ 
@@ -254,7 +252,7 @@ export class BoardPageComponent implements OnInit {
         this.authService.getUserDetails(sessionStorage.getItem('token'))
           .then(userResponse => {
 
-            this.pollUserService.getByPollAndUser(pollResponse.id,userResponse.id)
+            this.pollResultService.getByPollAndUser(pollResponse.id,userResponse.id)
             .then(responsePollUser => {
 
               if(responsePollUser == null)
@@ -270,14 +268,17 @@ export class BoardPageComponent implements OnInit {
 
             })
             .catch(errorPollUser => {
+                console.log(errorPollUser);                
                 this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
             })
           })
           .catch(errorUserResponse => {
+            console.log(errorUserResponse);
             this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
           })
       })
       .catch(errorPollResponse => {
+        console.log(errorPollResponse);
         this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
       });
   }

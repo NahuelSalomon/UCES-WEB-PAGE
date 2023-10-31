@@ -11,7 +11,7 @@ import { SubjectService } from 'src/app/services/subject.service';
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <p>¿Confirma que desea eliminar la materia {{subject.code}} {{subject.name}}? Tenga en cuenta que dejará de mostrarse como correlativa en las materias que corresponda.</p>
+      <p>¿Confirma que desea eliminar la materia {{subject.name}}? Tenga en cuenta que dejará de mostrarse como correlativa en las materias que corresponda.</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancelar</button>

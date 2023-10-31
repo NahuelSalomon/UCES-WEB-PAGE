@@ -1,15 +1,16 @@
-import { CareerStatistics } from "./career-statistics";
 import { Subject } from "./subject";
 
 export class Career {
     id: number;
     name: string;
-    statistics: CareerStatistics;
+    description: string;
+    duration: number;
 
-    constructor(id: number, name: string, statistics: CareerStatistics) {
+    constructor(id: number, name: string, description: string, duration: number) {
         this.id  = id;
         this.name = name;
-        this.statistics = statistics;
+        this.description = description;
+        this.duration = duration;
     }
 
 

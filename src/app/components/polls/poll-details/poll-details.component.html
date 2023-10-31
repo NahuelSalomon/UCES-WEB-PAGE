@@ -1,0 +1,14 @@
+<app-nav-bar></app-nav-bar>
+<app-poll-question-add *ngIf="poll" [poll]="poll" (messageEventAddPollQuestion)="receiveMessageEventAddPollQuestion($event)"></app-poll-question-add>
+<app-poll-question-list *ngIf="poll" [pollQuestionList]="pollQuestionList" (messageEventDeletePollQuestion)="receiveMessageEventDeletePollQuestion($event)"></app-poll-question-list>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <ngb-toast *ngFor="let toast of toasts"   
+      [class]="toast.class" 
+      [delay]="toast.delay" 
+      [autohide]="true"
+      (hidden)="removeToast(toast)">
+      <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
+    </ngb-toast>
+</div>
+
+

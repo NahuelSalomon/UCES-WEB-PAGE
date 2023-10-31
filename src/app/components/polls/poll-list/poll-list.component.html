@@ -1,0 +1,33 @@
+<app-nav-bar></app-nav-bar >
+<div class="container-xl px-4 mt-n10 component-container mt-20">
+    <div class="text-end">
+        <button class="btn btn-secu mb-20 "><i class="fa-solid fa-square-poll-vertical"></i> Agregar nueva encuesta</button>
+        <!-- Contenido del div -->
+    </div>
+    <div class="card" *ngIf="pollList">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Encuesta sobre</th>
+                        <th scope="col">Carrera/Materia a evaluar</th>
+                        <th scole="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let poll of pollList">
+                       <td *ngIf="poll.pollType === careerPollType">Carrera</td>
+                       <td *ngIf="poll.pollType === subjectPollType">Materia</td>
+                       <td *ngIf="poll.career">{{poll.career.name}}</td>
+                       <td *ngIf="poll.subject">{{poll.subject.name}}</td>        
+                       <td>
+                        <button class="btn btn-secu"  [routerLink]="['/poll/details', poll.id]" style="margin-right: 5px;"><i class="fa-solid fa-circle-right"></i></button>
+                        <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                       </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+

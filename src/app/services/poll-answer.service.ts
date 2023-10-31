@@ -6,9 +6,7 @@ import { PollAnswer } from '../models/poll-answer';
   providedIn: 'root'
 })
 export class PollAnswerService {
-
-
-  private urlAPI = "http://localhost:8080/api/pollAnswer/";
+  private urlAPI = "http://localhost:8080/api/poll_answers/";
 
   constructor(private http : HttpClient) { }
 

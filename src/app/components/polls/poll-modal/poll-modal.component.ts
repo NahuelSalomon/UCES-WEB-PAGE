@@ -5,14 +5,14 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Career } from 'src/app/models/career';
 import { Poll } from 'src/app/models/poll';
 import { PollAnswer } from 'src/app/models/poll-answer';
+import { PollQuestion } from 'src/app/models/poll-question';
 import { PollResponseType } from 'src/app/models/poll-response-type';
-import { PollUser } from 'src/app/models/poll-user';
-import { Professor } from 'src/app/models/professor';
+import { PollResult } from 'src/app/models/poll-result';
 import { Subject } from 'src/app/models/subject';
 import { PollAnswerService } from 'src/app/services/poll-answer.service';
-import { PollUserService } from 'src/app/services/poll-user.service';
+import { PollQuestionService } from 'src/app/services/poll-question.service';
+import { PollResultService } from 'src/app/services/poll-result.service';
 import { PollService } from 'src/app/services/poll.service';
-import { ProfessorService } from 'src/app/services/professor.service';
 
 
 @Component({
@@ -27,46 +27,42 @@ export class PollModalComponent implements OnInit {
   @Output() pollSuccessfulResultEventEmitter = new EventEmitter<boolean>();
 
   pollResponseType = PollResponseType;
-  professorList : Array<Professor>;
   answersList : Array<PollAnswer>;
+  pollQuestions : Array<PollQuestion>;
   pollQuestionFormGroup : FormGroup;
-  pollResponseTypesWithTwoResponses : Array<PollResponseType> = new Array<PollResponseType>(PollResponseType.PROFESSOR_RATING);
   completedPollFormControls : boolean = false;
 
 
   getFromControl(name: string) { return this.pollQuestionFormGroup.get(name);}
 
-  constructor(private route :ActivatedRoute, private pollService: PollService, private professorService: ProfessorService, private pollAnswerService: PollAnswerService, private pollUserService: PollUserService, private authService: AuthService) { }
+  constructor(private route :ActivatedRoute, private pollService: PollService, private pollAnswerService: PollAnswerService, 
+              private authService: AuthService, private pollQuestionService: PollQuestionService, private pollResultService: PollResultService) { }
 
   ngOnInit(): void {
 
     this.pollQuestionFormGroup = new FormGroup({});
     this.answersList = new Array<PollAnswer>();
+    this.pollQuestionService.getAllByPoll(this.poll.id)
+      .then(response=>
+        {
+          this.pollQuestions = response;
 
-    this.professorService.getAll()
-      .then(professorResponse =>{
-          this.professorList = professorResponse;
-            this.poll.questions.forEach(question=>
+          this.pollQuestions.forEach(question=>
             {
-              console.log(question.pollResponseType);
-              
-              var initialValueFromControlFirstResponse = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.YES_NO_ANSWER || question.pollResponseType == PollResponseType.PROFESSOR_RATING 
-                                                          ?  "1" : '';
-              var formControlFirstResponse : FormControl = new FormControl( initialValueFromControlFirstResponse, [ Validators.required ]);
-    
-              if(this.pollResponseTypesWithTwoResponses.find(p => p == question.pollResponseType) != null)
-              {
-                var initialValueFromControlSecondResponse = question.pollResponseType == PollResponseType.PROFESSOR_RATING  
-                ?  this.professorList[0].id : '';
-                var formControlSecondResponse : FormControl = new FormControl( initialValueFromControlSecondResponse, [ Validators.required ]);  
-                this.pollQuestionFormGroup.addControl(`${question.pollResponseType}${question.id}second`, formControlSecondResponse); 
-              } 
-
+              var formControlFirstResponse : FormControl = new FormControl( "1", [ Validators.required ]);
               this.pollQuestionFormGroup.addControl(question.pollResponseType + question.id, formControlFirstResponse); 
+            
             })
-            this.completedPollFormControls = true;
-      })
-      .catch(professorError =>{});
+
+        })
+      .catch(error => {
+          console.log(error);
+          
+        });
+
+       
+        this.completedPollFormControls = true;
+   
     }
 
 
@@ -77,58 +73,55 @@ export class PollModalComponent implements OnInit {
 
     sendPollResponses()
     {
-      for(var question of this.poll.questions)
-      {
-        var responseValue = this.getFromControl(question.pollResponseType+question.id).value;
+      this.authService.getUserDetails(sessionStorage.getItem('token'))
+      .then(userResponse=>{
 
-        var secondResponseValue = (this.pollResponseTypesWithTwoResponses.find(p => p == question.pollResponseType) != null) ? 
-                                   this.getFromControl(question.pollResponseType+question.id+'second').value : null;
+        var pollResult : PollResult = new PollResult(0,this.poll,userResponse);
 
-        var rating = question.pollResponseType == PollResponseType.RATING_TO_FIVE || question.pollResponseType == PollResponseType.PROFESSOR_RATING ?
-                     responseValue : null;
+        this.pollResultService.add(pollResult)
+          .then(pollResultResponse=>
+            {
+              var pollResultCreated : PollResult = pollResultResponse;
+              for(var pollQuestion of this.pollQuestions)
+              {
+                var responseValue = this.getFromControl(pollQuestion.pollResponseType+pollQuestion.id).value;
+                var rankResponse = pollQuestion.pollResponseType == PollResponseType.RATING_TO_FIVE ? responseValue : null;
+                var boolResponse = pollQuestion.pollResponseType == PollResponseType.YES_NO_ANSWER ? responseValue == 1 : null;
+                var pollResponse = new PollAnswer(null,pollQuestion,pollResultCreated, boolResponse,rankResponse);
+                this.answersList.push(pollResponse);
+              }  
 
-        var positiveAnswer = question.pollResponseType == PollResponseType.YES_NO_ANSWER ? responseValue == 1 : null;
+              console.log(this.answersList);
               
-        var professor = question.pollResponseType == PollResponseType.PROFESSOR_RATING ? this.professorList.find(p=> p.id == Number(secondResponseValue)) : null;
+              this.pollAnswerService.addAll(this.answersList)
+                .then(pollAnswerResponse=>
+                  {
+                    console.log(pollAnswerResponse);
+                    
+                    this.modal.dismiss();
+                    this.pollSuccessfulResultEventEmitter.emit(true);
+                  }
+                )
+                .catch(pollAnswerError => {
+                  console.log(pollAnswerError);
+                  this.modal.dismiss();
+                  this.pollSuccessfulResultEventEmitter.emit(false);
+                });
 
-        var pollResponse = new PollAnswer(0,Number(rating),positiveAnswer,professor, question);
-        
-        
-        this.answersList.push(pollResponse);
-      }  
-    
-      this.pollAnswerService.addAll(this.answersList)
-       .then(responseAddAll=>
-        {
-
-          this.authService.getUserDetails(sessionStorage.getItem('token'))
-          .then(userResponse=>{
-            
-          
-            var pollUser = new PollUser(0,this.poll,userResponse);
-            this.pollUserService.add(pollUser)
-            .then(responseAddPoll=>{
-              this.modal.dismiss();
-              this.pollSuccessfulResultEventEmitter.emit(true);
             })
-            .catch(errorAddPoll=>{
-              this.modal.dismiss();
-              this.pollSuccessfulResultEventEmitter.emit(false);
-            });
-
-          })
-          .catch(error=>{
+          .catch(pollResultError=>{
+            console.log(pollResultError);
             this.modal.dismiss();
             this.pollSuccessfulResultEventEmitter.emit(false);
           });
-        })
-        .catch(errorAddAll=>{
-          this.modal.dismiss();
-          this.pollSuccessfulResultEventEmitter.emit(false);
-        });
-      
+      })
+      .catch(errorResponse => {
+        console.log(errorResponse);
+        this.modal.dismiss();
+        this.pollSuccessfulResultEventEmitter.emit(false);
+      });
     }
-
+ 
     yesNoRadioButtonSelected(value)
     {
 

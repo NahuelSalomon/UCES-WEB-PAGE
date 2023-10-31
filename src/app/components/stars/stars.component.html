@@ -1,0 +1,16 @@
+<div style="display: inline-block;">
+    <span *ngFor="let star of stars" style="font-size: 21px;">
+        <ng-container *ngIf="star === 'full'">
+          <i class="fas fa-star"></i>
+        </ng-container>
+        <ng-container *ngIf="star === 'half'">
+          <i class="fas fa-star-half-alt"></i>
+        </ng-container>
+        <ng-container *ngIf="star === 'empty'">
+          <i class="far fa-star"></i>
+        </ng-container>
+    </span>
+    <p style="display: inline-block; margin-left: 6px;" class="text-statistic-value">({{value}})</p>
+</div>
+
+

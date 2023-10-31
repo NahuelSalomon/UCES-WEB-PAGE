@@ -1,23 +1,21 @@
 import { PollQuestion } from "./poll-question";
-import { Professor } from "./professor";
+import { PollResult } from "./poll-result";
 
 export class PollAnswer {
 
     id: number;
-    rating: number;
-    positiveAnswer: boolean;
-    professor: Professor;
     pollQuestion: PollQuestion;
-
-
-    constructor(id: number,rating: number, positiveAnswer: boolean, professor: Professor, pollQuestion: PollQuestion)
+    pollResult: PollResult;
+    boolResponse: boolean;
+    rankResponse: number;
+  
+    constructor(id: number, pollQuestion: PollQuestion, pollResult: PollResult, boolResponse: boolean, rankResponse: number)
     {
         this.id = id;
-        this.rating = rating;
-        this.positiveAnswer = positiveAnswer;
-        this.professor = professor;
         this.pollQuestion = pollQuestion;
+        this.pollResult = pollResult;
+        this.boolResponse = boolResponse;
+        this.rankResponse = rankResponse;
     }
-
 
 }

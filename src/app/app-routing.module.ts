@@ -10,11 +10,12 @@ import { EmailConfirmedComponent } from './components/confirmation-email/email-c
 import { ResetPasswordComponent } from './components/forget-password/reset-password/reset-password.component';
 import { SendEmailToResetPasswordComponent } from './components/forget-password/send-email-to-reset-password/send-email-to-reset-password.component';
 import { LoginComponent } from './components/login/login.component';
-import { ProfessorListComponent } from './components/professor/professor-list/professor-list.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
 import { UsersListComponent } from './components/users/users-list/users-list.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
+import { PollListComponent } from './components/polls/poll-list/poll-list.component';
+import { PollDetailsComponent } from './components/polls/poll-details/poll-details.component';
 
 
 const routes: Routes = [
@@ -29,8 +30,9 @@ const routes: Routes = [
   {path:'register', component:RegisterComponent},
   {path:'send-email-to-reset-password', component:SendEmailToResetPasswordComponent},
   {path:'reset-password', component:ResetPasswordComponent},
-  {path: 'professor/list', component:ProfessorListComponent},
   {path: 'user/details', component: UserDetailsComponent},
+  {path: 'poll/list', component: PollListComponent},
+  {path: 'poll/details/:id', component: PollDetailsComponent},
   {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 

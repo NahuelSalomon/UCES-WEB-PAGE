@@ -19,4 +19,14 @@ export class PollService {
     return this.http.get( `${this.urlAPI}/subject/${subjectId}`).toPromise();
   }
 
+  getById(pollId : number): Promise<any> 
+  {
+    return this.http.get( `${this.urlAPI}/${pollId}`).toPromise();
+  }
+
+  getAll(): Promise<any> 
+  {
+    return this.http.get( `${this.urlAPI}/`).toPromise();
+  }
+
 }

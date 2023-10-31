@@ -1,0 +1,28 @@
+<div class="container-xl px-4 mt-n10 component-container mt-20">
+   
+    <div class="card" *ngIf="pollQuestionList">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Pregunta</th>
+                        <th scope="col">Descripcion corta</th>
+                        <th scope="col">Tipo de respuesta</th>
+                        <th scole="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pollQuestion of pollQuestionList">
+                        <td>{{ pollQuestion.question }}</td>
+                        <td>{{ pollQuestion.shortDescription }}</td>
+                        <td *ngIf="pollQuestion.pollResponseType == pollResponseTypeYesNoAnswer">Respuesta de sí o no</td>
+                        <td *ngIf="pollQuestion.pollResponseType == pollResponseTypeRatingToFive">Clasificación del 1 al 5</td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deletePollQuestion(pollQuestion)"><i class="fa-solid fa-trash-can" ></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

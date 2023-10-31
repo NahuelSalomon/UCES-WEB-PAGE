@@ -1,5 +1,4 @@
 export enum PollResponseType {
     RATING_TO_FIVE = 'RATING_TO_FIVE',
-    PROFESSOR_RATING = 'PROFESSOR_RATING',
     YES_NO_ANSWER = 'YES_NO_ANSWER'
 }

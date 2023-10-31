@@ -1,44 +1,24 @@
 <app-nav-bar></app-nav-bar>
+
+  
 <main>
   <header class="py-3 mb-4 border-bottom">
     <div class="container-xl px-4 mt-n10">
-      <div class="row">
-        <div class="col-9 ">
-          <div class="d-flex flex-wrap justify-content-center component-container">
-            <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-             <span class="fs-4" *ngIf="career"> <i class="fa-solid fa-graduation-cap"></i>  {{career.name}} </span>
-            </a>
+      <div class="row align-items-stretch" style="margin-bottom: 10px;">
+        <div class="col-5">
+          <div class="d-flex flex-wrap justify-content-center align-items-center component-container" style="margin: 0px; height: 100%;">
+            <div class="text-center">
+              <p class="text-center"><i class="fa-solid fa-graduation-cap" style="color: #405967; font-weight: bold; font-size: 60px;"></i></p>
+              <span class="fs-4" *ngIf="career" style="color: #405967; font-weight: bold; font-size: 27px!important;"> {{career.name}} </span>
+            </div>
           </div>
         </div>
-        <div class="col-3" *ngIf="userType !== undefined && userType !== null">
-  
-
-         
-            
-            <div class="component-container">
-              <div class="row">
-              <div class="col-6">
-                <p style="margin-bottom: 0px;"><b>Opinión promedio</b></p>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-regular fa-star"></i>
-              </div>
-              <div class="col-6 d-flex justify-content-end">
-                <button class="btn btn-primary" type="button" style="background-color: #405967; border: none;" (click)="openModal(careerPollModal)"><i class="fa-solid fa-square-poll-vertical"></i> Encuesta de carrera</button>
-                <ng-template #careerPollModal let-modal>
-                  <app-poll-modal [modal]="modal" [poll]="careerPoll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
-                </ng-template>
-              </div>
-            </div>
+        <div class="col-7">
+          <app-poll-question-statistics *ngIf="careerPoll" [isLinearLayout]="true" [poll]="careerPoll"></app-poll-question-statistics>
+          <div class="justify-content-center align-items-center text-center component-container"  *ngIf="!careerPoll" style="padding: 20px 20px 0px 20px; margin: 0px;  height: 100%;" >
+            <p style="color: #405967; font-weight: bold; font-size: 18px!important;">Sin encuestas para tener estadísticas</p>
           </div>
-            </div>
-            
-
-       
- 
-   
+        </div>
       </div>
     </div>
   </header>
@@ -76,8 +56,10 @@
       </div>
 
       <div class="col-3">
-        <career-statistics-page></career-statistics-page>
-        <subject-statistics-page></subject-statistics-page>
+        <app-poll-question-statistics *ngIf="subjectPoll" [poll]="subjectPoll"></app-poll-question-statistics>
+        <div class="justify-content-center align-items-center text-center component-container"  *ngIf="!careerPoll" style="padding: 20px 20px 0px 20px;" >
+          <p style="color: #405967; font-weight: bold; font-size: 18px!important;">Sin encuestas para tener estadísticas</p>
+        </div>
       </div>
 
     </div>

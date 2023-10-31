@@ -1,0 +1,31 @@
+.text-statistic-description
+{
+    color: #405967;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.text-statistic-value
+{
+    color: #405967;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.linear-layout
+{
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: space-around; /* Centra horizontalmente los elementos */
+    align-items: center;    /* Centra verticalmente los elementos */
+}
+
+.statistic-item:not(:last-child) {
+    margin: 0px 0px 20px;
+  }
+
+  .btn-poll
+  {
+    /*width: 50% !important;*/
+    justify-content: end;
+  }

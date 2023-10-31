@@ -30,9 +30,12 @@ margin-bottom: 0px;
   }
 
   .mb-15 {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
   }
-
+  .mb-20
+  {
+    margin-bottom: 20px;
+  }
   .mb-10 {
     margin-bottom: 10;
   }
@@ -164,7 +167,7 @@ ngb-pagination .page-item.active .page-link {
 .component-container
 {
     background-color: whitesmoke;
-    padding: 20px;
+    padding: 20px 20px 20px 20px;
     border-radius: 5px;
     display: block;
     color: hsl(204, 14%, 36%);
@@ -179,4 +182,24 @@ ngb-pagination .page-item.active .page-link {
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 5px;
+}
+
+.mt-20
+{
+  margin-top: 20px;
+}
+
+.btn-secu
+{
+    background-color: #405967;
+    border: none;
+    color: white;
+
+}
+
+.btn-secu:hover
+{
+    color: white;
+    background-color:#2c3940;
+
 }

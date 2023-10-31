@@ -1,0 +1,31 @@
+<div class="component-container" [ngClass]="{'linear-layout': isLinearLayout}" style="padding: 20px 20px 0px 20px; margin: 0px;" >
+        <div *ngIf="userType !== undefined && userType !== null && userType == userTypeStudent" [ngClass]="{'d-inline': isLinearLayout}" >
+            <button [ngClass]="{'btn-poll': isLinearLayout}" class="btn btn-primary" type="button" style="background-color: #405967; border: none; width: 100%; margin-bottom: 20px; font-size: 20px;" (click)="openModal(subjectPollModal)"><i class="fa-solid fa-square-poll-vertical"></i> Encuesta</button>
+            <ng-template #subjectPollModal let-modal>
+              <app-poll-modal [modal]="modal" [poll]="poll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
+            </ng-template>
+            
+          </div>
+    
+        <div class="component-container statistic-item" style="background-color: white;" *ngFor="let statistic of pollQuestionStatisticList">
+            <span class="text-statistic-description">{{statistic.pollQuestion.shortDescription}}</span>
+            <div *ngIf="statistic.pollQuestion.pollResponseType == ratingToFiveAnswerpollResponseType">
+                <app-stars [value]="statistic.totalRangeResponse / statistic.numberOfResponses"></app-stars>
+            </div>
+            <div *ngIf="statistic.pollQuestion.pollResponseType == yesNoAnswerpollResponseType">
+                <app-percentage-bar [yesCount]="statistic.numberOfPositiveResponse" [noCount]="statistic.numberOfNegativeResponse"></app-percentage-bar>
+            </div>
+            <i style="font-size: 16px;"  class="text-statistic-description">Cantidad de respuestas: {{statistic.numberOfResponses}}</i>
+        </div>
+
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+            <ngb-toast *ngFor="let toast of toasts"   
+              [class]="toast.class" 
+              [delay]="toast.delay" 
+              [autohide]="true"
+              (hidden)="removeToast(toast)">
+              <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
+            </ngb-toast>
+          </div>
+</div>
+

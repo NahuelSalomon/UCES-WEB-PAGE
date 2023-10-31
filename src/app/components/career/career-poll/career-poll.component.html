@@ -8,8 +8,8 @@
         </div>
       </header>
     <!-- Main page content-->
-    <div class="container-xl px-4 mt-n10" *ngIf="poll.questions" >
-      <div class="row" style="height: 5px"  *ngFor="let question of poll.questions">
+    <div class="container-xl px-4 mt-n10" *ngIf="pollQuestions" >
+      <div class="row" style="height: 5px"  *ngFor="let question of pollQuestions">
         <div class="col">
           <div class="card">
             <div class="card-body">

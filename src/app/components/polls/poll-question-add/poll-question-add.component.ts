@@ -45,7 +45,7 @@ export class PollQuestionAddComponent implements OnInit {
 
     this.pollQuestionService.add(pollQuestion)
       .then(pollQuestionResponse =>{
-        this.messageEventAddPollQuestion.emit(pollQuestion);
+        this.messageEventAddPollQuestion.emit(pollQuestionResponse);
       })
       .catch(pollQuestionError=>{
         this.messageEventAddPollQuestion.emit(null);

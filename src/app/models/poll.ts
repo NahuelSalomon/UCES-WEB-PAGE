@@ -10,8 +10,8 @@ export class Poll {
     career: Career;
     subject: Subject;
 
-    constructor(id: number, title: string, description: string, career: Career, subject: Subject){
-        this.id = id;
+    constructor(career: Career = null, subject: Subject = null){
+        this.id = null;
         this.career = career;
         this.subject = subject; 
     }

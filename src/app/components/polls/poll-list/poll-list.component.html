@@ -1,7 +1,7 @@
 <app-nav-bar></app-nav-bar >
 <div class="container-xl px-4 mt-n10 component-container mt-20">
     <div class="text-end">
-        <button class="btn btn-secu mb-20 "><i class="fa-solid fa-square-poll-vertical"></i> Agregar nueva encuesta</button>
+        <button class="btn btn-secu mb-20" (click)="navigateToAddNewPoll()"><i class="fa-solid fa-square-poll-vertical"></i> Agregar nueva encuesta</button>
         <!-- Contenido del div -->
     </div>
     <div class="card" *ngIf="pollList">

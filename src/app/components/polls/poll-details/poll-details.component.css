@@ -1,0 +1,20 @@
+/* Estilo general del select */
+.custom-select {
+    position: relative;
+    width: 150px; /* Ajusta el ancho según sea necesario */
+  }
+
+  /* Oculta la flecha en navegadores basados en WebKit como Chrome y Safari */
+  .custom-select::after {
+    content: '\25BC'; /* Carácter de flecha hacia abajo */
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Ajusta la posición según sea necesario */
+    transform: translateY(-50%);
+    pointer-events: none; /* Asegura que la flecha no sea interactiva */
+  }
+
+  /* Estilo para navegadores basados en Gecko como Firefox */
+  .custom-select::-ms-expand {
+    display: none;
+  }

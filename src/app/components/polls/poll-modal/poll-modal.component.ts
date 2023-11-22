@@ -96,8 +96,7 @@ export class PollModalComponent implements OnInit {
               this.pollAnswerService.addAll(this.answersList)
                 .then(pollAnswerResponse=>
                   {
-                    console.log(pollAnswerResponse);
-                    
+               
                     this.modal.dismiss();
                     this.pollSuccessfulResultEventEmitter.emit(true);
                   }

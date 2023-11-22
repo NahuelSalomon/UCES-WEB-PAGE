@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Poll } from 'src/app/models/poll';
 import { PollType } from 'src/app/models/poll-type';
 import { PollService } from 'src/app/services/poll.service';
@@ -14,7 +15,7 @@ export class PollListComponent implements OnInit {
   subjectPollType = PollType.SUBJECT_POLL;
   careerPollType = PollType.CAREER_POLL;
 
-  constructor(private pollService : PollService) { }
+  constructor(private pollService : PollService, private router : Router) { }
 
 
   ngOnInit(): void {
@@ -25,6 +26,13 @@ export class PollListComponent implements OnInit {
     .catch(error=>{
       console.log(error);
     });
+  }
+
+  navigateToAddNewPoll()
+  {
+    console.log("llegue");
+    
+    this.router.navigate(['/poll/details']);
   }
 
 }

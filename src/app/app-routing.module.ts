@@ -33,6 +33,7 @@ const routes: Routes = [
   {path: 'user/details', component: UserDetailsComponent},
   {path: 'poll/list', component: PollListComponent},
   {path: 'poll/details/:id', component: PollDetailsComponent},
+  {path: 'poll/details', component: PollDetailsComponent},
   {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 

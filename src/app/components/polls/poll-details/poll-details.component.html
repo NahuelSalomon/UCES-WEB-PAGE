@@ -1,4 +1,36 @@
 <app-nav-bar></app-nav-bar>
+
+<div class="container-xl px-4 mt-n10 component-container mt-20">
+  <form>
+    <div class="row">
+      <div class="col-6">
+        <label for="pollType" style="font-weight: bold;">Tipo de Encuesta</label>
+        <select id="pollType" name="pollType" *ngIf="poll" [(ngModel)]="poll.pollType" (change)="onSelectPollTypeChange()" class="form-select" [disabled]="!isNewPoll">
+          <option [value]="careerPollType">Carrera</option>
+          <option [value]="subjectPollType">Materia</option>
+        </select>
+      </div>
+      <div class="col-6" *ngIf="poll.career || poll.pollType == careerPollType">
+        <label for="pollCareer" style="font-weight: bold;">Carrera</label>
+        <select id="pollCareer" name="pollCareer" [(ngModel)]="poll.career" class="form-select" (change)="onSelectCareerChange()" [disabled]="!isNewPoll">
+          <option *ngFor="let career of pollCareerList" [value]="career">{{career.name}}</option>
+        </select>
+      </div>
+      <div class="col-6" *ngIf="poll.subject || poll.pollType == subjectPollType">
+        <label for="pollSubject" style="font-weight: bold;">Materia</label>
+        <select id="pollSubject" name="pollSubject" [(ngModel)]="poll.subject" class="form-select" (change)="onSelectSubjectChange()" [disabled]="!isNewPoll">
+          <option *ngFor="let subject of pollSubjectList" [value]="subject">{{subject.career.name}} - {{subject.name}} </option>
+        </select>
+      </div>
+    </div>
+      <div class="text-end" *ngIf="isNewPoll">
+          <button class="btn btn-secu mt-20" type="button" (click)="onSubmitAddPoll()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+          <!-- Contenido del div -->
+      </div>
+  </form>
+</div>
+
+
 <app-poll-question-add *ngIf="poll" [poll]="poll" (messageEventAddPollQuestion)="receiveMessageEventAddPollQuestion($event)"></app-poll-question-add>
 <app-poll-question-list *ngIf="poll" [pollQuestionList]="pollQuestionList" (messageEventDeletePollQuestion)="receiveMessageEventDeletePollQuestion($event)"></app-poll-question-list>
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">

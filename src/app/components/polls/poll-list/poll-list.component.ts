@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Poll } from 'src/app/models/poll';
 import { PollType } from 'src/app/models/poll-type';
 import { Toast } from 'src/app/models/toast';
@@ -18,8 +19,9 @@ export class PollListComponent implements OnInit {
   pollSelectedToDelete : Poll;
 
   toasts: Array<Toast> = new Array<Toast>();
+  
 
-  constructor(private pollService : PollService, private router : Router) { }
+  constructor(private pollService : PollService, private router : Router, private modalService : NgbModal) { }
 
 
   ngOnInit(): void {
@@ -73,16 +75,33 @@ export class PollListComponent implements OnInit {
     }
   }
 
-  setPollSelectedToDelete(poll)
+  setPollSelectedToDelete(poll, content)
   {
     this.pollSelectedToDelete = poll;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+  
+    }, (reason) => { /*Modal no exitoso*/ });
   }
 
-  deletePollSelected()
+  deletePollSelected(modal)
   {
     if(this.pollSelectedToDelete != null)
     {
-      this.deletePoll(this.pollSelectedToDelete);
+      this.pollService.delete(this.pollSelectedToDelete.id)
+      .then(pollDeleteResponse => {
+        const index = this.pollList.indexOf(this.pollSelectedToDelete);
+        this.pollList.splice(index,1);
+        this.showSuccessToast("Se ha eliminado la encuesta correctamente");
+      })
+      .catch(pollDeleteResponseError=>{
+        this.showErrorToast("No se ha podido eliminar la encuesta correctamente");
+      })
+      .finally(() => {
+        modal.dismiss();
+      })
+      ;
+  
+
     }
   }
 

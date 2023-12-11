@@ -22,7 +22,7 @@
                        <td *ngIf="poll.subject">{{poll.subject.name}}</td>        
                        <td>
                         <button class="btn btn-secu"  [routerLink]="['/poll/details', poll.id]" style="margin-right: 5px;"><i class="fa-solid fa-circle-right"></i></button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" (click)="setPollSelectedToDelete(poll)"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-danger" (click)="setPollSelectedToDelete(poll, confirmDeleteModal)"><i class="fa-solid fa-trash-can"></i></button>
                        </td>
                     </tr>
                 </tbody>
@@ -30,7 +30,34 @@
         </div>
     </div>
 
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModal" aria-hidden="true">
+
+    
+    <ng-template #confirmDeleteModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Encuesta</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')" ></button>
+      </div>
+      <div *ngIf="pollSelectedToDelete">
+        <div class="modal-body" *ngIf="pollSelectedToDelete.subject">
+            ¿Está seguro que desea eliminar la encuesta de materia de {{ pollSelectedToDelete.subject.name }}?
+        </div>
+        <div class="modal-body" *ngIf="pollSelectedToDelete.career">
+            ¿Está seguro que desea eliminar la encuesta de carrera de {{ pollSelectedToDelete.career.name }}?
+        </div>
+      </div>
+      <div class="modal-footer">      
+        <button type="button" class="btn btn-secondary" (click)="modal.close('')">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="deletePollSelected(modal)">Eliminar</button>
+      </div>
+    </ng-template>
+   
+
+
+
+          <!-- <div class="modal fade" #confirmDeleteModal id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModal" aria-hidden="true"> -->
+
+    <!-- <ng-template #confirmDeleteModal let-modal>
+      <div class="modal fade">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -55,6 +82,9 @@
           </div>
         </div>
       </div>
+    </ng-template> -->
+
+
 
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
         <ngb-toast *ngFor="let toast of toasts"   

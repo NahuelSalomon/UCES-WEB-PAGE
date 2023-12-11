@@ -17,8 +17,8 @@ export class PercentageBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.totalCount = this.yesCount + this.noCount;
-    this.percentageYes  = parseFloat(((this.yesCount / this.totalCount) * 100).toFixed(2));
-    this.percentageNo = parseFloat(((this.noCount / this.totalCount) * 100).toFixed(2));
+    this.percentageYes  = this.totalCount > 0 ? parseFloat(((this.yesCount / this.totalCount) * 100).toFixed(2)) : 0;
+    this.percentageNo = this.totalCount > 0 ? parseFloat(((this.noCount / this.totalCount) * 100).toFixed(2)) : 100;
   }
 
 }

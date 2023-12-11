@@ -4,13 +4,12 @@
             <ng-template #subjectPollModal let-modal>
               <app-poll-modal [modal]="modal" [poll]="poll" (pollSuccessfulResultEventEmitter)="pollSuccessfulResultEvent($event)"></app-poll-modal>
             </ng-template>
-            
-          </div>
+        </div>
     
         <div class="component-container statistic-item" style="background-color: white;" *ngFor="let statistic of pollQuestionStatisticList">
             <span class="text-statistic-description">{{statistic.pollQuestion.shortDescription}}</span>
             <div *ngIf="statistic.pollQuestion.pollResponseType == ratingToFiveAnswerpollResponseType">
-                <app-stars [value]="statistic.totalRangeResponse / statistic.numberOfResponses"></app-stars>
+                <app-stars [value]="statistic.numberOfResponses > 0 ? statistic.totalRangeResponse / statistic.numberOfResponses : 0"></app-stars>
             </div>
             <div *ngIf="statistic.pollQuestion.pollResponseType == yesNoAnswerpollResponseType">
                 <app-percentage-bar [yesCount]="statistic.numberOfPositiveResponse" [noCount]="statistic.numberOfNegativeResponse"></app-percentage-bar>
@@ -26,6 +25,6 @@
               (hidden)="removeToast(toast)">
               <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
             </ngb-toast>
-          </div>
+        </div>
 </div>
 

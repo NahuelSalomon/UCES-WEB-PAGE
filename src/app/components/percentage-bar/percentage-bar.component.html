@@ -1,10 +1,28 @@
-<div class="bar" style="margin-top: 5px;">
+<div *ngIf="percentageNo != 100 && percentageYes != 100" class="bar" style="margin-top: 5px;">
     <div class="yes-bar text-center" [style.width.%]="percentageYes">
         {{ percentageYes }}%
     </div>
-    <div class="no-bar" [style.width.%]="percentageNo">
-        {{ percentageNo }}%
+    <div class="no-bar" [style.width.%]="percentageNo" >
     </div>
 </div>
+
+<div *ngIf="percentageNo == 100" class="bar" style="margin-top: 5px;">
+    <div class="yes-bar text-center" [style.width.%]="percentageYes" style="background-color: white; border-right: none;" >
+
+    </div>
+    <div class="no-bar" [style.width.%]="percentageNo" style="border-left: none;">
+        {{ percentageYes }}%
+    </div>
+</div>
+
+<div *ngIf="percentageYes == 100" class="bar" style="margin-top: 5px;">
+    <div class="yes-bar text-center" [style.width.%]="percentageYes" >
+        {{ percentageYes }}%
+    </div>
+    <div class="no-bar" [style.width.%]="percentageNo" style="background-color: #405967;" >
+
+    </div>
+</div>
+
 <br/>
 

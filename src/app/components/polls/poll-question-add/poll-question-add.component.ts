@@ -43,13 +43,22 @@ export class PollQuestionAddComponent implements OnInit {
 
     var pollQuestion = new PollQuestion(null,this.poll,question,shortDescription,pollResponseType);
 
-    this.pollQuestionService.add(pollQuestion)
+    if(this.poll.id != null)
+    {
+      this.pollQuestionService.add(pollQuestion)
       .then(pollQuestionResponse =>{
         this.messageEventAddPollQuestion.emit(pollQuestionResponse);
       })
       .catch(pollQuestionError=>{
         this.messageEventAddPollQuestion.emit(null);
       });
+    }
+    else
+    {      
+      this.messageEventAddPollQuestion.emit(pollQuestion);
+    }
+
+
 
   }
 

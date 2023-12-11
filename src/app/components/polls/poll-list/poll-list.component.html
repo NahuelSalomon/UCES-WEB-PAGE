@@ -22,12 +22,48 @@
                        <td *ngIf="poll.subject">{{poll.subject.name}}</td>        
                        <td>
                         <button class="btn btn-secu"  [routerLink]="['/poll/details', poll.id]" style="margin-right: 5px;"><i class="fa-solid fa-circle-right"></i></button>
-                        <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" (click)="setPollSelectedToDelete(poll)"><i class="fa-solid fa-trash-can"></i></button>
                        </td>
                     </tr>
                 </tbody>
               </table>
         </div>
+    </div>
+
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Eliminar encuesta</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div *ngIf="pollSelectedToDelete">
+                <div class="modal-body" *ngIf="pollSelectedToDelete.subject">
+                    ¿Está seguro que desea eliminar la encuesta de materia de {{ pollSelectedToDelete.subject.name }}?
+                </div>
+    
+                <div class="modal-body" *ngIf="pollSelectedToDelete.career">
+                    ¿Está seguro que desea eliminar la encuesta de carrera de {{ pollSelectedToDelete.career.name }}?
+                </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger" (click)="deletePollSelected()">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <ngb-toast *ngFor="let toast of toasts"   
+          [class]="toast.class" 
+          [delay]="toast.delay" 
+          [autohide]="true"
+          (hidden)="removeToast(toast)">
+          <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
+        </ngb-toast>
     </div>
 </div>
 

@@ -33,50 +33,51 @@ export class PollDetailsComponent implements OnInit {
   pollResponseTypeRatingToFive : PollResponseType = PollResponseType.RATING_TO_FIVE;
   pollResponseTypeYesNoAnswer : PollResponseType = PollResponseType.YES_NO_ANSWER;
 
+  selectedCareer : Career;
+  selectedSubject : Subject;
+
   constructor(private route : ActivatedRoute, private pollService : PollService, private pollQuestionService : PollQuestionService, 
               private careerService : CareerService, private subjectService : SubjectService) { }
-  
+
   onSelectPollTypeChange()
   {
     this.poll.subject = this.poll.pollType == this.subjectPollType ? this.pollSubjectList[0] : null;
     this.poll.career = this.poll.pollType == this.careerPollType ? this.pollCareerList[0] : null;
-
-    console.log(this.poll);
-    
-
   }
 
   onSelectCareerChange()
-  {
-    console.log(this.poll);
+  {    
   }
 
   onSelectSubjectChange()
   {
-    console.log(this.poll.subject);
   }
 
 
   onSubmitAddPoll()
-  {
+  {    
     if(this.poll.pollType == this.careerPollType) {
       this.pollService.getByCareerId(this.poll.career.id)
         .then(careerResponse=>{
-          console.log(careerResponse);
+          this.showWarningToast("Ya existe una encuesta para esta carrera");
           
         })
         .catch(careerErrorResponse=>{
-          console.log("Error");
-          console.log(careerErrorResponse);
+          if(careerErrorResponse.status == 404)
+          {
+            this.addPoll();
+          }
         });
     } else if (this.poll.pollType == this.subjectPollType) {
       this.pollService.getBySubjectId(this.poll.subject.id)
-        .then(careerResponse=>{
-
+        .then(subjectResponse=>{
+          this.showWarningToast("Ya existe una encuesta para esta materia");
         })
-        .catch(careerErrorResponse=>{
-          console.log("Error");
-          console.log(careerErrorResponse);
+        .catch(subjectErrorResponse=>{
+          if(subjectErrorResponse.status == 404)
+          {
+            this.addPoll();
+          } 
         });
 
     }
@@ -84,14 +85,34 @@ export class PollDetailsComponent implements OnInit {
 
   addPoll()
   {
-    this.pollService.add(this.poll)
+    if(this.pollQuestionList.length > 0)
+    {
+      this.pollService.add(this.poll)
       .then(pollResponse => {
         this.poll = pollResponse;
         this.isNewPoll = false;
+        this.pollQuestionList.forEach(pollQuestion=>{ pollQuestion.poll = this.poll });
+        this.pollQuestionService.addAll(this.pollQuestionList)
+          .then(pollQuestionResponse=>{
+            this.pollQuestionList = pollQuestionResponse;
+          })
+          .catch(pollQuestionErrorResponse=>{
+            console.log(pollQuestionErrorResponse);
+            
+            this.showErrorToast("Ha ocurrido un error al agregar las preguntas de la encuesta");
+          })
       })
       .catch(pollErrorResponse => {
         this.showErrorToast("Ha ocurrido un error al agregar la encuesta");
+        console.log(pollErrorResponse);
+        
       });
+    } else
+    {
+      this.showWarningToast("No se pueden agregar encuestas sin ninguna pregunta");
+    }
+
+   
   }
 
   ngOnInit(): void {
@@ -101,17 +122,18 @@ export class PollDetailsComponent implements OnInit {
         const pollId = params.id;
         this.isNewPoll = !pollId;
 
-
         if(this.isNewPoll) 
         {
           this.poll = new Poll();
           this.poll.pollType = this.subjectPollType;
           this.pollQuestionList = [];
+          this.loadCareers();
+          this.loadSubjects();
         }else
         {
           this.pollService.getById(pollId)
           .then(pollResponse => {
-            this.poll = pollResponse;
+            this.poll = pollResponse;   
             if(this.poll)
             {
               this.pollQuestionService.getAllByPoll(this.poll.id)
@@ -121,6 +143,9 @@ export class PollDetailsComponent implements OnInit {
               .catch(pollQuestionResponseError=>{
                 console.log(pollQuestionResponseError);
               });
+
+              this.loadCareers();
+              this.loadSubjects();
             }
           })
           .catch(pollResponseError=>{
@@ -130,25 +155,32 @@ export class PollDetailsComponent implements OnInit {
         }
       });
 
-      this.careerService.getAll()
-      .then(response=>{
-        this.pollCareerList = response;
-        this.poll.career = this.isNewPoll && this.poll.pollType == this.careerPollType ? 
-                           this.pollCareerList[0] : this.poll.career;
-      })
-      .catch(error=>{
-        console.log(error);
-      }); 
+  }
 
-      this.subjectService.getAll()
-      .then(response=>{
-        this.pollSubjectList = response;
-        this.poll.subject = this.isNewPoll && this.poll.pollType == this.subjectPollType ? 
-                            this.pollSubjectList[0] : this.poll.subject;
-      })
-      .catch(error=>{
-        console.log(error);
-      }); 
+  loadCareers()
+  {
+    this.careerService.getAll()
+    .then(response=>{
+      this.pollCareerList = response;  
+      this.poll.career = this.isNewPoll && this.poll.pollType == this.careerPollType ? 
+                         this.pollCareerList[0] : this.poll.career;
+    })
+    .catch(error=>{
+      console.log(error);
+    }); 
+  }
+
+  loadSubjects()
+  {
+    this.subjectService.getAll()
+    .then(response=>{
+      this.pollSubjectList = response;
+      this.poll.subject = this.isNewPoll && this.poll.pollType == this.subjectPollType ? 
+                          this.pollSubjectList[0] : this.poll.subject;
+    })
+    .catch(error=>{
+      console.log(error);
+    }); 
   }
 
   receiveMessageEventAddPollQuestion($event)
@@ -171,6 +203,14 @@ export class PollDetailsComponent implements OnInit {
     }else
     {
       this.showErrorToast("Ha ocurrido un error al eliminar la pregunta");
+    }
+  }
+
+  receiveMessageEventText($event)
+  {
+    if($event)
+    {
+      this.showWarningToast($event);
     }
   }
 

@@ -18,7 +18,7 @@ export class PollService {
        'Content-Type' : 'application/json'
      })
    };
-   return this.http.post(this.urlAPI, poll, httpOptions).toPromise(); 
+   return this.http.post(this.urlAPI + "/", poll, httpOptions).toPromise(); 
   }
 
   getByCareerId(careerId: number) : Promise<any> {
@@ -38,6 +38,11 @@ export class PollService {
   getAll(): Promise<any> 
   {
     return this.http.get( `${this.urlAPI}/`).toPromise();
+  }
+
+  delete(id : number): Promise<any>
+  {
+    return this.http.delete(this.urlAPI + "/" + id).toPromise();
   }
 
 }

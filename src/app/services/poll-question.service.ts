@@ -21,6 +21,16 @@ export class PollQuestionService {
     return this.http.post(this.urlAPI, pollQuestion, httpOptions).toPromise(); 
    }
 
+   addAll(pollQuestionList : Array<PollQuestion>) : Promise<any> {
+   
+    const httpOptions = {
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json'
+      }) 
+    };
+    return this.http.post(`${this.urlAPI}all`, pollQuestionList, httpOptions).toPromise(); 
+   }
+
    getAll(size = 10, page= 0) : Promise<any> {
     return this.http.get(`${this.urlAPI}?page=${page}&size=${size}`).toPromise();
     }

@@ -18,6 +18,7 @@ export class PollQuestionListComponent implements OnInit {
   pollResponseTypeRatingToFive : PollResponseType = PollResponseType.RATING_TO_FIVE;
   pollResponseTypeYesNoAnswer : PollResponseType = PollResponseType.YES_NO_ANSWER;
   @Output() messageEventDeletePollQuestion = new EventEmitter<PollQuestion>();
+  @Output() messageEventText = new EventEmitter<string>();
 
   constructor(private pollQuestionService : PollQuestionService) { }
 
@@ -27,15 +28,34 @@ export class PollQuestionListComponent implements OnInit {
 
   deletePollQuestion(pollQuestion : PollQuestion)
   {
-    this.pollQuestionService.delete(pollQuestion.id)
-      .then(pollQuestionDeleteResponse => {    
-        const index = this.pollQuestionList.indexOf(pollQuestion);
-        this.pollQuestionList.splice(index,1);
-        this.messageEventDeletePollQuestion.emit(pollQuestion);
-      })
-      .catch(pollQuestionDeleteResponseError => {
-        this.messageEventDeletePollQuestion.emit(null);
-      });
+  
+    if(this.poll.id != null)
+    {
+      if(this.pollQuestionList.length > 1)
+      {
+        this.pollQuestionService.delete(pollQuestion.id)
+        .then(pollQuestionDeleteResponse => {    
+          const index = this.pollQuestionList.indexOf(pollQuestion);
+          this.pollQuestionList.splice(index,1);
+          this.messageEventDeletePollQuestion.emit(pollQuestion);
+        })
+        .catch(pollQuestionDeleteResponseError => {
+          this.messageEventDeletePollQuestion.emit(null);
+        });
+      }
+      else
+      {
+        this.messageEventText.emit("No se pueden eliminar todas las preguntas de una encuesta");
+      }
+     
+    }
+    else
+    {
+      const index = this.pollQuestionList.indexOf(pollQuestion);
+      this.pollQuestionList.splice(index,1);
+      this.messageEventDeletePollQuestion.emit(pollQuestion);
+    }
+
   }
 
 }

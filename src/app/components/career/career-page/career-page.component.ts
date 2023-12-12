@@ -70,10 +70,8 @@ export class CareerPageComponent implements OnInit {
       })
   }
 
-  subjectChange(value: string){    
+  subjectChange(value: string){   
     var idSubject = Number.parseInt(value);
-    console.log(idSubject);
-    
     this.subjectService.getById(idSubject).then((response) =>{
       this.subjectSelected = response;
       this.setSubjectPoll();

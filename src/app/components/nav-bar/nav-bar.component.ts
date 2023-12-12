@@ -7,6 +7,7 @@ import { CareerService } from 'src/app/services/career.service';
 import { SubjectListComponent } from '../subjects/subject-list/subject-list.component';
 import { User } from 'src/app/models/user';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CommunicationService } from 'src/app/services/communication.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,16 +21,16 @@ export class NavBarComponent implements OnInit {
   userType: string;
   user : User;
 
-  constructor(private router : Router, private careerService : CareerService, private authService : AuthService, private sanitizer: DomSanitizer) {}
+  constructor(private router : Router, private careerService : CareerService, private authService : AuthService, private sanitizer: DomSanitizer, private communicationService: CommunicationService) {}
 
 
   ngOnInit(): void {
 
-    this.careerService.getAll()
-    .then(response => {
-      this.careerList = response;
-    })
-    .catch(err=> console.log(err))
+    this.communicationService.reloadCareers.subscribe(() => {
+      this.loadCareers();
+    });
+
+    this.loadCareers();
 
     this.userType = sessionStorage.getItem('userType');
 
@@ -46,9 +47,9 @@ export class NavBarComponent implements OnInit {
       .catch(error => {              
         //this.showErrorToast("Se ha producido un error al agregar el foro");
       })
-
   }
   
+
   ngOnDestroy(){
     this.authListenerSubs.unsubscribe();
   }
@@ -67,6 +68,15 @@ export class NavBarComponent implements OnInit {
       return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)) as string;
     }
     return '../../../assets/images/default-avatar-image.jpg';
+  }
+
+  loadCareers()
+  {
+    this.careerService.getAll()
+    .then(response => {
+      this.careerList = response;
+    })
+    .catch(err=> console.log(err));
   }
 
 }

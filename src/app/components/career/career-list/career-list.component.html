@@ -1,26 +1,34 @@
 <app-nav-bar></app-nav-bar>
 <main>
-    <header class="py-3 mb-4 border-bottom">
-        <div class="container d-flex flex-wrap justify-content-center">
-          <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-            <span class="fs-4"> Administrar carreras </span>
-          </a>
+    <div class="container-xl px-4 mt-n10" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="component-container text-center">
+            <span class="text-center"><i class="fa-solid fa-graduation-cap" style="color: #405967; font-weight: bold; font-size: 35px;"></i></span>
+            <span class="fs-4" style="color: #405967; font-weight: bold; font-size: 27px!important;"> Administrar carreras </span>
         </div>
-      </header>
-
-    <app-add-career></app-add-career>
+    </div>
+    
+   
+        <!-- <div class="d-flex flex-wrap justify-content-center align-items-center component-container" style="margin: 0px; height: 100%;">
+          <div class="text-center">
+            <p class="text-center"><i class="fa-solid fa-graduation-cap" style="color: #405967; font-weight: bold; font-size: 60px;"></i></p>
+            <span class="fs-4" style="color: #405967; font-weight: bold; font-size: 27px!important;"> Administrar carreras </span>
+          </div>
+        </div> -->
+    
+    <app-add-career (messageEventAddCareer)="receiveMessageEventAddCareer($event)"></app-add-career>
     <br>
     
     <!-- Main page content-->
     <div class="container-xl px-4 mt-n10">
 
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-striped">
+        <div class="component-container">
+            <div class="card" >
+                <div class="card-body">
+                    <table class="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Duration</th>
+                            <th scope="col">Duración</th>
                             <th scope="col">Descripcion</th>
                             <th scole="col">Opciones</th>
                         </tr>
@@ -31,10 +39,8 @@
                             <td> {{career.duration}} </td>
                             <td> {{career.description}} </td>
                             <td>
-                                <button type="button" class="btn btn-outline-danger" (click)="openDeleteModal(career)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                      </svg>
+                                <button type="button" class="btn btn-danger" (click)="setCareerToDelete(career,confirmDeleteModal)">
+                                    <i class="fa-solid fa-trash-can" ></i>
                                 </button>
                             </td>
                         </tr>
@@ -42,7 +48,32 @@
                   </table>
             </div>
         </div>
+        </div>
     </div>
 
+    <ng-template #confirmDeleteModal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Encuesta</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')" ></button>
+        </div>
+        <div class="modal-body" *ngIf="careerSelectedToDelete">
+            ¿Está seguro que desea eliminar la carrera {{ careerSelectedToDelete.name }}?
+        </div>
+        <div class="modal-footer">      
+          <button type="button" class="btn btn-secondary" (click)="modal.close('')">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="deleteCareerSelected(modal)">Eliminar</button>
+        </div>
+      </ng-template>
+
+
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <ngb-toast *ngFor="let toast of toasts"   
+          [class]="toast.class" 
+          [delay]="toast.delay" 
+          [autohide]="true"
+          (hidden)="removeToast(toast)">
+          <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
+        </ngb-toast>
+      </div>
 
 </main>

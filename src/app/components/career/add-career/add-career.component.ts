@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Career } from 'src/app/models/career';
 import { CareerService } from 'src/app/services/career.service';
@@ -9,6 +9,8 @@ import { CareerService } from 'src/app/services/career.service';
   styleUrls: ['./add-career.component.css']
 })
 export class AddCareerComponent implements OnInit {
+
+  @Output() messageEventAddCareer = new EventEmitter<Career>();
 
   constructor(private careerService: CareerService) { }
 
@@ -29,12 +31,18 @@ export class AddCareerComponent implements OnInit {
 
     let name: string = this.name.value;
     let description: string = this.description.value;
-    let duration: number = this.name.value;
+    let duration: number = this.duration.value;
 
-    this.careerService.add(new Career(null, name, description, duration))
-    .then(response => {
-      window.location.reload()
+    var career = new Career(0, name, description, duration);
+
+    this.careerService.add(career)
+    .then(careerResponseAdded => {
+      this.messageEventAddCareer.emit(careerResponseAdded);
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error);
+      
+      this.messageEventAddCareer.emit(null);
+    });
   }
 }

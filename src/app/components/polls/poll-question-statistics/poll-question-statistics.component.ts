@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Poll } from 'src/app/models/poll';
 import { PollQuestionStatistic } from 'src/app/models/poll-question-statistic';
 import { PollResponseType } from 'src/app/models/poll-response-type';
@@ -30,14 +30,22 @@ export class PollQuestionStatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userType = sessionStorage.getItem('userType');
-    console.log(this.userTypeStudent);
-    
     if(this.poll != null)
     {
       this.setPollQuestionStatistics();
     }
- 
   }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // This will be called whenever there is a change in the input properties.
+    if (changes.poll && !changes.poll.firstChange) {
+      // The poll input has changed. You can perform actions here.
+      this.setPollQuestionStatistics();
+    }
+  
+  }
+
 
   setPollQuestionStatistics()
   {
@@ -107,17 +115,14 @@ export class PollQuestionStatisticsComponent implements OnInit {
             console.log(errorUserResponse);
             this.showErrorToast("Ha ocurrido un error al mostrar la encuesta");
           })
-     
   }
 
-  
   removeToast(toast)
   {
     const index = this.toasts.indexOf(toast);
     if (index > -1) {
       this.toasts.splice(index, 1);
-    }
-    
+    }    
   }
 
 }

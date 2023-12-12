@@ -2,20 +2,35 @@
     <!-- Main page content-->
     <div class="container-xl px-4 mt-n10">
 
-        <div class="card">
+        <div class="component-container">
             <div class="card-body">
-                <h4>Añadir carrera</h4>
-                <br>
+                
                 <form class="row g-3" [formGroup]="careerForm" (ngSubmit)="onSubmit()">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nombre de la carrera" formControlName="name" aria-label="career-name" aria-describedby="button-addon2">
-                        <input type="text" class="form-control" placeholder="Descripcion de la carrera" formControlName="description" aria-label="career-description" aria-describedby="button-addon2">
-                        <input type="number" class="form-control" placeholder="Duración de la carrera" formControlName="duration" aria-label="career-description" aria-describedby="button-addon2">
-                        <button class="btn btn-secondary" type="submit" [disabled]="!careerForm.valid" id="button-addon2">Agregar</button>
+                    
+                    
+                 
+                    <div class="row" style="margin: 0px; padding: 0px;">
+                        <div class="col-12">
+                            <h4><i class="fa-solid fa-circle-plus"></i> Añadir carrera</h4>
+                        </div>
+                        <div class="col-6 mt-20">
+                            <input type="text" class="form-control" placeholder="Nombre de la carrera" formControlName="name" aria-label="career-name" aria-describedby="button-addon2">
+                        </div>
+                        <div class="col-6 mt-20">
+                            <input type="number" class="form-control" placeholder="Duración de la carrera" formControlName="duration" aria-label="career-description" aria-describedby="button-addon2">
+                        </div>
+                        <div class="col-12 mt-20">
+                            <input type="text" class="form-control" placeholder="Descripcion de la carrera" formControlName="description" aria-label="career-description" aria-describedby="button-addon2">
+                        </div>
+                        <div class="col-12 mt-20 text-end">                          
+                            <button class="btn btn-secondary" type="submit" [disabled]="!careerForm.valid" id="button-addon2">Agregar</button>
+                        </div>
                     </div>
+
+                    
                 </form>
 
-                <div class="row g-3" *ngIf="!name.valid && (name.dirty || name.touched)">
+                <div class="row g-3 mt-20" *ngIf="!name.valid && (name.dirty || name.touched)">
                     <div class="col">
                         <div class="alert alert-warning d-flex align-items-center" role="alert" *ngIf="name.errors.minlength || name.errors.maxlength">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">

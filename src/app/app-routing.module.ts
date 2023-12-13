@@ -19,7 +19,7 @@ import { PollDetailsComponent } from './components/polls/poll-details/poll-detai
 
 
 const routes: Routes = [
-  {path:"subject/list", component:SubjectListComponent/*, canActivate: [AdministratorGuard]*/},
+  {path:"subject/list/career/:id", component:SubjectListComponent/*, canActivate: [AdministratorGuard]*/},
   {path:"career/page/:id", component:CareerPageComponent},
   {path:"career/list", component:CareerListComponent /*, canActivate: [AdministratorGuard]*/},
   {path:"career/poll/:id", component:CareerPollComponent},

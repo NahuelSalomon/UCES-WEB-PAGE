@@ -37,11 +37,10 @@
                         <tr *ngFor="let career of careersList">
                             <td> {{career.name}} </td>
                             <td> {{career.duration}} </td>
-                            <td> {{career.description}} </td>
+                            <td style="max-width: 300px;"> {{career.description}} </td>
                             <td>
-                                <button type="button" class="btn btn-danger" (click)="setCareerToDelete(career,confirmDeleteModal)">
-                                    <i class="fa-solid fa-trash-can" ></i>
-                                </button>
+                                <button type="button" class="btn btn-danger" (click)="setCareerToDelete(career,confirmDeleteModal)" style="margin-right: 10px;"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="btn btn-secu"  [routerLink]="['/subject/list/career/' + career.id]" style="margin-right: 5px;">Materias <i class="fa-solid fa-circle-right"></i></button>
                             </td>
                         </tr>
                     </tbody>

@@ -12,19 +12,14 @@ import { SubjectService } from 'src/app/services/subject.service';
 export class AddSubjectComponent implements OnInit {
 
   @Input() careerList : Array<Career>
-  selectedCareer: Career
+  @Input() career: Career
   careerSubjects : Array<Subject>
 
   subjectForm = new FormGroup({
-    code: new FormControl('', [Validators.maxLength(30)]),
-    name: new FormControl('', [ Validators.required, Validators.minLength(2), Validators.maxLength(60)]),
-    career: new FormControl('', [Validators.required])
+    name: new FormControl('', [ Validators.required, Validators.minLength(2), Validators.maxLength(60)])
   })
 
-  get code() { return this.subjectForm.get('code'); }
   get name() { return this.subjectForm.get('name'); }
-  get career() { return this.subjectForm.get('career'); }
-
 
   constructor(private subjectService : SubjectService) { }
 
@@ -34,10 +29,8 @@ export class AddSubjectComponent implements OnInit {
 
   onSubmit(){
     let name: string = this.name.value
-    let careerId: number = this.career.value
-    let career = this.careerList.find(c => c.id == careerId)
 
-    this.subjectService.add(new Subject(null, name, null, career))
+    this.subjectService.add(new Subject(null, name, null, this.career))
       .then(resp => {
         window.location.reload()
         console.log(resp)
@@ -46,17 +39,5 @@ export class AddSubjectComponent implements OnInit {
 
   }
 
-  changeCareer(id: string){
-    this.selectedCareer = this.careerList.find(career => career.id == Number.parseInt(id))
-    console.log(id)
-    console.log(this.selectedCareer)
-    this.subjectService.getByCareer(this.selectedCareer.id)
-      .then(response => {
-        this.careerSubjects = response
-        console.log(this.careerSubjects)
-      })
-      .catch(error => console.log(error))
-
-  }
 
 }

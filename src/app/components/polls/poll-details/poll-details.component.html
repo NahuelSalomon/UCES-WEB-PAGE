@@ -52,8 +52,7 @@
 <app-poll-question-add *ngIf="poll" [poll]="poll" (messageEventAddPollQuestion)="receiveMessageEventAddPollQuestion($event)"></app-poll-question-add>
 <app-poll-question-list *ngIf="poll" [poll]="poll" [pollQuestionList]="pollQuestionList" 
 (messageEventDeletePollQuestion)="receiveMessageEventDeletePollQuestion($event)"
-(messageEventText)="receiveMessageEventText($event)"
-></app-poll-question-list>
+(messageEventText)="receiveMessageEventText($event)"></app-poll-question-list>
 
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
     <ngb-toast *ngFor="let toast of toasts"   

@@ -29,6 +29,10 @@ export class SubjectService {
     return this.http.get(this.urlAPI + id).toPromise();
   }
 
+  getByNameAndCareerId(name: string, careerId: number, ) : Promise<any> {
+    return this.http.get(this.urlAPI + "search?name=" + name + "&idCareer=" + careerId).toPromise();
+  }
+
   getByCareer(idCareer: number) : Promise<any> {
     return this.http.get(`${this.urlAPI}careers/${idCareer}`).toPromise();
   }

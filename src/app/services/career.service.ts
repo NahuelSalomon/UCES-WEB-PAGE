@@ -29,6 +29,10 @@ export class CareerService {
     return this.http.get(this.urlAPI +id).toPromise();
   }
 
+  getByName(name: string) : Promise<any> {
+    return this.http.get(this.urlAPI + 'name/' + name).toPromise();
+  }
+
   delete(id: number) : Promise<any> {
     return this.http.delete(this.urlAPI + id).toPromise();
    }

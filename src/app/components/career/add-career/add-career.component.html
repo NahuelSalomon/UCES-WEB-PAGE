@@ -14,60 +14,51 @@
                             <h4><i class="fa-solid fa-circle-plus"></i> Añadir carrera</h4>
                         </div>
                         <div class="col-6 mt-20">
-                            <input type="text" class="form-control" placeholder="Nombre de la carrera" formControlName="name" aria-label="career-name" aria-describedby="button-addon2">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                            <input type="mail" placeholder="Nombre de la carrera" formControlName="name" name="name" id="name"
+                                    class="form-control" [ngClass]="{'is-invalid': (!name.valid && (name.dirty || name.touched)), 'is-valid' : (name.valid && (name.dirty || name.touched)) }">
+    
+                                    <div class="invalid-feedback" *ngIf="(!name.valid && (name.dirty || name.touched))" >
+                                        <div *ngIf="name.errors?.required">Por favor ingrese el nombre de la carrera.</div>
+                                        <div *ngIf="name.errors?.minlength || name.errors?.maxlength">El nombre debe tener entre 5 y 100 caracteres.</div>
+                                        <div *ngIf="name.errors?.careerNameExists">Ya existe una carrera con este nombre.</div>                                   
+                                    </div>
+    
+                                    </div>
+                            </div>
+                            <!-- <input type="text" class="form-control" placeholder="Nombre de la carrera" formControlName="name" aria-label="career-name" aria-describedby="button-addon2"> -->
                         </div>
                         <div class="col-6 mt-20">
-                            <input type="number" class="form-control" placeholder="Duración de la carrera" formControlName="duration" aria-label="career-description" aria-describedby="button-addon2">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                            <input type="mail" placeholder="Duración de la carrera" formControlName="duration" name="duration" id="duration"
+                                    class="form-control" [ngClass]="{'is-invalid': (!duration.valid && (duration.dirty || duration.touched)), 'is-valid' : (duration.valid && (duration.dirty || duration.touched)) }">
+                                    <div class="invalid-feedback" *ngIf="(!duration.valid && (duration.dirty || duration.touched))" >
+                                        <div *ngIf="duration.errors?.required">Por favor ingrese la duración de la carrera.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <input type="number" class="form-control" placeholder="Duración de la carrera" formControlName="duration" aria-label="career-description" aria-describedby="button-addon2"> -->
                         </div>
                         <div class="col-12 mt-20">
-                            <input type="text" class="form-control" placeholder="Descripcion de la carrera" formControlName="description" aria-label="career-description" aria-describedby="button-addon2">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                            <input type="description" placeholder="Descripcion de la carrera" formControlName="description" name="description" id="description"
+                                    class="form-control" [ngClass]="{'is-invalid': (!description.valid && (description.dirty || description.touched)), 'is-valid' : (description.valid && (description.dirty || description.touched)) }">
+                                    <div class="invalid-feedback" *ngIf="(!description.valid && (description.dirty || description.touched))" >
+                                        <div *ngIf="description.errors?.required">Por favor ingrese la descripción de la carrera.</div>
+                                        <div *ngIf="description.errors.minlength || description.errors.maxlength">La descripción debe tener entre 30 y 300 caracteres.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <input type="text" class="form-control" placeholder="Descripcion de la carrera" formControlName="description" aria-label="career-description" aria-describedby="button-addon2"> -->
                         </div>
                         <div class="col-12 mt-20 text-end">                          
                             <button class="btn btn-secondary" type="submit" [disabled]="!careerForm.valid" id="button-addon2">Agregar</button>
                         </div>
                     </div>
-
-                    
                 </form>
-
-                <div class="row g-3 mt-20" *ngIf="!name.valid && (name.dirty || name.touched)">
-                    <div class="col">
-                        <div class="alert alert-warning d-flex align-items-center" role="alert" *ngIf="name.errors.minlength || name.errors.maxlength">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
-                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                              </svg>
-                              <div>
-                                El nombre debe tener entre 5 y 100 caracteres.
-                              </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-3" *ngIf="!description.valid && (description.dirty || description.touched)">
-                    <div class="col">
-                        <div class="alert alert-warning d-flex align-items-center" role="alert" *ngIf="description.errors.minlength || description.errors.maxlength">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
-                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                              </svg>
-                              <div>
-                                La descripción debe tener entre 30 y 300 caracteres.
-                              </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-3" *ngIf="!description.valid && (description.dirty || description.touched)">
-                    <div class="col">
-                        <div class="alert alert-warning d-flex align-items-center" role="alert" *ngIf="description.errors.required">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" role="img" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
-                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                              </svg>
-                              <div>
-                                La duración es obligatoria.
-                              </div>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
         </div>
 

@@ -1,4 +1,6 @@
 import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidatorFn } from "@angular/forms";
+import { CareerService } from "../services/career.service";
+import { SubjectService } from "../services/subject.service";
 import { UserService } from "../services/user.service";
 
 export class CustomValidator {
@@ -57,6 +59,38 @@ export class CustomValidator {
           }                  
         };
       }
+
+      static careerNameExists(careerService: CareerService): AsyncValidatorFn {       
+        return (control: AbstractControl): Promise<{ [key: string]: any } | null> => {
+          if (control.value == '') {
+            return null;
+          }
+          else {
+            return careerService.getByName(control.value)
+                .then(response => {
+                    return response ? { 'careerNameExists': { value: control.value } } : null;
+                }).catch(error=> {return null});
+          }                  
+        };
+      }
+
+      static subjectNameExists(subjectService: SubjectService, careerId : number): AsyncValidatorFn {       
+        return (control: AbstractControl): Promise<{ [key: string]: any } | null> => {
+          if (control.value.name == '') {
+            return null;
+          }
+          else {
+            console.log(control.value);
+            
+            return subjectService.getByNameAndCareerId(control.value, careerId)
+                .then(response => {                  
+                    return response ? { 'subjectNameExists': { value: control.value } } : null;
+                }).catch(error=> {return null});
+          }                  
+        };
+      }
+
+
 
       static mustMatch(controlName: string, matchingControlName: string):ValidatorFn {
         return (formGroup: AbstractControl):{ [key: string]: any } | null => {

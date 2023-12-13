@@ -65,7 +65,7 @@ export class SubjectListComponent implements OnInit {
   {
     if(this.subjectSelectedToDelete != null)
     {
-      this.careerService.delete(this.subjectSelectedToDelete.id)
+      this.subjectService.delete(this.subjectSelectedToDelete.id)
       .then(() => {
         const index = this.subjectList.indexOf(this.subjectSelectedToDelete);
         this.subjectList.splice(index,1);      
@@ -78,6 +78,19 @@ export class SubjectListComponent implements OnInit {
       .finally(()=>{
         modal.dismiss();
       });
+    }
+  }
+
+  receiveMessageEventAddSubject($event)
+  {
+    if($event)
+    {
+      this.subjectList.push($event);
+      this.showSuccessToast("La materia se ha agregado conrrectamente");
+    }
+    else
+    {
+      this.showErrorToast("No se ha podido agregar la materia correctamente");
     }
   }
 

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomValidator } from 'src/app/common/custom-validator';
 import { Career } from 'src/app/models/career';
 import { Subject } from 'src/app/models/subject';
 import { SubjectService } from 'src/app/services/subject.service';
@@ -11,31 +12,41 @@ import { SubjectService } from 'src/app/services/subject.service';
 })
 export class AddSubjectComponent implements OnInit {
 
-  @Input() careerList : Array<Career>
-  @Input() career: Career
-  careerSubjects : Array<Subject>
+  @Input() career: Career;
+  @Output() messageEventAddSubject = new EventEmitter<Subject>();
+  careerSubjects : Array<Subject>;
 
   subjectForm = new FormGroup({
     name: new FormControl('', [ Validators.required, Validators.minLength(2), Validators.maxLength(60)])
-  })
+  });
 
   get name() { return this.subjectForm.get('name'); }
 
-  constructor(private subjectService : SubjectService) { }
+  constructor(private subjectService : SubjectService) { 
+  }
 
   ngOnInit(): void {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.career.currentValue) {
+      this.name.addAsyncValidators([CustomValidator.subjectNameExists(this.subjectService,this.career.id)]);
+    }
   }
 
   onSubmit(){
     let name: string = this.name.value
 
     this.subjectService.add(new Subject(null, name, null, this.career))
-      .then(resp => {
-        window.location.reload()
-        console.log(resp)
+      .then(subjectResponse => {
+        this.subjectForm.reset();
+        this.messageEventAddSubject.emit(subjectResponse);
       })
-      .catch(err=> console.log(err))
+      .catch(subjectResponseError=> {
+        this.messageEventAddSubject.emit(null);
+        console.log(subjectResponseError);
+      });
 
   }
 

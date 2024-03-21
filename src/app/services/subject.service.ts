@@ -11,17 +11,18 @@ export class SubjectService {
 
   constructor(private http : HttpClient) { }
 
-  add(subject : Subject) : Promise<any> {
+  add(subject : Subject, token: string) : Promise<any> {
   
     const httpOptions = {
-     headers : new HttpHeaders({
-       'Content-Type' : 'application/json'
-     })
-   };
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
+      })
+    };
    return this.http.post(this.urlAPI, subject, httpOptions).toPromise(); 
   }
 
-  getAll(size = 10, page= 0) : Promise<any> {
+  getAll(size = 100, page= 0) : Promise<any> {
     return this.http.get(`${this.urlAPI}?size=${size}&page=${page}`).toPromise();
   }
 
@@ -37,12 +38,18 @@ export class SubjectService {
     return this.http.get(`${this.urlAPI}careers/${idCareer}`).toPromise();
   }
 
-  delete(id: number) : Promise<any> {
-   return this.http.delete(this.urlAPI + id).toPromise();
+  delete(id: number, token: string) : Promise<any> {
+
+    const httpOptions = {
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
+      })
+    };
+
+   return this.http.delete(this.urlAPI + id, httpOptions).toPromise();
   }
 
-  getCorrelativesById(id: number): Promise<any> {
-    return this.http.get(`${this.urlAPI}${id}/correlatives`).toPromise();
-  }
+
 
 }

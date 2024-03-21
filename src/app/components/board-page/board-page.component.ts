@@ -10,7 +10,7 @@ import { ForumService } from 'src/app/services/forum.service';
 import { UserService } from 'src/app/services/user.service';
 import { QueryResponse } from 'src/app/models/query-response';
 import { User } from 'src/app/models/user';
-import { ResponseQueryService } from 'src/app/services/response-query.service';
+import { ResponseQueryService } from 'src/app/services/query-response.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ForumOrder } from 'src/app/models/forum-order';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -145,7 +145,7 @@ export class BoardPageComponent implements OnInit {
 
         var body = this.getBodyQueryResponseControl("bodyQueryResponse" + forum.id).value;
         var queryResponse: QueryResponse = new QueryResponse(0, body, userResponse, forum);
-        this.queryResponseService.add(queryResponse)
+        this.queryResponseService.add(queryResponse, this.authService.token)
           .then(queryResponseResponse => {
             this.showSuccessToast("La respuesta a la consulta se ha agregado con exito");  
             this.setForumList();
@@ -201,7 +201,7 @@ export class BoardPageComponent implements OnInit {
           (this.forumType == ForumType.QUERY ? forum = new Query(0, body, new Date(), user, this.board) : null);
 
         if (forum != null) {
-          this.forumService.add(forum)
+          this.forumService.add(forum, this.authService.token)
             .then(response => {
               this.setForumList();
               this.showSuccessToast("El foro se ha agregado con éxito");  
@@ -225,7 +225,7 @@ export class BoardPageComponent implements OnInit {
     this.authService.getUserDetails(sessionStorage.getItem('token'))
       .then(userResponse => {
         var user = userResponse;
-        this.userService.votedUnVoteForum(user.id, forum.id)
+        this.userService.votedUnVoteForum(user.id, forum.id, this.authService.token)
           .then(response => {
             if (this.forumRecommendedByTheLoggedUser(forum)) {
               this.setForumsLikedUser();

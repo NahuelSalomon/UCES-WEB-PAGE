@@ -18,12 +18,10 @@ import { CareerListComponent } from './components/career/career-list/career-list
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RegisterComponent } from './components/register/register.component';
-import { DeleteCareerModalComponent } from './components/career/career-modals/delete-career-modal/delete-career-modal.component';
 import { AddCareerComponent } from './components/career/add-career/add-career.component';
 import { ConfirmEmailComponent } from './components/confirmation-email/confirm-email/confirm-email.component';
 import { EmailConfirmedComponent } from './components/confirmation-email/email-confirmed/email-confirmed.component';
 import { SubjectListComponent } from './components/subjects/subject-list/subject-list.component';
-import { DeleteSubjectModalComponent } from './components/subjects/subject-modals/delete-subject-modal/delete-subject-modal.component';
 import { AddSubjectComponent } from './components/subjects/add-subject/add-subject.component';
 import { SendEmailToResetPasswordComponent } from './components/forget-password/send-email-to-reset-password/send-email-to-reset-password.component';
 import { ResetPasswordComponent } from './components/forget-password/reset-password/reset-password.component';
@@ -52,11 +50,9 @@ import { PollQuestionListComponent } from './components/polls/poll-question-list
     CareerListComponent,
     NavBarComponent,
     RegisterComponent,
-    DeleteCareerModalComponent,
     AddCareerComponent,
     ConfirmEmailComponent,
     SubjectListComponent,
-    DeleteSubjectModalComponent,
     EmailConfirmedComponent,
     AddSubjectComponent,
     SendEmailToResetPasswordComponent,

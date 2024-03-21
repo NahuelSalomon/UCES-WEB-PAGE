@@ -19,11 +19,11 @@ import { PollDetailsComponent } from './components/polls/poll-details/poll-detai
 
 
 const routes: Routes = [
-  {path:"subject/list/career/:id", component:SubjectListComponent/*, canActivate: [AdministratorGuard]*/},
+  {path:"subject/list/career/:id", component:SubjectListComponent, canActivate: [AdministratorGuard]},
   {path:"career/page/:id", component:CareerPageComponent},
-  {path:"career/list", component:CareerListComponent /*, canActivate: [AdministratorGuard]*/},
+  {path:"career/list", component:CareerListComponent , canActivate: [AdministratorGuard]},
   {path:"career/poll/:id", component:CareerPollComponent},
-  {path:"users/list", component:UsersListComponent /*, canActivate: [AdministratorGuard]*/},
+  {path:"users/list", component:UsersListComponent , canActivate: [AdministratorGuard]},
   {path:'login', component:LoginComponent },
   {path:'confirm-email', component:ConfirmEmailComponent },
   {path:'email-confirmed', component:EmailConfirmedComponent },
@@ -31,9 +31,9 @@ const routes: Routes = [
   {path:'send-email-to-reset-password', component:SendEmailToResetPasswordComponent},
   {path:'reset-password', component:ResetPasswordComponent},
   {path: 'user/details', component: UserDetailsComponent, canActivate: [IsLoggedGuard]},
-  {path: 'poll/list', component: PollListComponent /*, canActivate: [AdministratorGuard]*/},
-  {path: 'poll/details/:id', component: PollDetailsComponent /*,canActivate: [AdministratorGuard]*/},
-  {path: 'poll/details', component: PollDetailsComponent /*, canActivate: [AdministratorGuard]*/},
+  {path: 'poll/list', component: PollListComponent , canActivate: [AdministratorGuard]},
+  {path: 'poll/details/:id', component: PollDetailsComponent ,canActivate: [AdministratorGuard]},
+  {path: 'poll/details', component: PollDetailsComponent , canActivate: [AdministratorGuard]},
   {path:"", redirectTo: "/login", pathMatch:"full"}
 ];
 

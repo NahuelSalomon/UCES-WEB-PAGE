@@ -80,8 +80,6 @@ export class CustomValidator {
             return null;
           }
           else {
-            console.log(control.value);
-            
             return subjectService.getByNameAndCareerId(control.value, careerId)
                 .then(response => {                  
                     return response ? { 'subjectNameExists': { value: control.value } } : null;

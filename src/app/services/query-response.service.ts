@@ -11,17 +11,24 @@ export class ResponseQueryService {
 
   constructor(private http : HttpClient) { }
 
-  add (resp : QueryResponse) : Promise<any> {
+  add (resp : QueryResponse, token: string) : Promise<any> {
     const httpOptions = {
       headers : new HttpHeaders({
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
       })
     };
     return this.http.post(this.urlAPI, resp, httpOptions).toPromise();
   }
 
-  delete(id : number) : Promise<any>{
-    return this.http.delete(this.urlAPI).toPromise();
+  delete(id : number, token: string) : Promise<any>{
+    const httpOptions = {
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.delete(this.urlAPI+id, httpOptions).toPromise();
   }
 
 }

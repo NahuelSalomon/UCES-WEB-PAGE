@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CustomValidator } from 'src/app/common/custom-validator';
 import { Career } from 'src/app/models/career';
 import { CareerService } from 'src/app/services/career.service';
@@ -13,7 +14,7 @@ export class AddCareerComponent implements OnInit {
 
   @Output() messageEventAddCareer = new EventEmitter<Career>();
 
-  constructor(private careerService: CareerService) { }
+  constructor(private careerService: CareerService, private authService : AuthService) { }
 
   careerForm = new FormGroup({
     name: new FormControl('', [ Validators.required, Validators.minLength(5), Validators.maxLength(100)], [CustomValidator.careerNameExists(this.careerService)] ),
@@ -36,7 +37,7 @@ export class AddCareerComponent implements OnInit {
 
     var career = new Career(0, name, description, duration);
 
-    this.careerService.add(career)
+    this.careerService.add(career, this.authService.token)
     .then(careerResponseAdded => {
       this.messageEventAddCareer.emit(careerResponseAdded);
       this.careerForm.reset();
@@ -48,9 +49,4 @@ export class AddCareerComponent implements OnInit {
     });
   }
 
-  prueba()
-  {
-    console.log(this.name.errors);
-    
-  }
 }

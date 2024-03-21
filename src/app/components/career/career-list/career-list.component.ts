@@ -4,7 +4,7 @@ import { Career } from 'src/app/models/career';
 import { Toast } from 'src/app/models/toast';
 import { CareerService } from 'src/app/services/career.service';
 import { CommunicationService } from 'src/app/services/communication.service';
-import { DeleteCareerModalComponent } from '../career-modals/delete-career-modal/delete-career-modal.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-career-list',
@@ -17,7 +17,7 @@ export class CareerListComponent implements OnInit {
   careersList: Array<Career>;
   toasts: Array<Toast> = new Array<Toast>();
 
-  constructor(private careerService: CareerService, private modalService: NgbModal, private communicationService: CommunicationService) { }
+  constructor(private careerService: CareerService, private modalService: NgbModal, private communicationService: CommunicationService, private authService : AuthService) { }
 
   ngOnInit(): void {
 
@@ -75,7 +75,7 @@ export class CareerListComponent implements OnInit {
   {
     if(this.careerSelectedToDelete != null)
     {
-      this.careerService.delete(this.careerSelectedToDelete.id)
+      this.careerService.delete(this.careerSelectedToDelete.id, this.authService.token)
       .then(() => {
         const index = this.careersList.indexOf(this.careerSelectedToDelete);
         this.careersList.splice(index,1);

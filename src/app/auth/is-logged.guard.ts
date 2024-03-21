@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { AuthResolverIsLoggedGuardService } from '../services/auth-resolver-is-logged-guard.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +12,12 @@ import { AuthService } from './auth.service';
 
 export class IsLoggedGuard implements CanActivate {
   
-  constructor(private authService: AuthService, private router: Router){}
+  constructor(private authResolverService : AuthResolverIsLoggedGuardService){}
   
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      let url: string = state.url;
-
-      return this.checkLogin(url);
+      return this.authResolverService.resolve(route,state);
   }
 
-  checkLogin(url: string): boolean{
-
-    if(this.authService.token){
-      return true;
-    }
-    this.authService.redirectUrl = url;
-    this.router.navigate(['/login']);
-    return false;
-  }
 }

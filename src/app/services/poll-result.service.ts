@@ -7,29 +7,21 @@ import { PollResult } from '../models/poll-result';
 })
 export class PollResultService {
 
-
-
   private urlAPI = "http://localhost:8080/api/poll_results/";
 
   constructor(private http : HttpClient) { }
 
-  add(pollQuestion : PollResult) : Promise<any> {
+  add(pollResult : PollResult, token : string) : Promise<any> {
   
     const httpOptions = {
       headers : new HttpHeaders({
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
       })
     };
-    return this.http.post(this.urlAPI, pollQuestion, httpOptions).toPromise(); 
+    return this.http.post(this.urlAPI, pollResult, httpOptions).toPromise(); 
    }
-
-   getAll(size = 10, page= 0) : Promise<any> {
-    return this.http.get(`${this.urlAPI}?page=${page}&size=${size}`).toPromise();
-    }
   
-  getById(id: number) : Promise<any> {
-    return this.http.get(this.urlAPI +id).toPromise();
-  }
 
   getByPollAndUser(pollId: number, userId: number) : Promise<any> {
     return this.http.get(`${this.urlAPI}polls/${pollId}/users/${userId}`).toPromise();

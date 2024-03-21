@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Poll } from 'src/app/models/poll';
 import { PollQuestion } from 'src/app/models/poll-question';
 import { PollResponseType } from 'src/app/models/poll-response-type';
@@ -30,7 +31,7 @@ export class PollQuestionAddComponent implements OnInit {
   get shortDescription() { return this.pollQuestionForm.get('shortDescription'); }
   get pollResponseType() { return this.pollQuestionForm.get('pollResponseType'); }
 
-  constructor(private pollQuestionService: PollQuestionService) { }
+  constructor(private pollQuestionService: PollQuestionService, private authService : AuthService) { }
 
   ngOnInit(): void {
   }
@@ -45,7 +46,7 @@ export class PollQuestionAddComponent implements OnInit {
 
     if(this.poll.id != null)
     {
-      this.pollQuestionService.add(pollQuestion)
+      this.pollQuestionService.add(pollQuestion, this.authService.token)
       .then(pollQuestionResponse =>{
         this.messageEventAddPollQuestion.emit(pollQuestionResponse);
       })

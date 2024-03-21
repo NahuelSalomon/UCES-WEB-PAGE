@@ -12,18 +12,16 @@ export class ForumService {
 
   constructor(private http : HttpClient) { }
 
-  add(forum : Forum) : Promise<any> {
+  add(forum : Forum, token: string) : Promise<any> {
   
     const httpOptions = {
-     headers : new HttpHeaders({
-       'Content-Type' : 'application/json'
-     })
-   };
-   return this.http.post(this.urlAPI, forum, httpOptions).toPromise(); 
-  }
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
+      })
+    };
 
-  getAll() : Promise<any> {
-    return this.http.get(this.urlAPI).toPromise();
+    return this.http.post(this.urlAPI, forum, httpOptions).toPromise(); 
   }
 
   getAllQueriesByBoard(idBoard: number) : Promise<any> {
@@ -54,18 +52,16 @@ export class ForumService {
     return this.http.get(this.urlAPI + "/" +id).toPromise();
   }
 
-  delete(id: number) : Promise<any> {
-   return this.http.delete(this.urlAPI + "/" + id).toPromise();
-  }
-
-  update(id : number, forum : Forum) : Promise<any> {
-
+  delete(id: number, token: string) : Promise<any> {
+    
     const httpOptions = {
       headers : new HttpHeaders({
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
       })
     };
-    return this.http.put(this.urlAPI + "/" + id, forum, httpOptions).toPromise(); 
+    
+    return this.http.delete(this.urlAPI + "/" + id, httpOptions).toPromise();
   }
 
 }

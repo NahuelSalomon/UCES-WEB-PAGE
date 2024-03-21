@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CustomValidator } from 'src/app/common/custom-validator';
 import { Career } from 'src/app/models/career';
 import { Subject } from 'src/app/models/subject';
@@ -22,8 +23,7 @@ export class AddSubjectComponent implements OnInit {
 
   get name() { return this.subjectForm.get('name'); }
 
-  constructor(private subjectService : SubjectService) { 
-  }
+  constructor(private subjectService : SubjectService, private authService : AuthService) { }
 
   ngOnInit(): void {
 
@@ -38,7 +38,7 @@ export class AddSubjectComponent implements OnInit {
   onSubmit(){
     let name: string = this.name.value
 
-    this.subjectService.add(new Subject(null, name, null, this.career))
+    this.subjectService.add(new Subject(null, name, null, this.career), this.authService.token)
       .then(subjectResponse => {
         this.subjectForm.reset();
         this.messageEventAddSubject.emit(subjectResponse);

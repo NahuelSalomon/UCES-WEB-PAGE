@@ -4,9 +4,9 @@ import { Career } from 'src/app/models/career';
 import { Subject } from 'src/app/models/subject';
 import { CareerService } from 'src/app/services/career.service';
 import { SubjectService } from 'src/app/services/subject.service';
-import { DeleteSubjectModalComponent } from '../subject-modals/delete-subject-modal/delete-subject-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { Toast } from 'src/app/models/toast';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-subject-list',
@@ -22,7 +22,7 @@ export class SubjectListComponent implements OnInit {
   subjectSelectedToDelete : Subject;
   toasts: Array<Toast> = new Array<Toast>();
 
-  constructor(private subjectService : SubjectService, private careerService: CareerService, private modalService: NgbModal, private route : ActivatedRoute) { }
+  constructor(private subjectService : SubjectService, private careerService: CareerService, private modalService: NgbModal, private route : ActivatedRoute, private authService : AuthService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => 
@@ -32,8 +32,8 @@ export class SubjectListComponent implements OnInit {
           .then(careerResponse=>{
             this.career = careerResponse;
             this.subjectService.getByCareer(this.career.id)
-              .then(subjectResponse => {
-                this.subjectList = subjectResponse;
+              .then(subjectResponse => {  
+                this.subjectList = subjectResponse != null ? subjectResponse : new Array<Subject>();
               })
               .catch(subjectResponseError =>{
 
@@ -65,7 +65,7 @@ export class SubjectListComponent implements OnInit {
   {
     if(this.subjectSelectedToDelete != null)
     {
-      this.subjectService.delete(this.subjectSelectedToDelete.id)
+      this.subjectService.delete(this.subjectSelectedToDelete.id, this.authService.token)
       .then(() => {
         const index = this.subjectList.indexOf(this.subjectSelectedToDelete);
         this.subjectList.splice(index,1);      

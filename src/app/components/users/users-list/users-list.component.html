@@ -1,48 +1,76 @@
 <app-nav-bar></app-nav-bar>
 <main>
-    <header class="py-3 mb-4 border-bottom">
-        <div class="container d-flex flex-wrap justify-content-center">
-          <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-            <span class="fs-4"> Listado de usuarios </span>
-          </a>
+    <div class="container-xl px-4 mt-n10" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="component-container text-center">
+            <span class="text-center"><i class="fa-solid fa-users" style="color: #405967; font-weight: bold; font-size: 35px;"></i></span>
+            <span class="fs-4" style="color: #405967; font-weight: bold; font-size: 27px!important;"> Administrar usuarios </span>
         </div>
-      </header>
+    </div>
     <!-- Main page content-->
     <div class="container-xl px-4 mt-n10">
-
-        <div class="card">
-            <div class="card-body">
-                <div class="form-group">
-                    <!-- <input type="text" class="form-control" placeholder="Buscar por apellido, nombre o email..." name="filterPost" [(ngModel)]="filterPost"> -->
-                    <hr>
+        <div class="component-container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <!-- <input type="text" class="form-control" placeholder="Buscar por apellido, nombre o email..." name="filterPost" [(ngModel)]="filterPost"> -->
+                        <hr>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Email</th>
+                                <th scope="col" class="text-center">Usuario activo</th>
+                                <th scole="col" class="text-center">Cambiar estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of userList | filterUsers:filterPost">
+                                <td> {{user.lastname}} </td>
+                                <td> {{user.firstname}} </td>
+                                <td> {{user.email}} </td>
+                                <td class="text-center" *ngIf="user.active" style="color: green; font-size: 22px;"> <i class="fa-solid fa-circle-check"></i> </td>
+                                <td class="text-center" *ngIf="!user.active" style="color: red; font-size: 22px;"> <i class="fa-solid fa-circle-xmark"></i> </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-primary" (click)="setUserToChangeState(user,confirmChangeStateUserModal)">
+                                        <i class="fa-solid fa-rotate"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Apellido</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Email</th>
-                            <th scole="col">Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let user of userList | filterUsers:filterPost">
-                            <td> {{user.lastname}} </td>
-                            <td> {{user.firstname}} </td>
-                            <td> {{user.email}} </td>
-                            <td>
-                                <button type="button" class="btn btn-outline-danger" (click)="open(user)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"></path>
-                                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                  </table>
             </div>
         </div>
+    </div>
+
+    <ng-template #confirmChangeStateUserModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Encuesta</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')" ></button>
+        </div>
+        <div *ngIf="userSelectedToChangeState.active" class="modal-body">
+            ¿Está seguro que desea desactivar el usuario {{ userSelectedToChangeState.firstname }} {{ userSelectedToChangeState.lastname }}?
+        </div>
+        <div *ngIf="!userSelectedToChangeState.active" class="modal-body" >
+            ¿Está seguro que desea activar el usuario {{ userSelectedToChangeState.firstname }} {{ userSelectedToChangeState.lastname }}?
+        </div>
+        <div class="modal-footer">      
+            <button type="button" class="btn btn-secondary" (click)="modal.close('')">Cancelar</button>
+            <button *ngIf="!userSelectedToChangeState.active" type="button" class="btn btn-primary" (click)="changeStateUserSelected(modal)">Activar</button>
+            <button *ngIf="userSelectedToChangeState.active" type="button" class="btn btn-primary" (click)="changeStateUserSelected(modal)">Desactivar</button>
+        </div>
+    </ng-template>
+
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <ngb-toast *ngFor="let toast of toasts"   
+            [class]="toast.class" 
+            [delay]="toast.delay" 
+            [autohide]="true"
+            (hidden)="removeToast(toast)">
+            <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
+        </ngb-toast>
     </div>
 
 

@@ -78,7 +78,7 @@ export class PollModalComponent implements OnInit {
 
         var pollResult : PollResult = new PollResult(0,this.poll,userResponse);
 
-        this.pollResultService.add(pollResult)
+        this.pollResultService.add(pollResult, this.authService.token)
           .then(pollResultResponse=>
             {
               var pollResultCreated : PollResult = pollResultResponse;
@@ -93,7 +93,7 @@ export class PollModalComponent implements OnInit {
 
               console.log(this.answersList);
               
-              this.pollAnswerService.addAll(this.answersList)
+              this.pollAnswerService.addAll(this.answersList, this.authService.token)
                 .then(pollAnswerResponse=>
                   {
                

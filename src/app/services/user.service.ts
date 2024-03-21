@@ -11,15 +11,24 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
 
-  add(user : User) : Promise<any> {
-  
+  getAll(token : string) : Promise<any> {
+
     const httpOptions = {
-     headers : new HttpHeaders({
-       'Content-Type' : 'application/json'
-     })
-   };
-  
-   return this.http.post(this.urlAPI, user, httpOptions).toPromise(); 
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.get(this.urlAPI + "/", httpOptions).toPromise();
+  }
+
+  getById(id: number) : Promise<any> {
+    return this.http.get(this.urlAPI + "/" +id).toPromise();
+  }
+
+  getByEmail(email: string) : Promise<any> {
+    return this.http.get(this.urlAPI + "/email/" +email).toPromise();
   }
 
   update(user : User, token: string) : Promise<any> {
@@ -37,19 +46,6 @@ export class UserService {
    return this.http.put(`${this.urlAPI}/${user.id}`, updateedUser , headerAuth).toPromise(); 
   }
 
-
-  getAll() : Promise<any> {
-    return this.http.get(this.urlAPI + "/").toPromise();
-  }
-
-  getById(id: number) : Promise<any> {
-    return this.http.get(this.urlAPI + "/" +id).toPromise();
-  }
-
-  getByEmail(email: string) : Promise<any> {
-    return this.http.get(this.urlAPI + "/email/" +email).toPromise();
-  }
-
   confirmMail(id: number, token: string)
   {
     const headerAuth = {
@@ -61,7 +57,7 @@ export class UserService {
     return this.http.put(this.urlAPI + "/"+ id + "/confirmEmail",null,headerAuth).toPromise();
   }
 
-  resetPassword(id: number, password: string,token: string)
+  resetPassword(id: number, password: string, token: string)
   {
     const headerAuth = {
       headers: new HttpHeaders({
@@ -72,17 +68,27 @@ export class UserService {
     return this.http.put(this.urlAPI + "/"+ id + "/password/"+password,null,headerAuth).toPromise();
   }
 
-  delete(id: number) : Promise<any> {
-    return this.http.delete(this.urlAPI + "/" + id).toPromise();
-  }
-
-  votedUnVoteForum(idUser : number, idForum : number)
+  votedUnVoteForum(idUser : number, idForum : number, token : string)
   {
 
     var url = `${this.urlAPI}/${idUser}/forumsVoted/${idForum}`;
     const httpOptions = {
       headers : new HttpHeaders({
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
+      })
+    };
+    
+    return this.http.put(url,httpOptions).toPromise();
+  }
+
+  changeState(idUser : number, token : string)
+  {
+    var url = `${this.urlAPI}/${idUser}/changeState`;
+    const httpOptions = {
+      headers : new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
       })
     };
     

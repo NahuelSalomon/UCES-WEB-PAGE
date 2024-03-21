@@ -11,13 +11,15 @@ export class CareerService {
 
   constructor(private http : HttpClient) { }
 
-  add(career : Career) : Promise<any> {
+  add(career : Career, token: string) : Promise<any> {
   
     const httpOptions = {
      headers : new HttpHeaders({
-       'Content-Type' : 'application/json'
+       'Content-Type' : 'application/json',
+       'authorization': `Bearer ${token}`
      })
    };
+
    return this.http.post(this.urlAPI, career, httpOptions).toPromise(); 
   }
 
@@ -30,20 +32,19 @@ export class CareerService {
   }
 
   getByName(name: string) : Promise<any> {
-    return this.http.get(this.urlAPI + 'name/' + name).toPromise();
+    return this.http.get(this.urlAPI + 'search?name=' + name).toPromise();
   }
 
-  delete(id: number) : Promise<any> {
-    return this.http.delete(this.urlAPI + id).toPromise();
-   }
-
-   update(id : number, career : Career) : Promise<any> {
-
+  delete(id: number, token: string) : Promise<any> {
+    
     const httpOptions = {
       headers : new HttpHeaders({
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
+        'authorization': `Bearer ${token}`
       })
     };
-    return this.http.put(this.urlAPI + id, career, httpOptions).toPromise(); 
-    }
+    
+    return this.http.delete(this.urlAPI + id, httpOptions).toPromise();
+   }
+
 }

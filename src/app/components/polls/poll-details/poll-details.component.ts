@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Career } from 'src/app/models/career';
 import { Poll } from 'src/app/models/poll';
 import { PollQuestion } from 'src/app/models/poll-question';
@@ -37,7 +38,7 @@ export class PollDetailsComponent implements OnInit {
   selectedSubject : Subject;
 
   constructor(private route : ActivatedRoute, private pollService : PollService, private pollQuestionService : PollQuestionService, 
-              private careerService : CareerService, private subjectService : SubjectService) { }
+              private careerService : CareerService, private subjectService : SubjectService, private authService : AuthService) { }
 
   onSelectPollTypeChange()
   {
@@ -92,7 +93,7 @@ export class PollDetailsComponent implements OnInit {
         this.poll = pollResponse;
         this.isNewPoll = false;
         this.pollQuestionList.forEach(pollQuestion=>{ pollQuestion.poll = this.poll });
-        this.pollQuestionService.addAll(this.pollQuestionList)
+        this.pollQuestionService.addAll(this.pollQuestionList, this.authService.token)
           .then(pollQuestionResponse=>{
             this.pollQuestionList = pollQuestionResponse;
           })

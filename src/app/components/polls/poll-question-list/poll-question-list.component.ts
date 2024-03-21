@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Poll } from 'src/app/models/poll';
 import { PollQuestion } from 'src/app/models/poll-question';
 import { PollResponseType } from 'src/app/models/poll-response-type';
@@ -20,7 +21,7 @@ export class PollQuestionListComponent implements OnInit {
   @Output() messageEventDeletePollQuestion = new EventEmitter<PollQuestion>();
   @Output() messageEventText = new EventEmitter<string>();
 
-  constructor(private pollQuestionService : PollQuestionService) { }
+  constructor(private pollQuestionService : PollQuestionService, private authService : AuthService) { }
 
   ngOnInit(): void {
    
@@ -33,7 +34,7 @@ export class PollQuestionListComponent implements OnInit {
     {
       if(this.pollQuestionList.length > 1)
       {
-        this.pollQuestionService.delete(pollQuestion.id)
+        this.pollQuestionService.delete(pollQuestion.id, this.authService.token)
         .then(pollQuestionDeleteResponse => {    
           const index = this.pollQuestionList.indexOf(pollQuestion);
           this.pollQuestionList.splice(index,1);

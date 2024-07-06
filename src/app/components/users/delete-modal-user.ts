@@ -25,7 +25,7 @@ export class DeleteModalUser {
   constructor(public activeModal: NgbActiveModal, private userService: UserService) {}
 
   delete(){
-    this.userService.delete(this.user.id);
+    //this.userService.delete(this.user.id);
     this.activeModal.close();
     window.location.reload();
   }

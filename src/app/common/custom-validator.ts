@@ -43,7 +43,6 @@ export class CustomValidator {
             const positiveNumbersOnly = regExp.test(control.value);
             return !positiveNumbersOnly ? { 'positiveNumbersOnly': {value: control.value}} : null;
         };
-
     }
 
     static emailExists(userService: UserService): AsyncValidatorFn {       
@@ -114,12 +113,7 @@ export class CustomValidator {
             return null;
           }
         };
-
-
-}
-      
-
-
+    }
 }
 
 

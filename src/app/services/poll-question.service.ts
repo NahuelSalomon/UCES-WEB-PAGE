@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PollQuestion } from '../models/poll-question';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PollQuestionService {
 
-  private urlAPI = "http://localhost:8080/api/poll_question/";
+  private urlAPI = environment.baseUrl + "/api/poll_question/";
 
   constructor(private http : HttpClient) { }
 

@@ -41,6 +41,4 @@ export class CareerPollComponent implements OnInit {
     })
   
   }
-  
-
 }

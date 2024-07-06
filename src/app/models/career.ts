@@ -1,5 +1,3 @@
-import { Subject } from "./subject";
-
 export class Career {
     id: number;
     name: string;
@@ -10,8 +8,6 @@ export class Career {
         this.id  = id;
         this.name = name;
         this.description = description;
-        this.duration = duration;
+        this.duration = duration;    
     }
-
-
 }

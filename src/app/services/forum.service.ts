@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Forum } from '../models/forum';
 import { Query } from '../models/query';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForumService {
 
-  private urlAPI = "http://localhost:8080/api/forums";
+  private urlAPI = environment.baseUrl + "/api/forums";
 
   constructor(private http : HttpClient) { }
 

@@ -8,9 +8,6 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 
-/* Este interceptor no está activado todavía porque la API no pide token para 
-acceder a los endpoints */
-
 export class InterceptorService implements HttpInterceptor{
   [x: string]: any;
 
@@ -31,16 +28,12 @@ export class InterceptorService implements HttpInterceptor{
 
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-
         if(err.status === 401){
-
-          
           this.router.navigateByUrl('login');
         }
         else if (err.status === 403){
           this.router.navigateByUrl("login");
         }
-
         return throwError(err);
       })
     );

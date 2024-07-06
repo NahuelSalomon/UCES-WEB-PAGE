@@ -7,6 +7,7 @@ import { LoginCredentials } from '../models/login-credentials';
 import { User } from '../models/user';
 import { HiddenDataService } from '../services/hidden-data.service';
 import { UserService } from '../services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,13 @@ export class AuthService {
   private tokenAttr = undefined;
   userTypeListener = new Subject<string>();
   userType: string;
-  loginUrl = "http://localhost:8080/api/auth/login";
-  registerUrl = "http://localhost:8080/api/auth/register";
-  userDetailsUrl = "http://localhost:8080/api/auth/userDetails";
+  loginUrl = environment.baseUrl + "/api/auth/login";
+  registerUrl = environment.baseUrl + "/api/auth/register";
+  userDetailsUrl = environment.baseUrl + "/api/auth/userDetails";
   redirectUrl: string;
   idUser: number;
-
+  userActive: boolean;
+  userConfirmMail: boolean;
 
   constructor(private http: HttpClient, private hiddenDataService: HiddenDataService, private userService: UserService) {}
 
@@ -50,8 +52,10 @@ export class AuthService {
   }
 
   setUserDetails(userDetails : any, token: string)
-  {     
-      if(userDetails['active'] && userDetails['confirmedEmail'])
+  {    
+      this.userActive = userDetails['active'];
+      this.userConfirmMail = userDetails['confirmedEmail'] 
+      if(this.userActive && this.userConfirmMail)
       {
         this.userTypeListener.next(userDetails['userType']);
         this.userType = userDetails['userType'];
@@ -61,11 +65,13 @@ export class AuthService {
         sessionStorage.setItem('token', this.token);
       } else
       {
-        this.hiddenDataService.receiveData(new HiddenData(
-                                            new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active'],userDetails['image']),
-                                            token                                                
-                                            ));             
-                                                       
+        if(this.userActive && !this.userConfirmMail)
+        {
+            this.hiddenDataService.receiveData(new HiddenData(
+              new User(userDetails['id'],userDetails['firstname'],userDetails['lastname'],userDetails['email'],null,userDetails['userType'],userDetails['active'],userDetails['image']),
+              token                                                
+            ));         
+        }                                     
       }
   } 
   

@@ -17,7 +17,7 @@
           </ul>
         </li>
         <li class="nav-item dropdown" id="admin-dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" *ngIf="userType == 'ROLE_ADMINISTRATOR'">  Administrar  </a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" *ngIf="userType == 'ROLE_ADMINISTRATOR'"> <i class="fa-solid fa-sliders"></i>  Administrar  </a>
           <ul class="dropdown-menu">
             <li>
                 <a class="dropdown-item" [routerLink]="['/users/list']"> Usuarios </a>

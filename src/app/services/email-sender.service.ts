@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SendEmailRequest } from '../models/send-email-request';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmailSenderService {
 
-  private urlAPI = "http://localhost:8080/api/sendEmail";
+  private urlAPI = environment.baseUrl + "/api/sendEmail";
 
   constructor(private http : HttpClient) { }
 

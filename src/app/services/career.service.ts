@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Career } from '../models/career';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CareerService {
 
-  private urlAPI = "http://localhost:8080/api/careers/";
+  private urlAPI = environment.baseUrl + "/api/careers/";
 
   constructor(private http : HttpClient) { }
 

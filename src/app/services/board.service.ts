@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Board } from '../models/board';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Board } from '../models/board';
 export class BoardService {
 
   
-  private urlAPI = "http://localhost:8080/api/boards";
+  private urlAPI = environment.baseUrl + "/api/boards";
 
   constructor(private http : HttpClient) { }
 

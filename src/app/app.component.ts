@@ -12,10 +12,8 @@ export class AppComponent {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-
-
   ngOnInit(): void {
 
   }
-  
 }
+

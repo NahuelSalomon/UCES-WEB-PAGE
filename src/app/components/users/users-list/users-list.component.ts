@@ -35,16 +35,16 @@ export class UsersListComponent implements OnInit {
         this.userSelectedToChangeState.active = !this.userSelectedToChangeState.active;
         const index = this.userList.findIndex(u => u.id == this.userSelectedToChangeState.id);
         this.userList[index] = this.userSelectedToChangeState;
-        this.showSuccessToast("El usuario se " + this.userSelectedToChangeState.active ? "activo" : "inactivo" + " correctamente" );
+        this.showSuccessToast(this.userSelectedToChangeState.active ? "El usuario se activo correctamente" : "El usuario se inactivo correctamente");
       })
       .catch(responseChangeStateUserError=>{
         console.log(responseChangeStateUserError);
+        this.showSuccessToast(this.userSelectedToChangeState.active ? "Ha ocurrido un error al activar el usuario" : "Ha ocurrido un error al desactivar el usuario");
         this.showSuccessToast("Ha ocurrido un error al " + this.userSelectedToChangeState.active ? "activar" : "inactivar" + " el usuario");
       })
       .finally(()=>{
         modal.dismiss();
       });
-
   }
 
   setUserToChangeState(user,content)
@@ -77,5 +77,4 @@ export class UsersListComponent implements OnInit {
       this.toasts.splice(index, 1);
     }
   }
-
 }

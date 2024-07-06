@@ -95,11 +95,20 @@ export class LoginComponent implements OnInit {
         if(this.authService.token)
         {
           redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'career/page/1';
-        } else
+        } 
+        else if(this.authService.userActive && !this.authService.userConfirmMail)
         {
           redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : 'confirm-email';
         }
-        this.router.navigateByUrl(redirect);
+
+        if(redirect)
+        {
+          this.router.navigateByUrl(redirect);
+        }else
+        {
+          this.accessDenied = true;
+        }
+        
       })
       .catch(getUserDetailsError=>{});
     })

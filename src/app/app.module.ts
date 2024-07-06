@@ -37,8 +37,6 @@ import { PollDetailsComponent } from './components/polls/poll-details/poll-detai
 import { PollQuestionAddComponent } from './components/polls/poll-question-add/poll-question-add.component';
 import { PollQuestionListComponent } from './components/polls/poll-question-list/poll-question-list.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

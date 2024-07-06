@@ -70,7 +70,7 @@ export class BoardPageComponent implements OnInit {
 
   /*we got here when we changed the subject*/ 
   ngOnChanges(changes: SimpleChanges) {
-    this.currentPageNumber = 0;
+    this.currentPageNumber = 1;
     this.setForumList();
     this.setSubjectPoll();
   }
@@ -80,7 +80,7 @@ export class BoardPageComponent implements OnInit {
   changeForumType() {
     this.recommendationIsSelected = !this.recommendationIsSelected;
     this.forumType = this.recommendationIsSelected ? ForumType.RECOMMENDATION : ForumType.QUERY;
-    this.currentPageNumber = 0;
+    this.currentPageNumber = 1;
     this.setForumList();
 
   }
@@ -103,15 +103,12 @@ export class BoardPageComponent implements OnInit {
         if (forumResponse != null) {
           this.numberOfPages = forumResponse.headers.get("X-Total-Pages");
           this.totalForums = forumResponse.headers.get("X-Total-Count");
-
           this.forumList.forEach(forum => {
             var formControl: FormControl = new FormControl('', [Validators.required]);
             formControl.disable();
             this.responseQueryForm.addControl("bodyQueryResponse" + forum.id, formControl);
           });
         }
-
-
       })
       .catch(forumResponseError => { });
   }

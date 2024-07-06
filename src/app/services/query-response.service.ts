@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QueryResponse } from '../models/query-response';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResponseQueryService {
 
-  private urlAPI = "http://localhost:8080/api/query/responses/";
+  private urlAPI = environment.baseUrl + "/api/query/responses/";
 
   constructor(private http : HttpClient) { }
 

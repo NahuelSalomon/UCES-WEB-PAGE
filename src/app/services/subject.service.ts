@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from '../models/subject';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubjectService {
 
-  private urlAPI = "http://localhost:8080/api/subjects/";
+  private urlAPI = environment.baseUrl + "/api/subjects/";
 
   constructor(private http : HttpClient) { }
 

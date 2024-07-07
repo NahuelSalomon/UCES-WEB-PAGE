@@ -114,18 +114,16 @@
                                             value="Cancelar"
                                             style="border: none;color: white; margin:5px;" />
         
-                                        <input type="button" (click)="createAccount()" class="btn btn-lg fs-18 bg-blue-utn"
+                                        <button type="button" (click)="createAccount()" class="btn btn-lg fs-18 bg-blue-utn"
                                             value="Crear cuenta"
-                                            style="border: none;color: white; margin:5px;" [disabled]="!registerForm.valid" />
+                                            style="border: none;color: white; margin:5px;" [disabled]="!registerForm.valid || isLoadingCreateAccount">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoadingCreateAccount"></span> Crear cuenta
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-
-                            
-
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>

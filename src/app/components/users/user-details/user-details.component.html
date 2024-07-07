@@ -1,5 +1,4 @@
 <app-nav-bar></app-nav-bar>
-
 <main>
     <div id="register" class="row box-form">
         <div class="container">
@@ -10,7 +9,6 @@
                         <hr>
                         <form id="register-form" [formGroup]="updateUserForm" (ngSubmit)="updateUser()" class="form" *ngIf="user"
                             method="post">
-
                             <div class="row">
                                 <div class="col-4">
                                     <div class="text-center avatar-box">
@@ -21,7 +19,6 @@
                                         <label for="fileInput" class="btn btn-primary" style="margin-bottom: 10px;">Cambiar imagen</label>
                                         <button class="btn btn-secondary" type="button" (click)="quitImage()">Quitar imagen</button>
                                     </div>
-
                                 </div>
                                 <div class="col-8">
                                     <div class="form-group mb-25 row">
@@ -35,20 +32,15 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-
                                             <div class="input-group">
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         class="fa-solid fa-id-card"></i></span>
-
-
                                                 <input type="text" [value]="user.lastname" name="lastname"
                                                     maxlength="40" id="lastname" 
                                                     class="form-control" readonly>
                                             </div>
                                         </div>
-
                                     </div>
-
                                     <div class="form-group mb-25">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
@@ -59,7 +51,6 @@
 
                                         </div>
                                     </div>
-
                                     <div class="form-group row">
                                         <div class="input-group mb-3">
                                             <div class="form-check">
@@ -70,7 +61,6 @@
                                               </div>
                                           </div>
                                     </div>
-
                                     <div class="form-group mb-25 row" *ngIf="passwordChange.value">
                                         <div class="col-6">
                                             <div class="input-group">
@@ -89,7 +79,6 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-
                                             <div class="input-group">
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         style="margin-right: 2px;margin-left: 2px;"
@@ -108,17 +97,17 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="text-end">
                                         <input type="button" (click)="redirectToHome()"
                                             class="btn btn-secondary btn-lg fs-18" value="Volver a inicio"
                                             style="border: none;color: white; margin:5px;" />
-
-                                        <input type="button" (click)="updateUser()" class="btn btn-lg fs-18 bg-blue-utn"
-                                            value="Guardar" style="border: none;color: white; margin:5px;"
-                                            [disabled]="passwordChange.value ? !updateUserForm.valid : false" />
+                                        <button type="button" (click)="updateUser()" class="btn btn-lg fs-18 bg-blue-utn"
+                                            style="border: none;color: white; margin:5px;"
+                                            [disabled]="passwordChange.value ? !updateUserForm.valid || isUpdatingUser : isUpdatingUser">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isUpdatingUser"></span>
+                                            Guardar
+                                        </button>
                                     </div>
-
                                     <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
                                         <ngb-toast *ngFor="let toast of toasts"   
                                           [class]="toast.class" 
@@ -128,18 +117,12 @@
                                           <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
                                         </ngb-toast>
                                       </div>
-
                                 </div>
                             </div>
-
-
-
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
 </main>

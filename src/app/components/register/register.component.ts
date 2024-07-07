@@ -10,7 +10,6 @@ import { UserType } from 'src/app/models/user-type';
 import { EmailSenderService } from 'src/app/services/email-sender.service';
 import { HiddenDataService } from 'src/app/services/hidden-data.service';
 import { UserService } from 'src/app/services/user.service';
-import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Byte } from '@angular/compiler/src/util';
 
@@ -35,7 +34,10 @@ export class RegisterComponent implements OnInit {
   get email() { return this.registerForm.get('email') }
   get password() { return this.registerForm?.get('password')}
   get passwordRepeat() { return this.registerForm.get('passwordRepeat')}
-  
+  isLoadingCreateAccount: boolean = false;
+  defaultImage = '/assets/images/default-avatar-image.jpg';
+  selectedImageUrl: string;
+  selectedImageBytes: Array<Byte>;;
 
   constructor(private authService: AuthService, private router: Router, private userService : UserService, 
               private hiddenDataService: HiddenDataService,private emailSenderService : EmailSenderService,private sanitizer: DomSanitizer) { 
@@ -52,30 +54,27 @@ export class RegisterComponent implements OnInit {
 
   createAccount()
   {
+    this.isLoadingCreateAccount = true;
     var user: User = new User(0,this.firstname.value,this.lastname.value,this.email.value,this.password.value,UserType.ROLE_STUDENT,true, this.selectedImageBytes);
-    
-    console.log(user);
-    
-
     this.authService.register(user)
     .then(tokenResponse=>{
+        var request = new SendEmailRequest(user.email,`http://localhost:4200/email-confirmed`);
+        console.log(request);
+        
         this.emailSenderService.confirmEmail(new SendEmailRequest(user.email,`http://localhost:4200/email-confirmed`)).then(response=>{
           this.hiddenDataService.receiveData(new HiddenData(user, tokenResponse));
           let redirect = this.authService.redirectUrl ? this.router.parseUrl(this.authService.redirectUrl) : '/confirm-email';    
           this.router.navigateByUrl(redirect);
+          this.isLoadingCreateAccount = false;
         }).catch(error=>{});
     })
     .catch(response=>{
       console.log(response);
       
       window.alert('Ha ocurrido un error');
+      this.isLoadingCreateAccount = false;
     });
-    
   }
-
-  defaultImage = '/assets/images/default-avatar-image.jpg';
-  selectedImageUrl: string;
-  selectedImageBytes: Array<Byte>;;
 
   onFileSelected(event) {
     const file: File = event.target.files[0];
@@ -98,6 +97,4 @@ export class RegisterComponent implements OnInit {
     this.selectedImageUrl = null;
   }
   
-  
-
 }

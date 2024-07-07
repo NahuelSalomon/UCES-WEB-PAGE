@@ -28,7 +28,8 @@ export class ConfirmEmailComponent implements OnInit {
   showToastSuccessSendEmailForChange: boolean = false;
   showToastErrorSendEmailForChange: boolean = false;
 
-  sendingEmail = false;
+  sendingEmail: boolean = false;
+  updatingEmail: boolean = false;
   
 
 
@@ -71,25 +72,34 @@ export class ConfirmEmailComponent implements OnInit {
     });
   }
 
-  open(content) {
-    this.sendingEmail = true;
+  openModalChangeMail(content) {
+    this.updatingEmail = true;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       if(this.email.value != this.hiddenData.user.email) 
       {
         var user = this.hiddenData.user;
         user.email = this.email.value;
-        this.userService.update(user, this.hiddenData.token).then(response => {
-          var sendEmailConfirmEmailRequest = new SendEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`);
-          this.emailSenderService.confirmEmail(sendEmailConfirmEmailRequest)
+        this.userService.update(user, this.hiddenData.token)
           .then(response => {
-            this.showToastSuccessSendEmailForChange = true;
-          })
-          .catch(error => {this.showToastErrorSendEmailForChange = true;});
-          
-        }).catch(error=>{});
+            var sendEmailConfirmEmailRequest = new SendEmailRequest(this.hiddenData.user.email,`http://localhost:4200/email-confirmed`);
+            this.emailSenderService.confirmEmail(sendEmailConfirmEmailRequest)
+            .then(response => {
+              this.showToastSuccessSendEmailForChange = true;
+              this.updatingEmail = false;
+            })
+            .catch(error => {
+              this.showToastErrorSendEmailForChange = true;
+              this.updatingEmail = false;
+              });
+            })
+          .catch(error=>{ 
+            this.updatingEmail = false;
+           });
+      } else
+      {
+        this.updatingEmail = false;
       }
     }, (reason) => { /*Modal no exitoso*/ });
-    this.sendingEmail = false;
   }
 
 

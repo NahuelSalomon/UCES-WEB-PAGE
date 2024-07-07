@@ -5,8 +5,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CustomValidator } from 'src/app/common/custom-validator';
-import { HiddenData } from 'src/app/models/hidden-data';
-import { SendEmailRequest } from 'src/app/models/send-email-request';
 import { Toast } from 'src/app/models/toast';
 import { User } from 'src/app/models/user';
 import { UserType } from 'src/app/models/user-type';
@@ -26,6 +24,7 @@ export class UserDetailsComponent implements OnInit {
   selectedImageUrl: string;
   selectedImageBytes: Array<Byte>;
   toasts: Array<Toast> = new Array<Toast>();
+  isUpdatingUser: boolean = false;
 
   updateUserForm = new FormGroup({
     password: new FormControl('', [Validators.required, CustomValidator.password1Upper1Lower1NumberMin8()]),
@@ -60,30 +59,32 @@ export class UserDetailsComponent implements OnInit {
 
   updateUser()
   {
+    this.isUpdatingUser = true;
     var user: User = new User(this.user.id,this.user.firstname,this.user.lastname,this.user.email,this.password.value,UserType.ROLE_STUDENT,true, this.selectedImageBytes);
-    
     this.userService.update(user, sessionStorage.getItem('token'))
     .then(response=>{
-        this.showSuccessToast("Su información de cuenta se ha actualizado correctamente");
-     })
+        if(this.passwordChange.value)
+        {
+            this.userService.resetPassword(user.id, this.password.value , sessionStorage.getItem('token'))
+            .then(response=>{
+                this.showSuccessToast("Su información de cuenta se ha actualizado correctamente");
+                this.isUpdatingUser = false;
+             })
+            .catch(errorResponse=>{
+                this.showWarningToast("Su información se actualizó correctamente pero hubo un error al cambiar la contraseña");
+                this.isUpdatingUser = false;
+            });    
+        }
+        else
+        {
+          this.showSuccessToast("Su información de cuenta se ha actualizado correctamente");
+          this.isUpdatingUser = false;
+        }
+    })
     .catch(errorResponse=>{
       this.showErrorToast("Ha ocurrido un error al actualizar su información de cuenta");
+      this.isUpdatingUser = false;
     });    
-
-    if(this.passwordChange)
-    {
-      this.userService.resetPassword(user.id, this.password.value , sessionStorage.getItem('token'))
-      .then(response=>{
-          this.showSuccessToast("La contraseña se ha cambiado correctamente");
-       })
-      .catch(errorResponse=>{
-          this.showErrorToast("Ha ocurrido un error al cambiar la contraseña");
-      });    
-  
-
-    }
-
-
   }
 
   onFileSelected(event) {

@@ -40,11 +40,12 @@ export class UserService {
       })
     };
   
-    const updateedUser = {
-      image: user.image 
+    const updatedUser = {
+      image: user.image, 
+      email: user.email
     };
 
-   return this.http.put(`${this.urlAPI}/${user.id}`, updateedUser , headerAuth).toPromise(); 
+   return this.http.put(`${this.urlAPI}/${user.id}`, updatedUser , headerAuth).toPromise(); 
   }
 
   confirmMail(id: number, token: string)

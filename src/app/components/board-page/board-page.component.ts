@@ -46,6 +46,7 @@ export class BoardPageComponent implements OnInit {
   });
   responseQueryForm: FormGroup;
   subjectPoll: Poll;
+  user: User;
 
   get body() { return this.forumForm.get('body') }
 
@@ -62,6 +63,11 @@ export class BoardPageComponent implements OnInit {
     
     this.forumType = ForumType.QUERY;
     this.userType = sessionStorage.getItem('userType');
+    this.authService.getUserDetails(sessionStorage.getItem('token'))
+      .then(response => {
+        this.user = response;
+      }).catch(error=> console.log(error));
+      
     this.setForumList();
 
     this.responseQueryForm = new FormGroup({});
@@ -315,7 +321,7 @@ export class BoardPageComponent implements OnInit {
 
   convertBytesToImage(bytes)
   {
-    if(bytes != null)
+    if(bytes != null || bytes != undefined)
     {
       const uInt8Array = Uint8Array.from(atob(bytes), c => c.charCodeAt(0));
       const blob = new Blob([uInt8Array], { type: 'application/octet-stream' });

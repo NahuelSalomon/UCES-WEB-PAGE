@@ -18,11 +18,11 @@
                         value="Volver al login"
                         style="border: none;color: white; margin:5px;" />
     
-                    <input type="button"class="btn btn-lg fs-16 bg-blue-utn"
-                        value="Actualizar información de contacto"
+                    <button type="button"class="btn btn-lg fs-16 bg-blue-utn" 
                         style="border: none;color: white; margin:5px;" 
-                        (click)="open(changeMailModal)" [disabled]="sendingEmail"
-                       />
+                        (click)="openModalChangeMail(changeMailModal)" [disabled]="updatingEmail || sendingEmail">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="updatingEmail"></span> Actualizar información de contacto
+                    </button>
                 </div>
             </div>    
         </div>
@@ -49,25 +49,24 @@
                 <span class="input-group-text" id="basic-addon1"><i
                         class="fa-solid fa-envelope" style="margin-right: 1px;margin-left: 1px;"></i></span>
                         <input type="mail" placeholder="Mail" formControlName="email" name="mail" id="mail"
-                        class="form-control"
-                [ngClass]="{'is-invalid': ( (!email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email) ), 'is-valid' : ( (email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email) )}">
+                          class="form-control"
+                          [ngClass]="{'is-invalid': ( (!email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email) ), 'is-valid' : 
+                          ( (email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email) )}">
 
                 <div class="invalid-feedback" *ngIf="(!email.valid && (email.dirty || email.touched)) && (email.value != hiddenData.user.email)"> 
                     <div *ngIf="email.errors?.required">Por favor ingrese su email.</div>
                     <div *ngIf="email.errors?.email">El mail debe tener un formato de mail valido.</div>
                     <div *ngIf="email.errors?.emailExists">Ya existe una cuenta con este mail.</div>                                   
                 </div>
-
                 </div>
-            
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <input type="button"class="btn btn-lg fs-16 bg-blue-utn"
-          value="Guardar"
+          value="Guardar y reenviar mail"
           style="border: none;color: white; margin:5px;" 
-          (click)="modal.close('dasda')"
+          (click)="modal.close('')"
           [disabled]="!updateEmailForm.valid && (email.value != hiddenData.user.email)"/>
           <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('')">Save</button> -->
         </div>

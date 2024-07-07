@@ -1,5 +1,5 @@
 <div class="card" style="border:2px solid #405967;">
-  <div class="card-body" >
+  <div class="card-body">
 
     <div class="row">
 
@@ -17,7 +17,7 @@
               Recomendaciones
             </a>
           </li>
-          
+
         </ul>
 
       </div>
@@ -31,12 +31,12 @@
 
     </div>
 
-    
+
     <div *ngIf="forumList">
       <div *ngFor="let forum of forumList">
         <br>
         <div class="card" style="border:1px solid #405967; background-color: whitesmoke;">
-          
+
           <div class="row">
             <div class="col-1 text-end">
               <img [src]="convertBytesToImage(forum.user.image)" class="avatar">
@@ -45,138 +45,120 @@
 
               <div class="card-body card-body-forum">
                 <div class="row">
-                   <div class="col-8"><h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5></div>
-                   <div class="col-4 text-end" style="font-size: 14px;">{{ forum.date[2] }}-{{ forum.date[1] }}-{{ forum.date[0] }} <!-- {{ forum.date[3] }}:{{ forum.date[4] }}:{{ forum.date[5] }} --></div>
-                 </div>
-               <p class="card-text">{{ forum.body }}</p>
-             </div>
-             <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
-             <div class="interaction-btns text-end mr-ml-16">
-               <div *ngIf="!recommendationIsSelected" style="display: inline-block;">
-                 <button *ngIf="userType !== undefined && userType !== null" class="btn btn-light btn-secu mb-0"  style="color: #405967;" (click)="responseQuery(forum)"><i class="fa-regular fa-comment-dots"></i> Responder</button>
-                 <p class="d-in-block mb-0"> · </p>
-                 <button class="btn btn-light btn-transparent mb-0" *ngIf="forum.responses" (click)="showQueryResponsesForum(forum)">{{forum.responses.length}}
-                   Respuestas <i *ngIf="isEnabledQueryResponsesControl(forum)" class="fa-regular fa-square-caret-up"></i>
-                              <i *ngIf="!isEnabledQueryResponsesControl(forum)" class="fa-regular fa-square-caret-down"></i>
-                   </button>
-                 <p class="d-in-block mb-0 pd-6-12"><i class="fa-solid fa-grip-lines-vertical"></i></p>
-               </div>
-               <button class="btn btn-light btn-secu mb-0" style="color: #405967;" (click)="voteUnVoteForum(forum)" *ngIf="userType !== undefined && userType !== null">
-                 <i [ngClass]="forumRecommendedByTheLoggedUser(forum) ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up' " style="margin-bottom: 0px !important;"></i> Me gusta
-               </button>
-               <p class="d-in-block mb-0"> · </p>
-               <button class="btn btn-light btn-transparent mb-0">{{ forum.usersWhoVoted.length }} Me gustas</button>
-             </div>
+                  <div class="col-8">
+                    <h5 class="card-title">{{ forum.user.firstname }} {{ forum.user.lastname }}</h5>
+                  </div>
+                  <div class="col-4 text-end" style="font-size: 14px;">{{ forum.date[2] }}-{{ forum.date[1] }}-{{
+                    forum.date[0] }} <!-- {{ forum.date[3] }}:{{ forum.date[4] }}:{{ forum.date[5] }} --></div>
+                </div>
+                <p class="card-text">{{ forum.body }}</p>
+              </div>
+              <!-- <hr class="mb-mt-0 mr-ml-16" /> -->
+              <div class="interaction-btns text-end mr-ml-16">
+                <div *ngIf="!recommendationIsSelected" style="display: inline-block;">
+                  <button *ngIf="userType !== undefined && userType !== null" class="btn btn-light btn-secu mb-0"
+                    style="color: #405967;" (click)="responseQuery(forum)"><i class="fa-regular fa-comment-dots"></i>
+                    Responder</button>
+                  <p class="d-in-block mb-0"> · </p>
+                  <button class="btn btn-light btn-transparent mb-0" *ngIf="forum.responses"
+                    (click)="showQueryResponsesForum(forum)">{{forum.responses.length}}
+                    Respuestas <i *ngIf="isEnabledQueryResponsesControl(forum)"
+                      class="fa-regular fa-square-caret-up"></i>
+                    <i *ngIf="!isEnabledQueryResponsesControl(forum)" class="fa-regular fa-square-caret-down"></i>
+                  </button>
+                  <p class="d-in-block mb-0 pd-6-12"><i class="fa-solid fa-grip-lines-vertical"></i></p>
+                </div>
+                <button class="btn btn-light btn-secu mb-0" style="color: #405967;" (click)="voteUnVoteForum(forum)"
+                  *ngIf="userType !== undefined && userType !== null">
+                  <i [ngClass]="forumRecommendedByTheLoggedUser(forum) ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up' "
+                    style="margin-bottom: 0px !important;"></i> Me gusta
+                </button>
+                <p class="d-in-block mb-0"> · </p>
+                <button class="btn btn-light btn-transparent mb-0">{{ forum.usersWhoVoted.length }} Me gustas</button>
+              </div>
 
             </div>
-          </div>          
+          </div>
           <div *ngIf="!recommendationIsSelected && forum.responses && isEnabledQueryResponsesControl(forum)">
             <div class="col-12">
               <hr class="mb-mt-0 mr-ml-16" />
             </div>
-
-
             <div class="row">
-
-
               <div class="col-1"></div>
               <div class="col-11">
-                    <form [formGroup]="responseQueryForm" *ngIf="userType !== undefined && userType !== null">
-                      <div class="row" style="padding-top: 16px;">
-                    <div class="col-11">
-                      <div class="mb-3" >
-                        <textarea class="form-control custom-text-area" id="bodyQueryResponse{{forum.id}}" formControlName="bodyQueryResponse{{forum.id}}" id="forumBody" rows="2" f placeholder="Escriba aquí una respuesta..."></textarea>
+                <form [formGroup]="responseQueryForm" *ngIf="userType !== undefined && userType !== null">
+                  <div class="row" style="padding-top: 16px;">
+                    <div class="col-1">
+                      <img [src]="convertBytesToImage(user.image)" class="avatar">
+                    </div>
+                    <div class="col-10">
+                      <div class="mb-3">
+                        <textarea class="form-control custom-text-area" id="bodyQueryResponse{{forum.id}}"
+                          formControlName="bodyQueryResponse{{forum.id}}" id="forumBody" rows="2" f
+                          placeholder="Escriba aquí una respuesta..."></textarea>
                       </div>
                     </div>
                     <div class="col-1">
-                      <div class="text-end"><button  class="btn btn-success" [disabled]="!isQueryResponseValid(forum.id)" (click)="addResponseQuery(forum)"><i class="fa-solid fa-circle-chevron-right"></i></button></div>
+                      <button class="btn btn-success" style="border-radius: 12px; height: 60px;"
+                        [disabled]="!isQueryResponseValid(forum.id)" (click)="addResponseQuery(forum)"><i
+                          style="font-size: 25px;" class="fa-solid fa-circle-chevron-up"></i></button>
                     </div>
                   </div>
-                  </form>      
-               <!--  </div> -->
-
+                </form>
                 <div *ngFor="let response of forum.responses">
-                  
-                   
-                      <div class="card-response-query" >
-                        <div class="row">
-                          <div class="col-1 text-end">
-                            <img [src]="convertBytesToImage(response.user.image)" class="avatar">
-                          </div>
-                          <div class="col-11">
-                            <div class="card-body card-body-forum bg-light-blue" style="border: 1px solid #ced4da">
-                              <h5 class="card-title">{{ response.user.firstname }} {{ response.user.lastname }}</h5>
-                              <p class="card-text">{{ response.body }}</p>
-                            </div>
-                          </div>
+                  <div class="card-response-query">
+                    <div class="row">
+                      <div class="col-1 text-end">
+                        <img [src]="convertBytesToImage(response.user.image)" class="avatar">
+                      </div>
+                      <div class="col-11">
+                        <div class="card-body card-body-forum bg-light-blue" style="border: 1px solid #ced4da">
+                          <h5 class="card-title">{{ response.user.firstname }} {{ response.user.lastname }}</h5>
+                          <p class="card-text">{{ response.body }}</p>
                         </div>
                       </div>
+                    </div>
+                  </div>
                 </div>
-    
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <br>
     <br>
     <div *ngIf="userType == 'ROLE_STUDENT'">
       <form [formGroup]="forumForm">
-
-        
-      <div class="mb-3">
-        <textarea formControlName="body" placeholder="Crear foro" class="form-control" id="forumBody" rows="2"></textarea>
-      </div>
-      <div class="text-end"><button class="btn btn-success" [disabled]="!body.valid" (click)="addForum()">Agregar</button></div>
-    </form>
+        <div class="card" style="border:1px solid #405967; background-color: whitesmoke;">
+          <div class="row">
+            <div class="col-1 text-end">
+              <img *ngIf="user" [src]="convertBytesToImage(user.image)" class="avatar">
+            </div>
+            <div class="col-10 text-end">
+              <div class="mb-3">
+                <textarea formControlName="body" placeholder="Crear foro" class="form-control custom-text-area"
+                  id="forumBody" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="col-1">
+              <button class="btn btn-success" style="border-radius: 12px; height: 60px;" [disabled]="!body.valid"
+                (click)="addForum()"><i style="font-size: 25px;" class="fa-solid fa-circle-chevron-up"></i></button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-
   </div>
-
   <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
-    <ngb-toast *ngFor="let toast of toasts"   
-      [class]="toast.class" 
-      [delay]="toast.delay" 
-      [autohide]="true"
+    <ngb-toast *ngFor="let toast of toasts" [class]="toast.class" [delay]="toast.delay" [autohide]="true"
       (hidden)="removeToast(toast)">
       <b style="font-weight: 500;"><i [class]="toast.iconClass"></i> {{toast.body}}</b>
     </ngb-toast>
   </div>
 </div>
-
 <div style="margin:20px; margin-bottom: 0px !important;" class="d-flex justify-content-center">
-  <ngb-pagination style="height: 38.21px;"
-	[collectionSize]="totalForums"
-	[(page)]="currentPageNumber"
-	[pageSize]="sizeOfPages"
-  [maxSize]="5"
-	[rotate]="true"
-	[ellipses]="false"
-	[boundaryLinks]="true"
-  (pageChange)="pageChange($event)"
-></ngb-pagination>
+  <ngb-pagination style="height: 38.21px;" [collectionSize]="totalForums" [(page)]="currentPageNumber"
+    [pageSize]="sizeOfPages" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+    (pageChange)="pageChange($event)"></ngb-pagination>
 </div>
-
-
-
-
-<!-- <nav aria-label="..." style="margin:20px;" class="d-flex justify-content-center">
-  <ul class="pagination" style="margin: auto;">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    </li>
-
-    
-
-    <li *ngFor="let number of numberOfPages" class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">2</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav> -->

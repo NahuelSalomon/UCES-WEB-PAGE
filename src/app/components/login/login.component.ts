@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   }
 
   accessDenied : boolean = false;
+  isLoadingLogIn: boolean = false;
 
   loginForm = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email ]),
@@ -78,7 +79,8 @@ export class LoginComponent implements OnInit {
   
   // }
 
-  onSubmit(){ 
+  onSubmitLogIn(){
+    this.isLoadingLogIn = true;
     let userCredentials = new LoginCredentials();
     userCredentials.email = this.email;
     userCredentials.password = this.password;
@@ -108,12 +110,13 @@ export class LoginComponent implements OnInit {
         {
           this.accessDenied = true;
         }
-        
       })
       .catch(getUserDetailsError=>{});
     })
-    .catch(loginError=>{this.accessDenied = true;});
-  }
+    .catch(loginError=>{this.accessDenied = true;})
+    .finally((() => {this.isLoadingLogIn = false}));
+  
+    }
   
   ngOnInit(): void {
   }
